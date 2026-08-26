@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Lagniappe Sign-Up{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+{% block content %}
+    <div class="container">
+        <h1>Lagniappe Sign-Up</h1>
+        <p>Please Log In!</p>
+        
+        <div class="image-placeholder">
+            <img src="{% static 'images/lag_signup.png' %}" alt="image!">
+        </div>
+        
+        <form method="POST" action="" style="display: flex; justify-content: center; align-items: center; flex-direction: column; height: 200px;">
+            {% csrf_token %}
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit" value="Login">Submit</button>
+            
+            <a href="http://127.0.0.1:8000/signup/">Don't have an account yet? Click Here</a>
+        </form>
+
+        
+        
+        <p class="footer-text"> 
+            Sic de isto et tutius perducit ad actum ipsum, ut si dico "Ego autem vadam lavari, ut mens mea in statu naturae conformior." Et similiter circa alias res. Et sic, si contigit ex per se lavantem, et erit
+        </p>
+    </div>
+    {% endblock %}
+</html>

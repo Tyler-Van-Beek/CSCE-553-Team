@@ -1,0 +1,89 @@
+<!-- faq.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Find answers to frequently asked questions about Lagniappe events.">
+    <meta name="keywords" content="FAQ, events, Lagniappe, signup, support">
+    <meta name="author" content="Lagniappe Team">
+
+    <title>FAQs</title>
+
+    <style>
+        body {
+            background-color: #9b59b6 !important;
+            font-family: Arial, sans-serif;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .faq-item {
+            background-color: #ffffff;
+            color: #333;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+            border: 2px solid #ddd;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-item h3 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .faq-item p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body style="background-color: #9b59b6;">
+
+    {% include "headBanner.html" %}
+
+    <div class="faq-container">
+        <h1>FAQs</h1>
+
+        <div class="faq-item">
+            <h3>Can I add photos or videos to my event listing?</h3>
+            <p>Yes, you can enhance your event listing by adding media such as images to make it more appealing.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Do I need an account to create or join an event?</h3>
+            <p>Yes, you must sign up for an account to either create or join events on Lagniappe.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Are you able to edit an event once creating it?</h3>
+            <p>Yes, you can edit event details after creating it by navigating to your events dashboard and selecting "Edit Event".</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>How do I register for an event?</h3>
+            <p>Browse events and click "Register" on the one you want.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>Where can I see my registered events?</h3>
+            <p>Go to your profile to view registered events.</p>
+        </div>
+    </div>
+
+    {% include "footer.html" %}
+</body>
+</html>

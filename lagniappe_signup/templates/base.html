@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Lagniappe{% endblock %}</title>
+
+    <!-- Your global stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    {% block styles %}{% endblock %}
+</head>
+
+<body>
+    <!-- Head Banner (Navbar) -->
+    {% include 'headbanner.html' %}
+
+    <!-- For when messages pop up -->
+    {% if messages %}
+    <div id="message-popup" style="display: none;">
+      {% for message in messages %}
+        <div class="popup-message {{ message.tags }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const popup = document.getElementById('message-popup');
+      if (popup) {
+        popup.style.display = 'block';
+        setTimeout(() => {
+          popup.style.display = 'none';
+        }, 3000);
+      }
+    });
+  </script>
+
+  <style>
+    .popup-message {
+      position: center;
+      top: 20px;
+      right: 20px;
+      background-color: #4BB543;
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px #999;
+      z-index: 1000;
+    }
+    .popup-message.error {
+      background-color: #e74c3c;
+    }
+    .popup-message.warning {
+      background-color: #f39c12;
+    }
+
+    .card{
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      transition: 0.3s;
+      background-color: white;
+      border-radius: 15px;
+      width: 300px;
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.4)
+    }
+
+    .container {
+      padding: 2px 16px;
+    }
+
+    .wrapper{
+      test-align: center;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+    }
+  
+    .form-group label {
+      margin-bottom: 0.25rem;
+      font-weight: bold;
+    }
+  
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 100%;
+      max-width: 400px; /* Optional: control how wide inputs are */
+      box-sizing: border-box;
+    }
+
+
+  </style>
+
+    <!-- Main Page Content -->
+    <main>
+        {% block content %}
+
+        
+        
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+</body>
+</html>

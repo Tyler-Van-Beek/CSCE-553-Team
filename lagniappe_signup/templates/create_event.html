@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event</title>
+    <link rel="stylesheet" href='css/style.css'>
+</head>
+<body>
+    <div class="container">
+        <h1>Create New Event</h1>
+
+        <form action="event-list/" method="POST" style="display: flex; justify-content: center; align-items: center; flex-direction: column; height: 550px;">
+            {% csrf_token %}
+            
+            {% if user.is_authenticated%}
+                <input type="hidden" name="Organizer" value="{{ user.UserID }}">
+            {% endif %}
+
+            <div class="form-group">
+                <label for="CategoryID">Category</label>
+                <select id="CategoryID" name="Category" required>
+                    <!-- Populate with available categories -->
+                    {% for c in Category %}
+                        <option value="{{ c.Name }}">{{ c.Name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="Title">Title</label>
+                <input type="text" id="Title" name="Title" required maxlength="100" style="width: 350px">
+            </div>
+
+            <div class="form-group">
+                <label for="Description">Description</label>
+                <textarea id="Description" name="Description" required maxlength="500" style="height: 100px; width: 350px"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="Location">Location</label>
+                <input type="text" id="Location" name="Location" required maxlength="100" style="width: 350px">
+            </div>
+
+            <div class="form-group">
+                <label for="DateTime">Date and Time</label>
+                <input type="datetime-local" id="DateTime" name="DateTime" required>
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Create Event</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+{% endblock %}

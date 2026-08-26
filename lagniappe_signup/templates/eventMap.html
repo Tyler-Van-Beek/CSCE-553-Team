@@ -1,0 +1,34 @@
+{% extends "headbanner.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+  {% block content %}
+  <head>
+    <title>Lagniappe Signup</title>
+    <!-- The callback parameter is required, so we use console.debug as a noop -->
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQlZxhTAsUS6tAwDGpZ-wT7er1VRs0Agg&callback=console.debug&libraries=maps,marker&v=beta">
+    </script>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      gmp-map {
+        height: 87.75%;
+        position: fixed;
+        bottom: 0;
+      }
+
+      /* Optional: Makes the sample page fill the window. */
+      html,
+      body {
+        height: 50%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  
+    <gmp-map center="30.2241, -92.0198" zoom="10" map-id="DEMO_MAP_ID">
+      <gmp-advanced-marker position="30.2241, -92.0198" title="My location"></gmp-advanced-marker>
+    </gmp-map>
+  {% endblock %}
+</html>

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event</title>
+    <link rel="stylesheet" href='css/style.css'>
+</head>
+<body>
+{% if user %}
+    <div class="container">
+        <button onclick="window.location.href='{% url 'event-detail' event.EventID %}'" class="btn btn-secondary" style="background-color: purple; color: white;">Back</button>
+
+        <h1>Edit {{ event.Title }}</h1>
+
+        <form method="POST" style="display: flex; justify-content: center; align-items: center; flex-direction: column; height: 550px;">
+            {% csrf_token %}
+            
+            {% if user.is_authenticated%}
+                <input type="hidden" name="OrganizerID" value="{{ user.UserID }}">
+            {% endif %}
+
+            <div class="form-group">
+                <label for="CategoryID">Category</label>
+                <select id="CategoryID" name="CategoryID" required>
+                    <!-- Populate with available categories -->
+                    {% for c in Category %}
+                        <option value="{{ c.CategoryID }}">{{ c.Name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="Title">Title</label>
+                <input type="text" id="Title" value = "{{ event.Title }}" name="Title" required maxlength="100" style="width: 350px">
+            </div>
+
+            <div class="form-group">
+                <label for="Description">Description</label>
+                <textarea id="Description" name="Description" value = "{{ event.Description }}" required maxlength="500" style="width: 350px; height: 100px;">{{ event.Description }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="Location">Location</label>
+                <input type="text" id="Location" name="Location" value = "{{ event.Location }}" required maxlength="100" style="width: 350px">
+            </div>
+
+            <div class="form-group">
+                <label for="DateTime">Date and Time</label>
+                <input type="datetime-local" id="DateTime" value = "{{ event.DateTime|date:'Y-m-d\\TH:i' }}" name="DateTime" required>
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Update Event</button>
+            </div>
+            
+        </form>
+    </div>
+
+{% endif %}
+</body>
+</html>
+{% endblock %}

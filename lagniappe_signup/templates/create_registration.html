@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Registration</title>
+    <link rel="stylesheet" href='css/style.css'>
+</head>
+<body>
+    
+    <div class="container">
+        <h1>Register for {{event.Title}}?</h1>
+
+        <form action="RegistrationForm/" method="POST">
+            {% csrf_token %}
+
+            {% if user.is_authenticated%}
+                <input type="hidden" name="User" value="{{ user.UserID }}">
+            {% endif %}
+
+            <input type="hidden" name="Event" value="{{ event.EventID }}">
+
+            <div class="container"  style="display: flex; justify-content: center; align-items: center; height: 5vh; margin: 0;">
+                <button type="submit" style="margin-right:16px">Yes</button>
+                <button type="button" onclick="window.location.href='{% url 'event-detail' event.EventID %}'" class="btn btn-secondary" style="color: white">No</button>
+            </div>
+        </form> 
+        
+    </div> 
+</body>
+</html>
+{% endblock %}

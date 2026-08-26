@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event</title>
+    <link rel="stylesheet" href='css/style.css'>
+</head>
+<body>
+    
+    <button onclick="window.location.href='{% url 'event-list' %}'" class="btn btn-secondary" style="background-color: purple; color: white;">Back</button>
+    <h1>{{ event.Title }}</h1>
+
+    
+    <p><strong>Location:</strong> {{ event.Location }}</p>
+    <p><strong>Date & Time:</strong> {{ event.DateTime }}</p>
+    
+    <p><strong>Category:</strong> {{ event.CategoryID.Name }}</p>
+    <p><strong>Organizer:</strong> {{ event.OrganizerID.first_name }} {{ event.OrganizerID.last_name }}</p>
+    <p><strong>Description:</strong> {{ event.Description }}</p>
+
+    {% if is_registered %}
+    <button onclick="window.location.href='{% url 'registration-delete' reg.RegistrationID %}'" class="btn btn-success">Cancel Registration</button>
+    {% else %}
+        <button onclick="window.location.href='{% url 'registration-create' event.EventID %}'" class="btn btn-success">Register</button>
+    {% endif %}
+
+    <button onclick="window.location.href='{% url 'feedback-create' event.EventID %}'" class="btn btn-info">Give Feedback</button>
+
+    {% if user  == event.OrganizerID %}
+        <button onclick="window.location.href='{% url 'event-registrations' event.EventID%}'" class="btn btn-info">View Registrations</button>
+        <button onclick="window.location.href='{% url 'event-update' event.EventID %}'" class="btn btn-primary" style="background-color: purple; color: white;">Edit Event</button>
+        <button onclick="window.location.href='{% url 'event-delete' event.EventID%}'" class="btn btn-danger" style="background-color: red">Delete</button>
+
+    {% endif %}
+
+    
+</body>
+</html>
+{% endblock %}

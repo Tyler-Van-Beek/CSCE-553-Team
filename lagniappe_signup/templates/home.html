@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %} 
+<style>
+    body {
+        background-color: #d3f3f0;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: auto;
+    }
+
+    
+
+    .logo img {
+        width: 300px;
+        height: 300px;
+    }
+
+    /* Squiggly Line Divider */
+    .divider {
+        margin: 100px auto 100px auto;
+        width: 100%%;
+        height: 10px;
+        background: repeating-linear-gradient(
+            -45deg,
+            #8e24aa,
+            #8e24aa 5px,
+            transparent 5px,
+            transparent 10px
+        );
+        border-radius: 50%;
+    }
+
+    .event-highlight {
+        padding: 60px 20px;
+        display: flex;
+        justify-content: center;
+        margin-top: 100px; /* Adds distance from top */
+    }
+
+    .event-content {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 900px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 30px;
+    }
+
+    .event-text {
+        flex: 1;
+        min-width: 250px;
+        text-align: left;
+    }
+
+    .event-text h2 {
+        font-size: 32px;
+        color: #2f3337;
+        margin-bottom: 10px;
+    }
+
+    .event-text p {
+        color: #333;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .event-button {
+        background-color: #8e24aa;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        display: inline-block;
+        margin-top: 10px;
+    }
+
+    .event-button:hover {
+        background-color: #6a1b9a;
+    }
+
+    .event-image img {
+        max-width: 300px;
+        height: auto;
+        border-radius: 10px;
+    }
+</style>
+
+<div class="container">
+    <h1>Welcome!</h1>
+
+    <div class="logo">
+        <img src="{% static 'images/lag_signup.png' %}" alt="Lagniappe Logo">
+    </div>
+
+    <div class="description-box">
+        <h2>Description</h2>
+        <p>Lagniappe Sign-Up is a local event platform that allows users to create, edit, find, and join events.</p>
+
+        <h2>Why We Started?</h2>
+        <p>We started to give people in the local area the ability to promote events. Also, to provide an easier way to find out about events you may have been unaware of!</p>
+    </div>
+</div>
+
+<!-- Squiggly Line Divider -->
+<div class="divider"></div>
+
+<!-- Upcoming Event Section -->
+<div class="event-highlight">
+    <div class="event-content">
+        <div class="event-text">
+            <h2>Event This Weekend!</h2>
+            <p>Speed Festival is happening this weekend! Join us for a fun-filled day with food, music, cars, and more!</p>
+            <p>Sign up now to learn more or reserve your spot.</p>
+            <a class="event-button" href="/registration/create/4">Click here to Register!</a>
+        </div>
+
+        <div class="event-image">
+            <img src="{% static 'images/speed.png' %}" alt="Speed Festival">
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

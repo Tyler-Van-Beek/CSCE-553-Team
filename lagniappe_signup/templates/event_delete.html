@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+{% if event %}
+    <div class = "container" style="justify-content: center; text-align: center;"> 
+
+        <form method="post" class = 'card' style="text-align: center;">
+            {% csrf_token %}
+            <h2 style="text-align: center;">Delete Event</h2>
+            <p>Are you sure you want to delete {{ event.Title }}? </p>
+            <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1rem;">
+                <button type="submit" style="background-color: red;">Yes</button>
+                <button href="{% url 'event-detail' event.EventID %}" class="btn btn-secondary" style="background-color: purple; color: white;">Cancel</button>
+            </div>
+        </form>
+    </div>
+    
+{% endif %}
+    
+</body>
+</html>
+{% endblock %}

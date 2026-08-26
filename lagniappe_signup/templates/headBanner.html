@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Website{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/lagniappe_favicon.png' %}">
+    
+    <!-- Global Stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <nav class="top-banner" style="height: 60px; width: 100%; background-color: #2f3337;">
+        <div class="nav-container" style="
+            display: flex;
+            align-items: center;
+            height: 100%;
+            padding: 0 20px 0 0;  /* ✅ No left padding */
+            box-sizing: border-box;
+        ">
+            <!-- LSU Logo flush left and scaled -->
+            <div class="nav-logo" style="
+                margin-left: 0;
+                margin-right: 60px;
+                display: flex;
+                align-items: center;
+                padding-left: 10px;  /* ✅ Small padding to prevent touching the edge */
+            ">
+                <img src="{% static 'images/LSU_white.png' %}" 
+                     alt="Lagniappe Logo"
+                     style="height: 120px; width: auto;">
+            </div>
+
+            <!-- Navigation Links -->
+            <ul class="nav-links" style="
+                display: flex;
+                gap: 30px;
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            ">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'event-list' %}">Events</a></li>
+                <li><a href="{% url 'map' %}">Event Map</a></li>
+                
+                {% if user.is_authenticated %}
+                    <li><a>Logged in as {{ user.username }}</a></li>
+                    <li><a href="{% url 'profile' user.UserID %}">Profile</a></li>
+                {% else %}
+                    <li><a href="{% url 'signin' %}">Sign In</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <div id="chat-toggle">
+        <img src="{% static 'images/scroll.png' %}">    
+    </div>
+      
+      <!-- Chat Box -->
+      <div id="chat-box" style="display: none;">
+        <div id="chat-header">Chat</div>
+        <div id="chat-messages"></div>
+        <input type="text" id="chat-input" placeholder="Type a message..." />
+        <button id="chat-send">Send</button>
+      </div>
+      <script src="{% static 'js/chat.js' %}"></script>
+</body>
+</html>

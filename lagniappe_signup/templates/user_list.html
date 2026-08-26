@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>User List</h1>
+  
+  {% if User %}
+    <ul style="list-style-type: none; padding-left: 0;">
+      {% for us in User %}
+        <li>
+          <a href="{% url 'user-detail' us.UserID %}">{{ us.username }}</a>
+          <p><strong>User ID:</strong> {{ us.UserID }}</p>
+          <p><strong>First Name:</strong> {{ us.first_name }}</p>
+          <p><strong>Last Name:</strong> {{ us.last_name }}</p>
+          <p><strong>Username:</strong> {{ us.username }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <!-- Pagination links  -->
+    <div>
+      {% if is_paginated %}
+        <span class="step-links">
+          {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+          {% endif %}
+          
+          <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+          </span>
+          
+          {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+          {% endif %}
+        </span>
+      {% endif %}
+    </div>
+
+  {% else %}
+    <p>No users available.</p>
+  {% endif %}
+{% endblock %}

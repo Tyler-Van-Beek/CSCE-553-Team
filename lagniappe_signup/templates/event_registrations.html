@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<button onclick="window.location.href='{% url 'event-detail' Event.EventID%}'" class="btn btn-secondary" style="background-color: purple; color: white;">Back</button>
+
+  <h1>Registrations for {{ Event.Title }}</h1>
+  
+  {% if Registrations %}
+    <div style="display: flex; flex-wrap: wrap; gap: 50px; center-content: flex-start;">
+      {% for r in Registrations %}
+      <div class="card" style="height: 100px;">
+        <div style="border: 1px solid #ccc; border-radius: 8px; padding: 16px; width: 300px; box-shadow: 2px 2px 8px rgba(0,0,0,0.1); background: white;">
+          <h2>Registration ID: {{ r.RegistrationID }}</h2>
+          <p><strong>User:</strong> {{ r.UserID.username }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Pagination links (if enabled) -->
+    <div>
+      {% if is_paginated %}
+        <span class="step-links">
+          {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+          {% endif %}
+          
+          <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+          </span>
+          
+          {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+          {% endif %}
+        </span>
+      {% endif %}
+    </div>
+
+  {% else %}
+    <p>No users registered.</p>
+  {% endif %}
+{% endblock %}

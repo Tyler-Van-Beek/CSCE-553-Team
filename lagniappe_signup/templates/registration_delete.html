@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+{% if reg %}
+<div class = "container" style="justify-content: center; text-align: center;"> 
+
+        <form method="post" class = 'card'>
+            {% csrf_token %}
+            <h2>Delete Registration</h2>
+            <p>Are you sure you want to cancel your registration for {{ reg.EventID.Title }}? </p>
+            <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1rem;">
+                <button typ='submit' style="background-color: red">Yes</button>
+                <button href="{% url 'event-detail' reg.EventID.EventID %}" class ="btn btn-secondary" style="background-color: purple; color: white;">No</button>
+            </div>
+        </form>
+    </div>
+    
+{% endif %}
+    
+</body>
+</html>
+{% endblock %}

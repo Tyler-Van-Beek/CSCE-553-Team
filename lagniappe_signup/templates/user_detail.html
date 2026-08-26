@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event</title>
+    <link rel="stylesheet" href='css/style.css'>
+</head>
+<body>
+    <h1>Profile</h1>
+
+    <p><strong>Name:</strong> {{ User.first_name }}{{ User.last_name }}</p>
+    <p><strong>Username:</strong> {{ User.username }}</p>
+    <p><strong>E-mail:</strong> {{ User.email }}</p>
+
+    <button onclick="window.location.href='{% url 'signout' %}'" class="btn btn-info">Sign Out</button>
+    
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event</title>
+    <link rel="stylesheet" href='css/style.css'>
+</head>
+<body>
+    
+    <div class="container">
+        <h1>Create New Event</h1>
+
+        <form action="/create_event/" method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="OrganizerID">Organizer</label>
+                <select id="OrganizerID" name="OrganizerID" required>
+                    <!-- Populate with available organizers (users) -->
+                    {% for user in Users %}
+                        <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="CategoryID">Category</label>
+                <select id="CategoryID" name="CategoryID" required>
+                    <!-- Populate with available categories -->
+                    {% for c in Category %}
+                        <option value="{{ c.Name }}">{{ c.Name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="Title">Title</label>
+                <input type="text" id="Title" name="Title" required maxlength="100">
+            </div>
+
+            <div class="form-group">
+                <label for="Description">Description</label>
+                <textarea id="Description" name="Description" required maxlength="500"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="Location">Location</label>
+                <input type="text" id="Location" name="Location" required maxlength="100">
+            </div>
+
+            <div class="form-group">
+                <label for="DateTime">Date and dime</label>
+                <input type="datetime-local" id="DateTime" name="DateTime" required>
+            </div>
+
+            <div class="form-group">
+                <label for="EventStatus">Event Status</label>
+                <input type="checkbox" id="EventStatus" name="EventStatus" checked>
+                <span>Event is Active</span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Create Event</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+{% endblock %}
