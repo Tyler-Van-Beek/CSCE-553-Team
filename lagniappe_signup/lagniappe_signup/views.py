@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import CreateView, UpdateView
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from events.models import Users, Event, Category, Feedback, Registration
 from .forms import EventForm, SignUpForm, FeedbackForm
 from django.views.generic.edit import CreateView, DeleteView
@@ -14,6 +14,11 @@ from django.contrib.auth import login,logout,authenticate
 from AI_Chatbot.recommend_bot import get_recommendation
 from django.contrib import messages
 from AI_Chatbot.embed_current_events import populate_index
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.parsers import JSONParser
+from serializers import EventSerializer
 
 
 def homepage(request):
@@ -111,12 +116,19 @@ def eventForm(request):
     else:
         return HttpResponse("Only POST requests are allowed.", status=405)
 
-
-class list_event(ListView):
-    model = Event
-    template_name = "event_list.html"
-    context_object_name = "events"
-    paginate = 20
+@csrf_exempt
+def list_event(request):
+    if request.method == "GET":
+        events = Event.objects.all()
+        serializer = EventSerializer(events, many=True)
+        return JsonResponse(serializer.data, safe=False)
+    elif request.method == "POST":
+        data = JSONParser().parse(request)
+        serializer = EventSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
 
 @login_required(login_url="/signin/")
 def create_reg(request, pk):

@@ -6,3 +6,4 @@ lagniappe_signup\lagniappe_signup\__pycache__
 __pycache__/
 *.py[cod]
 .env
+env
