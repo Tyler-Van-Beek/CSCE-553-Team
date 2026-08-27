@@ -19,7 +19,7 @@ Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from . import views
 from events.models import Users, Event, Category, Feedback, Registration
 from .views import chat_response
@@ -30,7 +30,7 @@ urlpatterns = [
     path('about/', views.about,name='about'),
     path('signin/',views.signin,name='signin'),
     path('event/create', views.create_event, name="event-create"),
-    path('event/list', views.list_event.as_view(), name="event-list"),
+    path('event/list', views.list_event, name="event-list"),
     path('event/event-list/', views.eventForm, name="event-form"),
     path('event/<int:pk>', views.detail_event, name="event-detail"),
     path('event/update/<int:pk>', views.update_event, name="event-update"),

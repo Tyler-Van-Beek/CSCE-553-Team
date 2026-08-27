@@ -18,7 +18,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.parsers import JSONParser
-from serializers import EventSerializer
+from .serializers import EventSerializer
 
 
 def homepage(request):
@@ -121,7 +121,12 @@ def list_event(request):
     if request.method == "GET":
         events = Event.objects.all()
         serializer = EventSerializer(events, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        return render(
+            request,
+            "event_list.html",
+            {"events": events}
+        )
+    
     elif request.method == "POST":
         data = JSONParser().parse(request)
         serializer = EventSerializer(data=data)
