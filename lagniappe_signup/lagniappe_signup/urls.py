@@ -23,6 +23,7 @@ from django.urls import path, include
 from . import views
 from events.models import Users, Event, Category, Feedback, Registration
 from .views import chat_response
+from health_check.views import HealthCheckView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -50,4 +51,5 @@ urlpatterns = [
     path('profile/<int:pk>', views.detail_user, name="profile"),
     path('userlist', views.list_users.as_view(), name="user-list"),
     path('chat/', chat_response, name='chat'),
+    path("healthcheck/", HealthCheckView.as_view()),
 ]
