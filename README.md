@@ -2,7 +2,7 @@ Lagniappe Sign-Up (best viewing experiene is on apps like Notepad++ or ones of a
 
 The app we have chosen for this project is an existing app called Lagniappe Sign-Up. It is a way for users in the Acadiana Area to create and register for events. Users can create events, which each have their own name, description, start time, and location. When a user other than the event's owner is on the page, they can register for the said event. Owners of events can edit, delete, and view registrations for them. 
 
-The data represented in this application does not reflect real life people or events and has no personal bearing. 
+This is a CSCE 553 baseline, not a production service. The data represented in this application does not reflect real life people or events and has no personal bearing. 
 
 The product uses Django for the UI, HTTP for the API, and SQLite for the database.
 
