@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "events",
     "rest_framework",
-    "rest_frameowrk.authtoken",
+    "rest_framework.authtoken",
     "health_check",
 ]
 
