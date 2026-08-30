@@ -20,6 +20,8 @@ from rest_framework import status
 from rest_framework.parsers import JSONParser
 from .serializers import EventSerializer
 
+def health(request):
+    return JsonResponse({"status": "ok"})
 
 def homepage(request):
     return render(request, "home.html")
@@ -39,9 +41,6 @@ def signin(request):
         password = request.POST.get('password')
 
         sign = authenticate(username=username, password=password)
-        print("Authenticated user:", sign)
-        print("Submitted username:", username)
-        print("Submitted password:", password)
 
 
         if sign is not None:
