@@ -7,9 +7,11 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from .models import Category,Users
+from .models import Category,Users, Event
 from rest_framework.authtoken.models import Token
+from io import StringIO
 
+from django.core.management import call_command
 
 class HealthEndpointTests(SimpleTestCase):
     def test_health_returns_ok(self):
@@ -18,6 +20,65 @@ class HealthEndpointTests(SimpleTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {"status": "ok"})
 
+class SeedDemoDataTests(TestCase):
+    def test_seed_command_is_idempotent(self):
+        first_output = StringIO()
+        call_command(
+            "seed_demo_data",
+            stdout=first_output,
+        )
+
+        demo_users = Users.objects.filter(
+            email__endswith=".demo@example.com"
+        )
+        demo_events = Event.objects.filter(
+            OrganizerID__in=demo_users
+        )
+
+        self.assertEqual(demo_users.count(), 3)
+        self.assertEqual(demo_events.count(), 3)
+        self.assertEqual(Category.objects.count(), 3)
+        self.assertTrue(
+            all(
+                user.check_password("ClassDemo123!")
+                for user in demo_users
+            )
+        )
+
+        original_user_ids = set(
+            demo_users.values_list("UserID", flat=True)
+        )
+        original_event_ids = set(
+            demo_events.values_list("EventID", flat=True)
+        )
+
+        second_output = StringIO()
+        call_command(
+            "seed_demo_data",
+            stdout=second_output,
+        )
+
+        demo_users = Users.objects.filter(
+            email__endswith=".demo@example.com"
+        )
+        demo_events = Event.objects.filter(
+            OrganizerID__in=demo_users
+        )
+
+        self.assertEqual(demo_users.count(), 3)
+        self.assertEqual(demo_events.count(), 3)
+        self.assertEqual(
+            set(demo_users.values_list("UserID", flat=True)),
+            original_user_ids,
+        )
+        self.assertEqual(
+            set(demo_events.values_list("EventID", flat=True)),
+            original_event_ids,
+        )
+        self.assertIn(
+            "Demo data is ready.",
+            second_output.getvalue(),
+        )
 
 class AuthenticationApiTests(APITestCase):
     def test_registration_login_authenticated_request_and_logout(self):
