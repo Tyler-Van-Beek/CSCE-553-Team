@@ -1,3 +1,5 @@
+from urllib import request
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import CreateView, UpdateView
 from django.http import HttpResponse, JsonResponse
@@ -8,6 +10,7 @@ from django.views.generic.list import ListView
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 import json
+import logging
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,logout,authenticate
@@ -20,6 +23,7 @@ from rest_framework import status
 from rest_framework.parsers import JSONParser
 from .serializers import EventSerializer
 
+logger = logging.getLogger(__name__)
 def health(request):
     return JsonResponse({"status": "ok"})
 
@@ -86,17 +90,18 @@ def create_event(request):
 
     return render(request, "create_event.html", context)
 
-
+@login_required(login_url="/signin/")
 def eventForm(request):
     if request.method == "POST":
-        organizer = request.POST.get("Organizer")
+        #organizer = request.POST.get("Organizer")
+        organizer = request.user  # Use the logged-in user's ID as the organizer
         category = request.POST.get("Category")
         title = request.POST.get("Title")
         description = request.POST.get("Description")
         location = request.POST.get("Location")
         dateTime = request.POST.get("DateTime")
 
-        organizer = Users.objects.get(UserID=organizer)
+        #organizer = Users.objects.get(UserID=organizer)
         category = Category.objects.get(Name=category)
 
         event = Event(
@@ -109,7 +114,19 @@ def eventForm(request):
         )
         event.save()
         messages.success(request, 'Event created!')
-        populate_index()
+        try:
+            populate_index()
+        except Exception:
+            logger.exception(
+                 "Optional Pinecone index refresh failed after event creation."
+            )
+            messages.warning(
+                request,
+                (
+                    "The event was created, but the optional search index "
+                     "could not be refreshed."
+                ),
+            )
 
         return redirect("event-list")
     else:

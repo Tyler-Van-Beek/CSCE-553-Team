@@ -24,6 +24,8 @@ class AuthenticationApiTests(APITestCase):
         credentials = {
             "email": "automated_api_test@example.com",
             "password": "TemporaryTest123!",
+            "first_name": "Automated",
+            "last_name": "Tester",
         }
 
         registration_response = self.client.post(
@@ -40,6 +42,16 @@ class AuthenticationApiTests(APITestCase):
 
         user = Users.objects.get(email=credentials["email"])
         self.assertTrue(user.check_password(credentials["password"]))
+        self.assertEqual(user.first_name, "Automated")
+        self.assertEqual(user.last_name, "Tester")
+        self.assertEqual(
+            registration_response.data["first_name"],
+            "Automated",
+        )
+        self.assertEqual(
+            registration_response.data["last_name"],
+            "Tester",
+        )
 
         login_response = self.client.post(
             reverse("api-login"),
@@ -88,6 +100,29 @@ class AuthenticationApiTests(APITestCase):
             invalidated_token_response.status_code,
             status.HTTP_401_UNAUTHORIZED,
         )
+
+    def test_registration_allows_names_to_be_omitted(self):
+        credentials = {
+            "email": "api_without_names@example.com",
+            "password": "TemporaryTest123!",
+        }
+
+        response = self.client.post(
+            reverse("api-register"),
+            credentials,
+            format="json",
+        )
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_201_CREATED,
+        )
+
+        user = Users.objects.get(email=credentials["email"])
+        self.assertEqual(user.first_name, "")
+        self.assertEqual(user.last_name, "")
+        self.assertTrue(user.check_password(credentials["password"]))
+        self.assertNotIn("password", response.data)
 
 
 class EventApiTests(APITestCase):

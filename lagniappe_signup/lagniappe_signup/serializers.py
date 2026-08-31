@@ -34,7 +34,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True,min_length=8, required=True, style={'input_type': 'password'})
     class Meta:
         model = Users
-        fields = ["UserID", "email", "password"]
+        fields = ["UserID", "email", "password","first_name", "last_name"]
         extra_kwargs = {'password': {'write_only': True}}
         read_only_fields = ['UserID']
 
@@ -47,10 +47,14 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         email = validated_data["email"]
         password = validated_data["password"]
+        first_name = validated_data.get("first_name", "").strip()
+        last_name = validated_data.get("last_name", "").strip()
         return Users.objects.create_user(
             username=email,
             email=email,
             password=password,
+            first_name=first_name,
+            last_name=last_name,
         )
 
 

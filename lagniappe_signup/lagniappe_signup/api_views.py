@@ -23,6 +23,8 @@ def api_register(request):
         {
             "user_id": user.UserID,
             "email": user.email,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
         },
         status=status.HTTP_201_CREATED,
     )
