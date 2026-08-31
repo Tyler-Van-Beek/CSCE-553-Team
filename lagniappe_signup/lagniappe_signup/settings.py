@@ -49,6 +49,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "events",
+    "rest_framework",
+    "rest_framework.authtoken",
+    "health_check",
 ]
 
 MIDDLEWARE = [

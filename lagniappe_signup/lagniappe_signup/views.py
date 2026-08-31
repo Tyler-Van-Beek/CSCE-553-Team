@@ -1,6 +1,8 @@
+from urllib import request
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import CreateView, UpdateView
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from events.models import Users, Event, Category, Feedback, Registration
 from .forms import EventForm, SignUpForm, FeedbackForm
 from django.views.generic.edit import CreateView, DeleteView
@@ -8,13 +10,22 @@ from django.views.generic.list import ListView
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 import json
+import logging
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,logout,authenticate
 from AI_Chatbot.recommend_bot import get_recommendation
 from django.contrib import messages
 from AI_Chatbot.embed_current_events import populate_index
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.parsers import JSONParser
+from .serializers import EventSerializer
 
+logger = logging.getLogger(__name__)
+def health(request):
+    return JsonResponse({"status": "ok"})
 
 def homepage(request):
     return render(request, "home.html")
@@ -34,9 +45,6 @@ def signin(request):
         password = request.POST.get('password')
 
         sign = authenticate(username=username, password=password)
-        print("Authenticated user:", sign)
-        print("Submitted username:", username)
-        print("Submitted password:", password)
 
 
         if sign is not None:
@@ -82,17 +90,18 @@ def create_event(request):
 
     return render(request, "create_event.html", context)
 
-
+@login_required(login_url="/signin/")
 def eventForm(request):
     if request.method == "POST":
-        organizer = request.POST.get("Organizer")
+        #organizer = request.POST.get("Organizer")
+        organizer = request.user  # Use the logged-in user's ID as the organizer
         category = request.POST.get("Category")
         title = request.POST.get("Title")
         description = request.POST.get("Description")
         location = request.POST.get("Location")
         dateTime = request.POST.get("DateTime")
 
-        organizer = Users.objects.get(UserID=organizer)
+        #organizer = Users.objects.get(UserID=organizer)
         category = Category.objects.get(Name=category)
 
         event = Event(
@@ -105,18 +114,42 @@ def eventForm(request):
         )
         event.save()
         messages.success(request, 'Event created!')
-        populate_index()
+        try:
+            populate_index()
+        except Exception:
+            logger.exception(
+                 "Optional Pinecone index refresh failed after event creation."
+            )
+            messages.warning(
+                request,
+                (
+                    "The event was created, but the optional search index "
+                     "could not be refreshed."
+                ),
+            )
 
         return redirect("event-list")
     else:
         return HttpResponse("Only POST requests are allowed.", status=405)
 
-
-class list_event(ListView):
-    model = Event
-    template_name = "event_list.html"
-    context_object_name = "events"
-    paginate = 20
+@csrf_exempt
+def list_event(request):
+    if request.method == "GET":
+        events = Event.objects.all()
+        serializer = EventSerializer(events, many=True)
+        return render(
+            request,
+            "event_list.html",
+            {"events": events}
+        )
+    
+    elif request.method == "POST":
+        data = JSONParser().parse(request)
+        serializer = EventSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
 
 @login_required(login_url="/signin/")
 def create_reg(request, pk):

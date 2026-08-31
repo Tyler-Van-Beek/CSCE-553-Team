@@ -1,31 +1,40 @@
-# CMPS-490-Team-9-Product
-Lagniappe Sign-Up
+Lagniappe Sign-Up (best viewing experiene is on apps like Notepad++ or ones of a similar vein)
 
+The app we have chosen for this project is an existing app called Lagniappe Sign-Up. It is a way for users in the Acadiana Area to create and register for events. Users can create events, which each have their own name, description, start time, and location. When a user other than the event's owner is on the page, they can register for the said event. Owners of events can edit, delete, and view registrations for them. 
 
------------------------------------------------------
-HOW TO INSTALL A VIRTUAL ENVIRONMENT FOR THIS PROJECT
+This is a CSCE 553 baseline, not a production service. The data represented in this application does not reflect real life people or events and has no personal bearing. 
 
-1. Install Anaconda - https://www.anaconda.com/download
-   
-2. In the installer, make sure to click "Add Anaconda3 to my PATH environment variable" tick. 
-   
-3. Finish installation
-   
-4. Open up a powershell (on Windows, right click the windows button on the bottom left of the screen then select "Command Prompt")
-   
-5. Type "conda --version" to see if the installation has worked. You should see something like "conda 24.9.2". If it does not show up, try installing again (remember step 2).
+The product uses Django for the UI, HTTP for the API, and SQLite for the database.
 
-6. When that is verified, to create the virtual environment, type "conda create -n <name> python=3.10.0". Replace <name> with whatever you wish to name the environment.
+Paths:
 
-7. Press "y" on your keyboard to proceed when prompted while the environment is created. 
-   
-8. The environment is now created. In the same command prompt, you can use "conda activate <name>" to turn it on and "conda deactivate" to turn it off.
+Path                           Method    Purpose
 
-CMPS 490 Project
+Common -
 
-For our local accessability we plan on using the run and debug feature on Visual Studio.
-For our platform to help share, develope and locally run the code we will be using Visual Studio.
-For our deployment we have decided to go with AWS since it is a easy and inexpensive resource with plenty of support.
-For the front end we plan on using HTML5 and CSS# for up to date features and support with Django to manage frontend templates and to have a smooth backend transition.
-For the back end we plan on using python for its versitility and easy of use and support.
-For our Database we plan to self create data as a mockup of what possible data for this web application could be. As well as using SQLite as our database program
+/about                         GET       About the app
+/map                           GET       Map of event locations (not functional)
+/signin                        POST      Signs in
+/signup                        POST      Create User
+/signout                       POST      Signs out
+/healthcheck                   GET       Health of app
+/faq                           GET       Questions about app
+
+Event -
+
+/event/list                    GET       List of events
+/event/create                  POST      Event creation
+/event/<int:pk>                GET       Detail view of event
+/event/update/<int:pk>         POST      Update view of event
+/event/registration/<int:pk>   GET       List of registrations for event
+/event/<int:pk>/delete         POST      Delete view of event
+
+Registration -
+
+/registration/create/<int:pk>  POST      Creation of registration for event
+/registration/delete/<int:pk>  POST      Deletion of registration
+
+Feedback -
+/feedback/create/<int:pk>      POST      Creation of feedback
+/feedback/list                 GET       List of feedback
+

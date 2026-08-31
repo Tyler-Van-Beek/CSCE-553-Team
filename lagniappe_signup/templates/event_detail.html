@@ -19,7 +19,7 @@
     <p><strong>Date & Time:</strong> {{ event.DateTime }}</p>
     
     <p><strong>Category:</strong> {{ event.CategoryID.Name }}</p>
-    <p><strong>Organizer:</strong> {{ event.OrganizerID.first_name }} {{ event.OrganizerID.last_name }}</p>
+    <p><strong>Organizer:</strong> {{ event.OrganizerID.get_full_name|default:event.OrganizerID.email }}</p>
     <p><strong>Description:</strong> {{ event.Description }}</p>
 
     {% if is_registered %}
