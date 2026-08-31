@@ -98,7 +98,7 @@ DATABASES = {
     }
 }
 
-# PostgreSQL databse I was using
+# PostgreSQL databse I was using. 
 
 # DATABASES = {
 #    "default": {
