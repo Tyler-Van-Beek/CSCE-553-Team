@@ -5,3 +5,4 @@ openai==1.109.1
 python-dotenv==1.0.1
 gunicorn==26.2.0
 django-health-check
+psycopg[binary]
