@@ -36,7 +36,15 @@ SECRET_KEY = "django-insecure-wd4j@73um4%f31!0s)&np63w41s8#4o%@_715o_5=m-ih62%3d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "csce-553-team.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://csce-553-team.onrender.com",
+]
 
 
 # Application definition
