@@ -3,3 +3,4 @@ djangorestframework==3.17.2
 pinecone==6.0.1
 openai==1.109.1
 python-dotenv==1.0.1
+gunicorn==26.2.0
