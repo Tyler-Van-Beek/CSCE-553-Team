@@ -103,10 +103,10 @@ WSGI_APPLICATION = "lagniappe_signup.wsgi.application"
 DATABASES = {
    "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": 'lagniappe',
+        "NAME": 'postgres',
         "USER": 'postgres',
-        'PASSWORD': 'Laval294!',
-        'HOST': 'localhost',
+        'PASSWORD': 'AutonationAcura60!',
+        'HOST': 'db.cxrqiufphfhyjwkppsjv.supabase.co',
         'PORT': '5432'
     }
 }
