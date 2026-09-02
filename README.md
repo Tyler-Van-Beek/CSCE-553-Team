@@ -50,24 +50,7 @@ Feedback -
 
 Curls : 
 
-curl.exe -I https://csce-553-team.onrender.com/healthcheck/
-HTTP/1.1 500 Internal Server Error
-Date: Tue, 01 Sep 2026 20:20:49 GMT
-Content-Type: text/html; charset=utf-8
-Connection: keep-alive
-Cache-Control: max-age=0, no-cache, no-store, must-revalidate, private
-cross-origin-opener-policy: same-origin
-expires: Tue, 01 Sep 2026 20:20:49 GMT
-referrer-policy: same-origin
-rndr-id: 7f58f453-6640-465a
-Server: cloudflare
-vary: Accept-Encoding
-x-content-type-options: nosniff
-x-frame-options: DENY
-x-render-origin-server: WSGIServer/0.2 CPython/3.14.3
-cf-cache-status: DYNAMIC
-CF-RAY: a346fa4b59eb2e4f-DFW
-alt-svc: h3=":443"; ma=86400
+<img width="766" height="431" alt="image" src="https://github.com/user-attachments/assets/a77c1392-1eae-404f-b901-efd3d574a4de" />
 
 curl.exe -I https://csce-553-team.onrender.com/event/create            
 HTTP/1.1 302 Found                   
