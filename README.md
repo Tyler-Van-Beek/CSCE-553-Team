@@ -49,7 +49,8 @@ Feedback -
 
 
 Curls : 
-
+Health check:
+curl.exe -i https://csce-553-team.onrender.com/health/
 <img width="766" height="431" alt="image" src="https://github.com/user-attachments/assets/a77c1392-1eae-404f-b901-efd3d574a4de" />
 
 curl.exe -I https://csce-553-team.onrender.com/event/create            
