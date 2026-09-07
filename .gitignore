@@ -7,3 +7,6 @@ __pycache__/
 *.py[cod]
 .env
 env
+# Local Django database
+db.sqlite3
+*.sqlite3-journal

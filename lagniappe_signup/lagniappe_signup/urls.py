@@ -5,15 +5,15 @@ The urlpatterns list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
 Examples:
 Function views
-    
+
 Add an import:  from my_app import views
 Add a URL to urlpatterns:  path('', views.home, name='home')
 Class-based views
-    
+
 Add an import:  from other_app.views import Home
 Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
 Including another URLconf
-    
+
 Import the include() function: from django.urls import include, path
 Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
@@ -34,6 +34,8 @@ urlpatterns = [
     path("api/auth/logout", api_views.api_logout, name="api-logout"),
     path("api/events", api_views.api_events, name="api-events"),
     path("api/events/<int:event_id>",api_views.api_event_detail,name="api-event-detail",),
+    path("api/registrations",api_views.api_registrations,name="api-registrations",),
+    path("api/registrations/<int:registration_id>",api_views.api_registration_detail,name="api-registration-detail",),
     path('', views.homepage,name='home'),
     path('about/', views.about,name='about'),
     path('signin/',views.signin,name='signin'),

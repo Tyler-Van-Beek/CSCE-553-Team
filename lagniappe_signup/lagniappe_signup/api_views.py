@@ -7,9 +7,9 @@ from rest_framework.authentication import TokenAuthentication
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 
-from events.models import Event
+from events.models import Event, Registration
 
-from .serializers import (EventApiSerializer,UserRegistrationSerializer, UserLoginSerializer)
+from .serializers import (EventApiSerializer,RegistrationApiSerializer,UserRegistrationSerializer, UserLoginSerializer)
 
 
 @api_view(["POST"])
@@ -138,3 +138,68 @@ def api_event_detail(request, event_id):
         serializer.data,
         status=status.HTTP_200_OK,
     )
+
+@api_view(["GET", "POST"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def api_registrations(request):
+    if request.method == "GET":
+        registrations = Registration.objects.filter(
+            UserID=request.user
+        ).order_by("RegistrationID")
+
+        return Response(
+            RegistrationApiSerializer(
+                registrations,
+                many=True,
+            ).data,
+            status=status.HTTP_200_OK,
+        )
+
+    serializer = RegistrationApiSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    event = serializer.validated_data["EventID"]
+
+    if Registration.objects.filter(
+        UserID=request.user,
+        EventID=event,
+    ).exists():
+        return Response(
+            {
+                "detail": (
+                    "You are already registered for this event."
+                )
+            },
+            status=status.HTTP_409_CONFLICT,
+        )
+
+    registration = serializer.save(UserID=request.user)
+
+    return Response(
+        RegistrationApiSerializer(registration).data,
+        status=status.HTTP_201_CREATED,
+    )
+
+
+@api_view(["DELETE"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def api_registration_detail(request, registration_id):
+    registration = get_object_or_404(
+        Registration,
+        RegistrationID=registration_id,
+    )
+
+    if registration.UserID_id != request.user.pk:
+        return Response(
+            {
+                "detail": (
+                    "You can cancel only your own registration."
+                )
+            },
+            status=status.HTTP_403_FORBIDDEN,
+        )
+
+    registration.delete()
+
+    return Response(status=status.HTTP_204_NO_CONTENT)
