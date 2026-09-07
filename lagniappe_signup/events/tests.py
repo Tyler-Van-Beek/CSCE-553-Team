@@ -2,12 +2,12 @@ from django.test import TestCase
 
 # Create your tests here.
 
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase,TestCase
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from .models import Category,Users, Event
+from .models import Category, Event, Registration, Users, Feedback
 from rest_framework.authtoken.models import Token
 from io import StringIO
 
@@ -278,4 +278,115 @@ class EventApiTests(APITestCase):
         self.assertEqual(
             retrieve_response.data["Location"],
             "Updated Automated Test Room",
+        )
+
+class RegistrationApiTests(APITestCase):
+    def setUp(self):
+        self.user = Users.objects.create_user(
+            username="registration_api_test@example.com",
+            email="registration_api_test@example.com",
+            password="TemporaryTest123!",
+        )
+        self.other_user = Users.objects.create_user(
+            username="other_registration_test@example.com",
+            email="other_registration_test@example.com",
+            password="TemporaryTest123!",
+        )
+        self.category = Category.objects.create(
+            Name="Registration Test Category"
+        )
+        self.event = Event.objects.create(
+            OrganizerID=self.other_user,
+            CategoryID=self.category,
+            Title="Registration API Test Event",
+            Description="Fake event for registration API testing.",
+            Location="Registration Test Room",
+            DateTime="2026-09-25T18:00:00Z",
+            EventStatus=True,
+        )
+        self.token = Token.objects.create(user=self.user)
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token {self.token.key}"
+        )
+
+    def test_create_list_duplicate_and_cancel_registration(self):
+        create_response = self.client.post(
+            reverse("api-registrations"),
+            {"EventID": self.event.EventID},
+            format="json",
+        )
+
+        self.assertEqual(
+            create_response.status_code,
+            status.HTTP_201_CREATED,
+        )
+        self.assertEqual(
+            create_response.data["UserID"],
+            self.user.pk,
+        )
+
+        registration_id = create_response.data["RegistrationID"]
+
+        duplicate_response = self.client.post(
+            reverse("api-registrations"),
+            {"EventID": self.event.EventID},
+            format="json",
+        )
+
+        self.assertEqual(
+            duplicate_response.status_code,
+            status.HTTP_409_CONFLICT,
+        )
+
+        other_registration = Registration.objects.create(
+            UserID=self.other_user,
+            EventID=self.event,
+        )
+
+        list_response = self.client.get(
+            reverse("api-registrations")
+        )
+
+        self.assertEqual(
+            list_response.status_code,
+            status.HTTP_200_OK,
+        )
+        self.assertEqual(len(list_response.data), 1)
+        self.assertEqual(
+            list_response.data[0]["RegistrationID"],
+            registration_id,
+        )
+
+        other_detail_url = reverse(
+            "api-registration-detail",
+            kwargs={
+                "registration_id": other_registration.RegistrationID
+            },
+        )
+        forbidden_response = self.client.delete(other_detail_url)
+
+        self.assertEqual(
+            forbidden_response.status_code,
+            status.HTTP_403_FORBIDDEN,
+        )
+        self.assertTrue(
+            Registration.objects.filter(
+                pk=other_registration.pk
+            ).exists()
+        )
+
+        own_detail_url = reverse(
+            "api-registration-detail",
+            kwargs={"registration_id": registration_id},
+        )
+        delete_response = self.client.delete(own_detail_url)
+
+        self.assertEqual(
+            delete_response.status_code,
+            status.HTTP_204_NO_CONTENT,
+        )
+        self.assertFalse(
+            Registration.objects.filter(
+                pk=registration_id
+            ).exists()
         )
