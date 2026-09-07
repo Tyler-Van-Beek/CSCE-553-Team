@@ -1,91 +1,286 @@
-Lagniappe Sign-Up (best viewing experiene is on apps like Notepad++ or ones of a similar vein)
+# Lagniappe Sign-Up
 
-The app we have chosen for this project is an existing app called Lagniappe Sign-Up. It is a way for users in the Acadiana Area to create and register for events. Users can create events, which each have their own name, description, start time, and location. When a user other than the event's owner is on the page, they can register for the said event. Owners of events can edit, delete, and view registrations for them.
+Lagniappe Sign-Up is an existing web application enhanced for the CSCE 553 M1 baseline. It allows users in the Acadiana area to create events, browse and search events, register for events, manage their registrations, and provide feedback.
 
-This is a CSCE 553 baseline, not a production service. The data represented in this application does not reflect real life people or events and has no personal bearing.
+This is a class demonstration application, not a production service. All demo users, events, and other records are fake and must not contain real personal information.
 
-The product uses Django for the UI, HTTP for the API, and SQLite for the database.
+## Live application
 
-Users:
+* Application: https://csce-553-team.onrender.com/
+* Health endpoint: https://csce-553-team.onrender.com/health/
+* GitHub: https://github.com/Tyler-Van-Beek/CSCE-553-Team
 
-Beth - username: "beth," password: "beth," owns event "beth's event"
+Render’s free tier may put the application to sleep after inactivity. The first request can take approximately one minute while the service starts.
 
-Jacob - username: "jacob," password: "jacob," owns event "jacob's event"
+The Supabase free-tier database can also be paused after extended inactivity. Resume the project from the Supabase dashboard if the database is unavailable.
 
-Tom - username: "tom," password: "tom," owns event "tom's event"
+## Architecture
 
+```text
+Browser UI ──────────────┐
+                         ├──> Render / Django ───> Supabase PostgreSQL
+Postman, curl, scripts ──┘          │
+                                    └──> Optional OpenAI/Pinecone integration
+```
 
-Paths:
+The application provides two interfaces:
 
-Path                           Method    Purpose
+* Server-rendered Django HTML pages using session authentication.
+* Django REST Framework JSON APIs using token authentication.
 
-Common -
+Both interfaces share the same Django models and PostgreSQL database.
 
-/about                         GET       About the app
-/map                           GET       Map of event locations (not functional)
-/signin                        POST      Signs in
-/signup                        POST      Create User
-/signout                       POST      Signs out
-/healthcheck                   GET       Health of app
-/faq                           GET       Questions about app
+## Technology stack
 
-Event -
+* Python
+* Django 5.1.6
+* Django REST Framework
+* PostgreSQL hosted by Supabase
+* Render
+* Gunicorn
+* HTML, CSS, and JavaScript
+* Optional OpenAI and Pinecone integration
 
-/event/list                    GET       List of events
-/event/create                  POST      Event creation
-/event/<int:pk>                GET       Detail view of event
-/event/update/<int:pk>         POST      Update view of event
-/event/registration/<int:pk>   GET       List of registrations for event
-/event/<int:pk>/delete         POST      Delete view of event
+## Demo accounts
 
-Registration -
+Run the seed command before using these accounts:
 
-/registration/create/<int:pk>  POST      Creation of registration for event
-/registration/delete/<int:pk>  POST      Deletion of registration
+```powershell
+python manage.py seed_demo_data
+```
 
-Feedback -
-/feedback/create/<int:pk>      POST      Creation of feedback
-/feedback/list                 GET       List of feedback
+| Email                    | Password        | Name       |
+| ------------------------ | --------------- | ---------- |
+| `alex.demo@example.com`  | `ClassDemo123!` | Alex Demo  |
+| `blair.demo@example.com` | `ClassDemo123!` | Blair Demo |
+| `casey.demo@example.com` | `ClassDemo123!` | Casey Demo |
 
+The seed command is idempotent. Running it repeatedly reuses the same demo users, categories, and events instead of creating duplicates.
 
-Curls :
+## Local setup
+
+Clone the repository and enter the Django project directory:
+
+```powershell
+git clone https://github.com/Tyler-Van-Beek/CSCE-553-Team.git
+cd CSCE-553-Team\lagniappe_signup
+```
+
+Create and activate a virtual environment:
+
+```powershell
+python -m venv env
+.\env\Scripts\Activate.ps1
+```
+
+Install dependencies:
+
+```powershell
+python -m pip install -r requirements.txt
+```
+
+Copy `.env.example` to `.env`:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Configure the following variables in the local `.env` file:
+
+```text
+DJANGO_SECRET_KEY
+DJANGO_DEBUG
+DJANGO_ALLOWED_HOSTS
+DJANGO_CSRF_TRUSTED_ORIGINS
+DATABASE_URL
+PINECONE_API_KEY
+OPENAI_API_KEY
+```
+
+Do not commit `.env` or paste secret values into the README.
+
+Apply migrations, seed demo data, and start the server:
+
+```powershell
+python manage.py migrate
+python manage.py seed_demo_data
+python manage.py check
+python manage.py runserver
+```
+
+Open:
+
+```text
+http://127.0.0.1:8000/
+```
+
+## Automated tests
+
+Run:
+
+```powershell
+python manage.py test -v 2
+```
+
+The test suite covers:
+
+* Health endpoint
+* API registration, login, authenticated user, and logout
+* Event creation, listing, searching, retrieval, and update
+* Event ownership authorization
+* Idempotent demo-data seeding
+* Event registration creation, listing, duplicate prevention, ownership, and cancellation
+
+## REST API
+
+Protected endpoints require this header:
+
+```text
+Authorization: Token <token>
+```
+
+| Method | Endpoint                               | Authentication      | Purpose                                |
+| ------ | -------------------------------------- | ------------------- | -------------------------------------- |
+| GET    | `/health/`                             | No                  | Application health                     |
+| POST   | `/api/auth/register`                   | No                  | Create a user                          |
+| POST   | `/api/auth/login`                      | No                  | Log in and receive a token             |
+| GET    | `/api/auth/me`                         | Token               | Return the authenticated user          |
+| POST   | `/api/auth/logout`                     | Token               | Revoke the current token               |
+| GET    | `/api/events`                          | Token               | List events                            |
+| GET    | `/api/events?q=<term>`                 | Token               | Search events                          |
+| POST   | `/api/events`                          | Token               | Create an event                        |
+| GET    | `/api/events/<event_id>`               | Token               | Retrieve an event                      |
+| PATCH  | `/api/events/<event_id>`               | Token and ownership | Update an event                        |
+| GET    | `/api/registrations`                   | Token               | List the current user’s registrations  |
+| POST   | `/api/registrations`                   | Token               | Register the current user for an event |
+| DELETE | `/api/registrations/<registration_id>` | Token and ownership | Cancel a registration                  |
+
+An organizer can update only their own events. A user can cancel only their own registrations. Duplicate registrations return HTTP `409 Conflict`.
+
+## Hosted PowerShell curl examples
+
+Set the hosted URL:
+
+```powershell
+$BASE = "https://csce-553-team.onrender.com"
+```
+
 Health check:
-curl.exe -i https://csce-553-team.onrender.com/health/
-<img width="766" height="431" alt="image" src="https://github.com/user-attachments/assets/a77c1392-1eae-404f-b901-efd3d574a4de" />
 
-curl.exe -I https://csce-553-team.onrender.com/event/create
-HTTP/1.1 302 Found
-Date: Tue, 01 Sep 2026 20:21:43 GMT
-Content-Type: text/html; charset=utf-8
-Connection: keep-alive
-cross-origin-opener-policy: same-origin
-location: /signin/?next=/event/create
-referrer-policy: same-origin
-rndr-id: 575d85a5-324c-4324
-Server: cloudflare
-vary: Cookie
-vary: Accept-Encoding
-x-content-type-options: nosniff
-x-frame-options: DENY
-x-render-origin-server: WSGIServer/0.2 CPython/3.14.3
-cf-cache-status: DYNAMIC
-CF-RAY: a346fba2cf80485e-DFW
-alt-svc: h3=":443"; ma=86400
+```powershell
+curl.exe -i "$BASE/health/"
+```
 
-curl.exe -I https://csce-553-team.onrender.com/event/list
-HTTP/1.1 500 Internal Server Error
-Date: Tue, 01 Sep 2026 20:22:24 GMT
-Content-Type: text/html; charset=utf-8
-Connection: keep-alive
-cross-origin-opener-policy: same-origin
-referrer-policy: same-origin
-rndr-id: 173211b7-95f1-4c11
-Server: cloudflare
-vary: Cookie
-vary: Accept-Encoding
-x-content-type-options: nosniff
-x-frame-options: DENY
-x-render-origin-server: WSGIServer/0.2 CPython/3.14.3
-cf-cache-status: DYNAMIC
-CF-RAY: a346fca0fe76f0a4-DFW
-alt-svc: h3=":443"; ma=86400
+Create a JSON login file:
+
+```powershell
+$loginJson = @{
+    email = "alex.demo@example.com"
+    password = "ClassDemo123!"
+} | ConvertTo-Json -Compress
+
+[System.IO.File]::WriteAllText(
+    "$PWD\login.json",
+    $loginJson
+)
+```
+
+Log in and save the temporary token:
+
+```powershell
+$loginResponse = curl.exe -sS -X POST "$BASE/api/auth/login" `
+    -H "Content-Type: application/json" `
+    --data-binary "@login.json"
+
+$TOKEN = ($loginResponse | ConvertFrom-Json).token
+Write-Host "Token received:" ([bool]$TOKEN)
+```
+
+Get the authenticated user:
+
+```powershell
+curl.exe -i "$BASE/api/auth/me" `
+    -H "Authorization: Token $TOKEN"
+```
+
+List events:
+
+```powershell
+curl.exe -i "$BASE/api/events" `
+    -H "Authorization: Token $TOKEN"
+```
+
+Search events:
+
+```powershell
+curl.exe -i "$BASE/api/events?q=workshop" `
+    -H "Authorization: Token $TOKEN"
+```
+
+Register for an event:
+
+```powershell
+$registrationJson = @{
+    EventID = 1
+} | ConvertTo-Json -Compress
+
+[System.IO.File]::WriteAllText(
+    "$PWD\registration.json",
+    $registrationJson
+)
+
+curl.exe -i -X POST "$BASE/api/registrations" `
+    -H "Authorization: Token $TOKEN" `
+    -H "Content-Type: application/json" `
+    --data-binary "@registration.json"
+```
+
+List the authenticated user’s registrations:
+
+```powershell
+curl.exe -i "$BASE/api/registrations" `
+    -H "Authorization: Token $TOKEN"
+```
+
+Log out and revoke the token:
+
+```powershell
+curl.exe -i -X POST "$BASE/api/auth/logout" `
+    -H "Authorization: Token $TOKEN"
+```
+
+Delete temporary local request files:
+
+```powershell
+Remove-Item login.json, registration.json -ErrorAction SilentlyContinue
+```
+
+## Browser routes
+
+| Method   | Route                       | Purpose                    |
+| -------- | --------------------------- | -------------------------- |
+| GET      | `/`                         | Homepage                   |
+| GET/POST | `/signup/`                  | Create a browser account   |
+| GET/POST | `/signin/`                  | Browser session login      |
+| GET      | `/signout/`                 | Browser logout             |
+| GET      | `/event/list`               | List events                |
+| GET      | `/event/create`             | Display the event form     |
+| POST     | `/event/event-list/`        | Submit an event            |
+| GET      | `/event/<id>`               | Event details              |
+| GET/POST | `/event/update/<id>`        | Update an event            |
+| POST     | `/registration/create/<id>` | Register for an event      |
+| POST     | `/registration/delete/<id>` | Cancel a registration      |
+| GET      | `/map/`                     | Event map                  |
+| GET      | `/faq/`                     | Frequently asked questions |
+
+## Environment and security
+
+Secrets and database credentials are loaded from environment variables. The repository must not contain:
+
+* `.env`
+* Database passwords
+* Django secret keys
+* OpenAI or Pinecone keys
+* Local SQLite database files
+
+Before deploying, configure the required environment variables in Render. If a credential is accidentally committed, rotate it immediately because deleting it from the latest file does not remove it from Git history.
