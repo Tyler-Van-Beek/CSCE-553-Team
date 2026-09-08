@@ -143,7 +143,7 @@ def main() -> int:
     if args.body or args.write_body:
         headers["Content-Type"] = "application/json"
     if args.token and not args.no_auth:
-        headers["Authorization"] = f"Bearer {args.token}"
+        headers["Authorization"] = f"Token {args.token}"
 
     read_url = base + (args.path if args.path.startswith("/") else "/" + args.path)
     body = args.body.encode() if args.body else None
@@ -155,6 +155,9 @@ def main() -> int:
         if write_body is None:
             print("mix requires --write-body", file=sys.stderr)
             return 2
+
+    print(read_url)
+    print(headers)
 
     out = Path(args.out_dir)
     out.mkdir(parents=True, exist_ok=True)
