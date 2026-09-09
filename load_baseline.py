@@ -76,6 +76,7 @@ def mix_loop(
     read_url: str,
     write_url: str,
     write_body: bytes | None,
+    write_method: str,
     headers: dict[str, str],
     timeout: float,
     read_frac: float,
@@ -86,7 +87,7 @@ def mix_loop(
         if random.random() < read_frac:
             s = once(read_url, "GET", None, headers, timeout)
         else:
-            s = once(write_url, "POST", write_body, headers, timeout)
+            s = once(write_url, write_method, write_body, headers, timeout)
         with lock:
             samples.append(s)
 
@@ -108,6 +109,7 @@ def main() -> int:
     p.add_argument("--raw", action="store_true", help="Write per-request CSV")
     p.add_argument("--mix", type=float, default=0.0, help="Read fraction; 0 disables mix")
     p.add_argument("--write-path", default="")
+    p.add_argument("--write-method", default="POST")
     p.add_argument("--write-body", default="")
     args = p.parse_args()
 
@@ -147,6 +149,7 @@ def main() -> int:
                             read_url,
                             write_url,
                             write_body,
+                            args.write_method.upper(),
                             headers,
                             args.timeout,
                             args.mix,

@@ -1,0 +1,10 @@
+label,env_note,concurrency,duration_s,attempts,successes,errors,rps_success,p50_ms,p95_ms,p99_ms,max_ms,error_rate
+H2-health-c2,https://lagniappe-priya-m2.onrender.com,2,60.078,908,908,0,15.114,127.7,164.97,223.52,1142.21,0.0
+H2-read-c1,https://lagniappe-priya-m2.onrender.com,1,60.263,218,218,0,3.617,260.98,320.23,411.04,1335.9,0.0
+H2-read-c4,https://lagniappe-priya-m2.onrender.com,4,60.364,500,500,0,8.283,476.06,490.45,585.77,1361.9,0.0
+H2-read-c8,https://lagniappe-priya-m2.onrender.com,8,60.837,502,502,0,8.252,953.81,977.32,1716.47,1907.74,0.0
+H2-read-c16,https://lagniappe-priya-m2.onrender.com,16,62.027,509,509,0,8.206,1908.97,1990.17,2804.1,2808.92,0.0
+H2-read-c32,https://lagniappe-priya-m2.onrender.com,32,64.603,513,513,0,7.941,3963.09,4154.67,4634.17,4962.84,0.0
+H2-read-c32-repeat,https://lagniappe-priya-m2.onrender.com,32,64.746,510,510,0,7.877,3966.34,4115.5,4402.44,4965.54,0.0
+H2-write-c4,https://lagniappe-priya-m2.onrender.com,4,60.687,341,341,0,5.619,707.05,723.61,925.76,957.52,0.0
+H2-mix80read20write-c4,https://lagniappe-priya-m2.onrender.com,4,60.559,380,380,0,6.275,636.02,718.52,909.22,1282.97,0.0

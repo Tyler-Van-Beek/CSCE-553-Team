@@ -110,3 +110,56 @@ Because the original M1 hosted service continued returning HTTP 500 for database
 - Supavisor idle connections before seeding: 2
 - Supavisor idle connections after seeding: 1
 - Observation: All 41 sequential writes succeeded, and H2 remained below the 15-session limit. The event list is now stable and will not be changed during the read-path sweep.
+
+### Hosted API metric limitation
+
+- Render application CPU and memory graphs were not available on the free compute plan.
+- Render required upgrading to a paid plan to view these application metrics.
+- The team did not upgrade because M2 prohibits paying for a larger Render instance to improve or observe the hosted baseline.
+- API CPU and memory are therefore recorded as not observable for H2.
+- Hosted resource evidence will use Supabase database connections and any available database CPU or database resource metrics.
+- Local series L will capture Django process CPU and memory using Windows Task Manager.
+
+## H2 health control — concurrency 2
+
+- Start: 2026-09-08 20:57:10 -05:00
+- Endpoint: `GET /health/`
+- Authentication: none
+- Warm-up: 10 seconds
+- Measurement window: 60 seconds
+- Concurrency: 2
+- Attempts: 908
+- Successes: 908
+- Errors: 0
+- Successful throughput: 15.114 requests/second
+- p50: 127.70 ms
+- p95: 164.97 ms
+- p99: 223.52 ms
+- Maximum: 1142.21 ms
+- Error rate: 0%
+- Mid-stage database connections: 16 total; Supavisor 1 idle and 0 active
+- Interpretation: The lightweight health endpoint was healthy. It provides a control measurement for comparison with the database-backed events endpoint.
+
+## H2 authenticated event read — concurrency 1
+
+- Start: 2026-09-08 21:19:58 -05:00
+- Endpoint: `GET /api/events`
+- Authentication: Django token
+- Dataset: 50 events
+- Response payload: 10,500 bytes
+- Warm-up: 10 seconds
+- Measurement window: 60 seconds
+- Concurrency: 1
+- Attempts: 218
+- Successes: 218
+- Errors: 0
+- Successful throughput: 3.617 requests/second
+- p50: 260.98 ms
+- p95: 320.23 ms
+- p99: 411.04 ms
+- Maximum: 1335.90 ms
+- Error rate: 0%
+- Mid-stage observation: 2026-09-09 02:20:23 UTC
+- Mid-stage database connections: 14 total; Supavisor 1 idle and 0 active
+- Supabase Observability snapshot: CPU 3%, memory 54%, peak connections 8/60, and disk I/O 1%
+- Interpretation: Concurrency 1 was healthy. The authenticated database-backed read was slower than the health control, as expected, but remained well inside the five-second p99 stopping threshold with no errors.
