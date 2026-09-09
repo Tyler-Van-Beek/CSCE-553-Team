@@ -118,6 +118,12 @@ def main() -> int:
             "Accept": "application/json",
             "User-Agent": "csce553-m2",
         }
+        if args.body:
+            headers["Content-Type"] = "application/json"
+        if args.token and not args.no_auth:
+            headers["Authorization"] = f"Token {args.token}"
+
+        url = base + (args.path if args.path.startswith("/") else "/" + args.path)
 
         url = base + (args.path if args.path.startswith("/") else "/" + args.path)
 
