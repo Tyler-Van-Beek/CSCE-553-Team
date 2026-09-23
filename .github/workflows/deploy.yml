@@ -8,43 +8,19 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Configure SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.PRIYA_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H "${{ secrets.PRIYA_AZURE_VM_IP }}" >> ~/.ssh/known_hosts
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - name: Deploy application
-        run: |
-          ssh ubuntu@${{ secrets.PRIYA_AZURE_VM_IP }} << 'EOF'
-            set -e
-
-            echo "Moving to repository..."
+      - name: Deploy Code via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.AZURE_VM_IP }}
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
             cd /var/www/myapp
-
-            echo "Getting latest main branch..."
-            git fetch origin main
-            git reset --hard origin/main
-
-            echo "Activating virtual environment..."
-            source /var/www/myapp/.venv/bin/activate
-
-            echo "Installing dependencies..."
-            pip install -r /var/www/myapp/lagniappe_signup/requirements.txt
-
-            echo "Running Django deployment steps..."
-            cd /var/www/myapp/lagniappe_signup
-            python manage.py migrate --noinput
-            python manage.py collectstatic --noinput
-
-            echo "Restarting Gunicorn..."
+            git pull origin main
+            source venv/bin/activate
+            pip install -r requirements.txt
             sudo systemctl restart gunicorn
-
-            echo "Reloading Nginx..."
-            sudo systemctl reload nginx
-
-            echo "Deployment completed."
-          EOF
