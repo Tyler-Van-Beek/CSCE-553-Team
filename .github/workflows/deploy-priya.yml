@@ -1,0 +1,41 @@
+name: Deploy Priya Azure VM
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-priya:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.PRIYA_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H "${{ secrets.PRIYA_AZURE_VM_IP }}" >> ~/.ssh/known_hosts
+
+      - name: Deploy to Priya Azure VM
+        run: |
+          ssh ubuntu@${{ secrets.PRIYA_AZURE_VM_IP }} << 'EOF'
+            set -e
+
+            cd /var/www/myapp
+
+            git fetch origin main
+            git reset --hard origin/main
+
+            source /var/www/myapp/.venv/bin/activate
+
+            pip install -r /var/www/myapp/lagniappe_signup/requirements.txt
+
+            cd /var/www/myapp/lagniappe_signup
+
+            python manage.py migrate --noinput
+            python manage.py collectstatic --noinput
+
+            sudo systemctl restart gunicorn
+            sudo systemctl reload nginx
+          EOF
