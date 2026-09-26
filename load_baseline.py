@@ -52,7 +52,7 @@ def once(
         return ms, int(e.code), "http"
     except Exception as e:
         ms = (time.perf_counter() - t0) * 1000.0
-        return ms, 0, type(e).__name__
+        return ms, 0, f"{type(e).__name__}: {e}"
 
 
 def worker_loop(
