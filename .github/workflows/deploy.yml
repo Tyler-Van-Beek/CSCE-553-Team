@@ -22,5 +22,5 @@ jobs:
             cd /var/www/myapp
             git pull origin main
             source lagniappe_signup/.venv/bin/activate
-            pip install -r requirements.txt
+            pip install -r lagniappe_signup/requirements.txt
             sudo systemctl restart gunicorn
