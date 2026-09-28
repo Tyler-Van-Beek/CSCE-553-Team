@@ -15,7 +15,7 @@ jobs:
       - name: Deploy Code via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.AZURE_VM_IP }}
+          host: ${{ vars.AZURE_VM_IP }}
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
