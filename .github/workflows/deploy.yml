@@ -19,8 +19,8 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /var/www/myapp
+            cd /var/www/myapp/lagniappe_signup
             git pull origin main
-            source venv/bin/activate
+            source .venv/bin/activate
             pip install -r requirements.txt
             sudo systemctl restart gunicorn
