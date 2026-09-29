@@ -117,27 +117,21 @@ The workflow successfully completed and the application remained accessible afte
 
 ---
 
-## 4. Render vs Azure Performance Comparison
+## 4. Local vs Render vs Azure Performance Comparison
 
-To create a direct comparison with the M2 Render baseline, the authenticated `GET /api/events` workload was tested at concurrency 4.
+To compare the three environments consistently, the authenticated `GET /api/events` workload was evaluated at concurrency 4.
 
-| Metric | Render | Azure |
-|---|---:|---:|
-| Concurrency | 4 | 4 |
-| Successful RPS | 8.283 | 6.741 |
-| p99 Latency | 585.77 ms | 627.57 ms |
-| Error Rate | 0% | 0% |
+| Environment | Concurrency | RPS | p99 Latency | Error Rate |
+|---|---:|---:|---:|---:|
+| Local | 4 | 0.765 | 8738.54 ms | 40.96% |
+| Render | 4 | 8.283 | 585.77 ms | 0% |
+| Azure | 4 | 6.741 | 627.57 ms | 0% |
 
-Azure produced approximately 19% lower throughput than Render at this concurrency level.
+At C=4, the local environment performed much worse than both cloud deployments, with only 0.765 RPS, a p99 latency of 8.74 seconds, and a 40.96% error rate.
 
-Tail latency was relatively close:
+Render achieved 8.283 RPS with a p99 latency of 585.77 ms, while Azure achieved 6.741 RPS with a p99 latency of 627.57 ms. Azure throughput was approximately 19% lower than Render, while its p99 latency was about 7% higher. Both cloud environments completed the test with a 0% error rate.
 
-- Render p99: 585.77 ms
-- Azure p99: 627.57 ms
-
-Both environments completed the test with a 0% error rate.
-
-Therefore, at C=4, Render provided slightly higher throughput and slightly lower tail latency, while Azure remained stable and error-free.
+The poor local result was linked to the local development setup and database connection exhaustion observed during M2. Therefore, the local result should not be interpreted as a direct hardware-only comparison with the cloud environments.
 
 ---
 
@@ -329,8 +323,7 @@ This occurred while external requests were experiencing long latency and connect
 
 #### Final Hypothesis
 
-The evidence suggests that the primary scaling limitation is more likely in the external connection/network path between the load-generating client and the Azure VM rather than raw VM CPU or memory capacity.
-
+The evidence points away from CPU or memory saturation and suggests that a significant part of the high tail latency occurred in the external client-to-Azure connection path. However, the experiments did not isolate a specific network component, so factors such as the local Wi-Fi/ISP path, Internet routing, Azure public ingress, or TCP connection handling remain possible contributors.
 The internal:
 
 ```text
@@ -346,8 +339,27 @@ Supabase/database latency likely contributes additional latency to `/api/events`
 Therefore, the most likely hypothesis is that external network or TCP connection handling became the dominant scaling constraint during high concurrency.
 
 ---
+## 9. Future Improvements
 
-## 9. Conclusion
+The current load tests were generated from a local laptop using the project's custom `load_baseline.py` script. The additional diagnostic tests suggested that the external client-to-Azure connection path may have influenced the high tail latency observed at higher concurrency.
+
+A useful next step would be to repeat the experiments using dedicated load-testing tools such as:
+
+- **k6** for controlled HTTP load generation and detailed latency and throughput measurements.
+- **Locust** for modeling concurrent users and more realistic application workflows.
+- **Azure Load Testing** for generating traffic from cloud infrastructure and reducing the influence of the local Wi-Fi, ISP, and long-distance Internet path.
+
+A cloud-based load generator would help determine whether the high external tail latency is caused by the application itself or by the client-to-Azure network path.
+
+After establishing a more controlled baseline, additional application improvements could include:
+
+- testing different Gunicorn worker counts and worker models,
+- profiling `/api/events` database queries,
+- reviewing Supabase connection pooling,
+- reducing unnecessary database calls or response payload size,
+- and increasing VM resources only if future monitoring shows actual CPU or memory saturation.
+---
+## 10. Conclusion
 
 The Django application was successfully migrated from Render to an Azure VM and configured with Nginx, Gunicorn, Supabase, and GitHub Actions.
 
@@ -358,3 +370,5 @@ At high concurrency, latency increased substantially even though CPU and memory 
 Additional diagnostic testing showed that the lightweight health endpoint remained extremely fast when accessed locally inside the VM while external requests experienced long-tail latency and connection failures.
 
 The results demonstrate an important scalability concept: poor application performance does not always mean the server has exhausted CPU or memory. Bottlenecks can occur in connection handling, request queues, database communication, or network paths even while the VM appears lightly utilized.
+
+In this experiment, the results suggest that the observed scaling limit was not caused by CPU or memory exhaustion and was more closely associated with waiting in the application/network request path.
