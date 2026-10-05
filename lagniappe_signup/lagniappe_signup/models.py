@@ -48,6 +48,14 @@ class Feedback(models.Model):
     Comments = models.CharField(("comments"), max_length=500)
     Date = models.DateTimeField(("date"), auto_now_add=True)
 
+    class Meta:
+            constraints = [
+                models.UniqueConstraint(
+                    fields=["UserID", "EventID"],
+                    name="unique_user_event_registration"
+                )
+            ]
+
 class Registration(models.Model):
     RegistrationID = models.AutoField(("registrationID"), primary_key=True)
     UserID = models.ForeignKey(Users, on_delete=models.CASCADE)
@@ -55,4 +63,11 @@ class Registration(models.Model):
     RegistrationStatus = models.BooleanField(("registrationstatus"), default=True)
     RegistrationDate = models.DateTimeField(("registrationdate"), auto_now_add=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["UserID", "EventID"],
+                name="unique_user_event_registration"
+            )
+        ]
     

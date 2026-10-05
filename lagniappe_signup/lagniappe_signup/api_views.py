@@ -184,7 +184,7 @@ def api_registrations(request):
 @api_view(["DELETE"])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def api_registration_detail(request, registration_id):
+def api_registration_detail(request, event_id, registration_id):
     registration = get_object_or_404(
         Registration,
         RegistrationID=registration_id,
