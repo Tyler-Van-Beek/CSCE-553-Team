@@ -384,13 +384,24 @@ def chat_response(request):
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
 @login_required(login_url="/signin/")
-def reg_delete(request, e_pk, r_pk):
+def reg_delete(request, event_id, registration_id):
     user = request.user
-    reg = get_object_or_404(Registration, UserID=user, EventID=e_pk)
+
+    reg = get_object_or_404(
+        Registration,
+        RegistrationID=registration_id,
+        EventID=event_id,
+        UserID=user
+    )
+
     if request.method == "POST":
         reg.delete()
-        messages.error(request, 'Registration Cancelled.')
-        success_url = reverse_lazy("event-detail", kwargs={"pk": reg.EventID.EventID})
-        return redirect(success_url)
 
-    return render(request, "registration_delete.html", context={"reg": reg})
+        messages.error(request, "Registration Cancelled.")
+        return redirect("event-detail", pk=event_id)
+
+    return render(
+        request,
+        "registration_delete.html",
+        {"reg": reg}
+    )
