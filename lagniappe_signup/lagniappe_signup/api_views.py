@@ -142,11 +142,13 @@ def api_event_detail(request, event_id):
 @api_view(["GET", "POST"])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def api_registrations(request):
+def api_registrations(request, event_id):
+    events = get_object_or_404(Event, EventID=event_id)
     if request.method == "GET":
-        registrations = get_object_or_404(
-            Registration.objects.select_related("UserID"),
-            UserID=request.user
+        registrations = Registration.objects.filter(
+            EventID=events,
+        ).select_related(
+            "EventID"
         ).order_by("RegistrationID")
 
         return Response(
@@ -207,3 +209,22 @@ def api_registration_detail(request, event_id, registration_id):
     registration.delete()
 
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(["GET"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def api_event_registrations(request, event_id):
+    event = get_object_or_404(Event, EventID=event_id)
+
+    registrations = Registration.objects.filter(
+        EventID=event
+    ).select_related(
+        "EventID",
+    ).order_by("RegistrationID")
+
+    return Response(
+        RegistrationApiSerializer(
+            registrations,
+            many=True,
+        ).data
+    )
