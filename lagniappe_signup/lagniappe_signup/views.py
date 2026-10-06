@@ -389,7 +389,6 @@ def reg_delete(request, event_id, registration_id):
 
     reg = get_object_or_404(
         Registration,
-        RegistrationID=registration_id,
         EventID=event_id,
         UserID=user
     )
