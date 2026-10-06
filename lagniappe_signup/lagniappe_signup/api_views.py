@@ -144,7 +144,8 @@ def api_event_detail(request, event_id):
 @permission_classes([IsAuthenticated])
 def api_registrations(request):
     if request.method == "GET":
-        registrations = Registration.objects.filter(
+        registrations = get_object_or_404(
+            Registration.objects.select_related("UserID"),
             UserID=request.user
         ).order_by("RegistrationID")
 
@@ -184,10 +185,13 @@ def api_registrations(request):
 @api_view(["DELETE"])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def api_registration_detail(request, registration_id):
+def api_registration_detail(request, event_id, registration_id):
+    user = request.user
+    events = get_object_or_404(Event, EventID=event_id)
     registration = get_object_or_404(
-        Registration,
-        RegistrationID=registration_id,
+        Registration.objects.select_related("UserID", "EventID"),
+        EventID=events,
+        UserID=user
     )
 
     if registration.UserID_id != request.user.pk:
