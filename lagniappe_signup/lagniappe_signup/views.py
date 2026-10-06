@@ -22,6 +22,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.parsers import JSONParser
 from .serializers import EventSerializer
+from django.core.paginator import Paginator
 
 logger = logging.getLogger(__name__)
 def health(request):
@@ -124,6 +125,13 @@ def list_event(request):
     if request.method == "GET":
         events = Event.objects.all()
         serializer = EventSerializer(events, many=True)
+
+        paginator = Paginator(events, 10)
+
+        page_number = request.GET.get("page")
+
+        page_obj = paginator.get_page(page_number)
+
         return render(
             request,
             "event_list.html",

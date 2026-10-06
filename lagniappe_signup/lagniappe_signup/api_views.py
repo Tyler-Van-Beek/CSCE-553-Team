@@ -183,28 +183,21 @@ def api_registrations(request, event_id):
         status=status.HTTP_201_CREATED,
     )
 
-
 @api_view(["DELETE"])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def api_registration_detail(request, event_id, registration_id):
-    user = request.user
-    events = get_object_or_404(Event, EventID=event_id)
+    print("AUTH USER:", request.user)
+    print("AUTH USER PK:", request.user.pk)
+    print("EVENT ID:", event_id)
+    print("REGISTRATION ID:", registration_id)
+
     registration = get_object_or_404(
         Registration.objects.select_related("UserID", "EventID"),
-        EventID=events,
-        UserID=user
+        RegistrationID=registration_id,
+        EventID_id=event_id,
+        UserID=request.user,
     )
-
-    if registration.UserID_id != request.user.pk:
-        return Response(
-            {
-                "detail": (
-                    "You can cancel only your own registration."
-                )
-            },
-            status=status.HTTP_403_FORBIDDEN,
-        )
 
     registration.delete()
 
