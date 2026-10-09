@@ -36,6 +36,12 @@ urlpatterns = [
     path("api/events/<int:event_id>",api_views.api_event_detail,name="api-event-detail",),
     path("api/registrations",api_views.api_registrations,name="api-registrations",),
     path("api/registrations/<int:registration_id>",api_views.api_registration_detail,name="api-registration-detail",),
+    path("api/registrations-with-events",api_views.api_registrations_with_events,name="api-registrations-with-events",),
+    path(
+    "api/registrations-with-event-category",
+    api_views.api_registrations_with_event_category,
+    name="api-registrations-with-event-category",
+),
     path('', views.homepage,name='home'),
     path('about/', views.about,name='about'),
     path('signin/',views.signin,name='signin'),

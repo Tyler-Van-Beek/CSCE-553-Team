@@ -1,3 +1,5 @@
+from multiprocessing import connection
+
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes,authentication_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -6,10 +8,10 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
-
+from django.db import connection
 from events.models import Event, Registration
-
-from .serializers import (EventApiSerializer,RegistrationApiSerializer,UserRegistrationSerializer, UserLoginSerializer)
+from rest_framework.pagination import PageNumberPagination
+from .serializers import (EventApiSerializer,RegistrationApiSerializer, RegistrationWithEventSerializer, RegistrationWithEventCategorySerializer,UserRegistrationSerializer, UserLoginSerializer)
 
 
 @api_view(["POST"])
@@ -80,7 +82,6 @@ def api_logout(request):
 def api_events(request):
     if request.method == "GET":
         events = Event.objects.all().order_by("EventID")
-
         search_term = request.query_params.get("q", "").strip()
         if search_term:
             events = events.filter(
@@ -88,12 +89,13 @@ def api_events(request):
                 | Q(Description__icontains=search_term)
                 | Q(Location__icontains=search_term)
             )
+        
+        paginator = PageNumberPagination()
+        paginator.page_size = 20
 
-        serializer = EventApiSerializer(events, many=True)
-        return Response(
-            serializer.data,
-            status=status.HTTP_200_OK,
-        )
+        page = paginator.paginate_queryset(events, request)
+        serializer = EventApiSerializer(page, many=True)
+        return paginator.get_paginated_response(serializer.data)
 
     serializer = EventApiSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
@@ -147,14 +149,19 @@ def api_registrations(request):
         registrations = Registration.objects.filter(
             UserID=request.user
         ).order_by("RegistrationID")
+        paginator = PageNumberPagination()
+        paginator.page_size = 20
+        page = paginator.paginate_queryset(registrations, request)
+        serializer = RegistrationApiSerializer(page, many=True)
+        return paginator.get_paginated_response(serializer.data)
 
-        return Response(
-            RegistrationApiSerializer(
-                registrations,
-                many=True,
-            ).data,
-            status=status.HTTP_200_OK,
-        )
+        # return Response(
+        #     RegistrationApiSerializer(
+        #         registrations,
+        #         many=True,
+        #     ).data,
+        #     status=status.HTTP_200_OK,
+        # )
 
     serializer = RegistrationApiSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
@@ -203,3 +210,52 @@ def api_registration_detail(request, registration_id):
     registration.delete()
 
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(["GET"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def api_registrations_with_events(request):
+
+    
+    registrations = (Registration.objects.filter(UserID=request.user).select_related("EventID").order_by("RegistrationID"))
+
+    print(registrations.query)
+    paginator = PageNumberPagination()
+    paginator.page_size = 20
+    page = paginator.paginate_queryset(registrations, request)
+    serializer = RegistrationWithEventSerializer(page, many=True)
+
+    return paginator.get_paginated_response(serializer.data)
+
+    # serializer = RegistrationWithEventSerializer(registrations, many=True)
+
+    # return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(["GET"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def api_registrations_with_event_category(request):
+
+    registrations = (
+        Registration.objects
+        .filter(UserID=request.user)
+        .select_related(
+            "EventID",
+            "EventID__CategoryID",
+        )
+        .order_by("RegistrationID")
+    )
+    print(registrations.query)
+    paginator = PageNumberPagination()
+    paginator.page_size = 20
+    page = paginator.paginate_queryset(registrations, request)
+    serializer = RegistrationWithEventCategorySerializer(
+        page,
+        many=True,
+    )
+    return paginator.get_paginated_response(serializer.data)
+    # return Response(
+    #     serializer.data,
+    #     status=status.HTTP_200_OK,
+    # )
