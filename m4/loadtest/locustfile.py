@@ -26,15 +26,15 @@ from locust import HttpUser, between, task
 
 # (weight, name shown in the results, path). Weights set the traffic mix.
 ENDPOINTS = [
-    (5, "list posts (page 1)",   "/posts?limit=20"),
-    (2, "list posts (deep page)", "/posts?limit=20&page={deep_page}"),
-    (4, "post detail",           "/posts/{post_id}"),
-    (2, "user profile",          "/users/{user_id}"),
-    (1, "user's posts",          "/users/{user_id}/posts"),
+    (5, "events page 1", "/api/events"),
+    (2, "events deep page", "/api/events?page={deep_page}"),
+    #(4, "event registrations offset", "/api/events/{event_id}/registrations"),
+    #(4, "event registrations keyset", "/api/events/{event_id}/registrations-keyset"),
+    (4, "hot event offset deep", "/api/events/2464/registrations?page=251"),
+    (4, "hot event keyset deep", "/api/events/2464/registrations-keyset?after=133019"),
 ]
-
 # Extra placeholder values that do not come from the seed data.
-EXTRA_VALUES = {"deep_page": list(range(50, 2000))}
+EXTRA_VALUES = {"deep_page": list(range(50, 180))}
 
 # Think time between a user's requests, in seconds.
 THINK_TIME = between(1, 3)
@@ -61,7 +61,7 @@ class AppUser(HttpUser):
 
     def on_start(self):
         if TOKEN:
-            self.client.headers["Authorization"] = f"Bearer {TOKEN}"
+            self.client.headers["Authorization"] = f"Token {TOKEN}"
         # Or log in with a session cookie, for example:
         # self.client.post("/login", json={"email": "user1@example.com", "password": "..."})
 

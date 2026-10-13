@@ -17,3 +17,5 @@ __pycache__/
 
 # M4 generated seed output
 m4/seed/loadtest_ids.json
+
+m4/loadtest/loadtest_ids.json
