@@ -123,7 +123,7 @@ def eventForm(request):
 @csrf_exempt
 def list_event(request):
     if request.method == "GET":
-        eve = Event.objects.all()
+        eve = Event.objects.all().order_by('EventID')
         serializer = EventSerializer(eve, many=True)
 
         paginator = Paginator(eve, 30)

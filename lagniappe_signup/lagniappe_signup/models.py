@@ -40,6 +40,9 @@ class Event(models.Model):
     DateTime = models.DateTimeField(("datetime"), null=True)
     EventStatus = models.BooleanField(("eventstatus"), default=True)
 
+    class Meta:
+         ordering = ['EventID']
+
 class Feedback(models.Model):
     FeedbackID = models.AutoField(("feedbackID"), primary_key=True)
     UserID = models.ForeignKey(Users, on_delete=models.CASCADE)
