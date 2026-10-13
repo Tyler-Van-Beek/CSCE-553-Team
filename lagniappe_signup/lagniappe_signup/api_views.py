@@ -259,3 +259,62 @@ def api_registrations_with_event_category(request):
     #     serializer.data,
     #     status=status.HTTP_200_OK,
     # )
+
+
+@api_view(["GET"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def api_event_registrations(request, event_id):
+    registrations = (
+        Registration.objects
+        .filter(EventID_id=event_id)
+        .order_by("RegistrationID")
+    )
+
+    paginator = PageNumberPagination()
+    paginator.page_size = 20
+
+    page = paginator.paginate_queryset(registrations, request)
+
+    serializer = RegistrationApiSerializer(page, many=True)
+
+    return paginator.get_paginated_response(serializer.data)
+
+
+@api_view(["GET"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def api_event_registrations_keyset(request, event_id):
+    page_size = 20
+
+    registrations = (
+        Registration.objects
+        .filter(EventID_id=event_id)
+        .order_by("RegistrationID")
+    )
+
+    after = request.query_params.get("after")
+
+    if after:
+        registrations = registrations.filter(
+            RegistrationID__gt=after
+        )
+
+    registrations = registrations[:page_size + 1]
+
+    serializer = RegistrationApiSerializer(
+        registrations[:page_size],
+        many=True
+    )
+
+    has_more = len(registrations) > page_size
+
+    next_cursor = None
+
+    if has_more:
+        next_cursor = registrations[page_size - 1].RegistrationID
+
+    return Response({
+        "next_cursor": next_cursor,
+        "results": serializer.data,
+    })
