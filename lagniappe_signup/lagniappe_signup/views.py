@@ -123,19 +123,20 @@ def eventForm(request):
 @csrf_exempt
 def list_event(request):
     if request.method == "GET":
-        events = Event.objects.all()
-        serializer = EventSerializer(events, many=True)
+        eve = Event.objects.all()
+        serializer = EventSerializer(eve, many=True)
 
-        paginator = Paginator(events, 10)
+        paginator = Paginator(eve, 30)
 
         page_number = request.GET.get("page")
-
         page_obj = paginator.get_page(page_number)
+
+        events = list(page_obj.object_list)
 
         return render(
             request,
             "event_list.html",
-            {"events": events}
+            {"events": events,"page_obj": page_obj}
         )
     
     elif request.method == "POST":
