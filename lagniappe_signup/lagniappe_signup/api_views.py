@@ -4,8 +4,11 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.pagination import PageNumberPagination
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
+from .serializers import EventSerializer
+from django.core.paginator import Paginator
 
 from events.models import Event, Registration
 
@@ -79,17 +82,28 @@ def api_logout(request):
 @permission_classes([IsAuthenticated])
 def api_events(request):
     if request.method == "GET":
-        events = Event.objects.all().order_by("EventID")
+        eve = Event.objects.all().order_by('EventID')
+        
 
         search_term = request.query_params.get("q", "").strip()
         if search_term:
-            events = events.filter(
+            eve = eve.filter(
                 Q(Title__icontains=search_term)
                 | Q(Description__icontains=search_term)
                 | Q(Location__icontains=search_term)
             )
 
-        serializer = EventApiSerializer(events, many=True)
+        paginator = PageNumberPagination()
+        paginator.page_size = 30
+
+        paginated_eve = paginator.paginate_queryset(eve, request)
+
+        if paginated_eve is not None:
+                serializer = EventApiSerializer(paginated_eve, many=True)
+                return paginator.get_paginated_response(serializer.data)
+
+
+        serializer = EventApiSerializer(eve, many=True)
         return Response(
             serializer.data,
             status=status.HTTP_200_OK,
@@ -187,10 +201,6 @@ def api_registrations(request, event_id):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def api_registration_detail(request, event_id, registration_id):
-    print("AUTH USER:", request.user)
-    print("AUTH USER PK:", request.user.pk)
-    print("EVENT ID:", event_id)
-    print("REGISTRATION ID:", registration_id)
 
     registration = get_object_or_404(
         Registration.objects.select_related("UserID", "EventID"),
