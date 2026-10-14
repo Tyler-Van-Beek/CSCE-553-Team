@@ -98,16 +98,11 @@ def api_events(request):
 
         paginated_eve = paginator.paginate_queryset(eve, request)
 
-        if paginated_eve is not None:
-                serializer = EventApiSerializer(paginated_eve, many=True)
-                return paginator.get_paginated_response(serializer.data)
 
+        serializer = EventApiSerializer(paginated_eve, many=True)
 
-        serializer = EventApiSerializer(eve, many=True)
-        return Response(
-            serializer.data,
-            status=status.HTTP_200_OK,
-        )
+        return paginator.get_paginated_response(serializer.data)
+
 
     serializer = EventApiSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
