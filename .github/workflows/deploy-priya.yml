@@ -3,7 +3,8 @@ name: Deploy Priya Azure VM
 on:
   push:
     branches:
-      - main
+      #- main
+      - priya/m4-database-scaling
 
 jobs:
   deploy-priya:
@@ -24,8 +25,8 @@ jobs:
 
             cd /var/www/myapp
 
-            git fetch origin main
-            git reset --hard origin/main
+            git fetch origin priya/m4-database-scaling
+            git reset --hard origin/priya/m4-database-scaling
 
             source /var/www/myapp/.venv/bin/activate
 
