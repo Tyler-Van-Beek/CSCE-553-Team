@@ -22,6 +22,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.parsers import JSONParser
 from .serializers import EventSerializer
+from django.core.paginator import Paginator
 
 logger = logging.getLogger(__name__)
 def health(request):
@@ -114,19 +115,6 @@ def eventForm(request):
         )
         event.save()
         messages.success(request, 'Event created!')
-        try:
-            populate_index()
-        except Exception:
-            logger.exception(
-                 "Optional Pinecone index refresh failed after event creation."
-            )
-            messages.warning(
-                request,
-                (
-                    "The event was created, but the optional search index "
-                     "could not be refreshed."
-                ),
-            )
 
         return redirect("event-list")
     else:
@@ -135,12 +123,20 @@ def eventForm(request):
 @csrf_exempt
 def list_event(request):
     if request.method == "GET":
-        events = Event.objects.all()
-        serializer = EventSerializer(events, many=True)
+        eve = Event.objects.all().select_related("CategoryID").order_by('EventID')
+        serializer = EventSerializer(eve, many=True)
+
+        paginator = Paginator(eve, 30)
+
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
+        events = list(page_obj.object_list)
+
         return render(
             request,
             "event_list.html",
-            {"events": events}
+            {"events": events,"page_obj": page_obj}
         )
     
     elif request.method == "POST":
@@ -324,7 +320,6 @@ def update_event(request, pk):
             print("Form is valid")
             form.save()
             messages.success(request, 'Event Updated.')
-            populate_index()
             return redirect("event-detail", pk=event.EventID)
         else:
             print("Form is not valid")
@@ -385,7 +380,6 @@ def event_delete(request, pk):
         eve.delete()
         messages.error(request, 'Event Deleted.')
         success_url = reverse_lazy("event-list")
-        populate_index()
         return redirect(success_url)
 
     return render(request, "event_delete.html", context={"event": eve})
@@ -399,13 +393,23 @@ def chat_response(request):
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
 @login_required(login_url="/signin/")
-def reg_delete(request, pk):
-    reg = get_object_or_404(Registration, RegistrationID=pk)
+def reg_delete(request, event_id, registration_id):
+    user = request.user
+
+    reg = get_object_or_404(
+        Registration,
+        EventID=event_id,
+        UserID=user
+    )
+
     if request.method == "POST":
         reg.delete()
-        messages.error(request, 'Registration Cancelled.')
-        success_url = reverse_lazy("event-detail", kwargs={"pk": reg.EventID.EventID})
-        populate_index()
-        return redirect(success_url)
 
-    return render(request, "registration_delete.html", context={"reg": reg})
+        messages.error(request, "Registration Cancelled.")
+        return redirect("event-detail", pk=event_id)
+
+    return render(
+        request,
+        "registration_delete.html",
+        {"reg": reg}
+    )

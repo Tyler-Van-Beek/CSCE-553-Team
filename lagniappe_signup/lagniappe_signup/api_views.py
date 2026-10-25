@@ -1,17 +1,28 @@
-from multiprocessing import connection
-
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes,authentication_classes
+from rest_framework.decorators import (
+    api_view,
+    permission_classes,
+    authentication_classes,
+)
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.pagination import PageNumberPagination
+
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
-from django.db import connection
+
 from events.models import Event, Registration
-from rest_framework.pagination import PageNumberPagination
-from .serializers import (EventApiSerializer,RegistrationApiSerializer, RegistrationWithEventSerializer, RegistrationWithEventCategorySerializer,UserRegistrationSerializer, UserLoginSerializer)
+
+from .serializers import (
+    EventApiSerializer,
+    RegistrationApiSerializer,
+    RegistrationWithEventSerializer,
+    RegistrationWithEventCategorySerializer,
+    UserRegistrationSerializer,
+    UserLoginSerializer,
+)
 
 
 @api_view(["POST"])
@@ -30,6 +41,7 @@ def api_register(request):
         },
         status=status.HTTP_201_CREATED,
     )
+
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
@@ -52,6 +64,7 @@ def api_login(request):
         status=status.HTTP_200_OK,
     )
 
+
 @api_view(["GET"])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -63,6 +76,7 @@ def api_current_user(request):
         },
         status=status.HTTP_200_OK,
     )
+
 
 @api_view(["POST"])
 @authentication_classes([TokenAuthentication])
@@ -82,19 +96,22 @@ def api_logout(request):
 def api_events(request):
     if request.method == "GET":
         events = Event.objects.all().order_by("EventID")
+
         search_term = request.query_params.get("q", "").strip()
+
         if search_term:
             events = events.filter(
                 Q(Title__icontains=search_term)
                 | Q(Description__icontains=search_term)
                 | Q(Location__icontains=search_term)
             )
-        
+
         paginator = PageNumberPagination()
         paginator.page_size = 20
 
         page = paginator.paginate_queryset(events, request)
         serializer = EventApiSerializer(page, many=True)
+
         return paginator.get_paginated_response(serializer.data)
 
     serializer = EventApiSerializer(data=request.data)
@@ -105,6 +122,7 @@ def api_events(request):
         EventApiSerializer(event).data,
         status=status.HTTP_201_CREATED,
     )
+
 
 @api_view(["GET", "PATCH"])
 @authentication_classes([TokenAuthentication])
@@ -141,30 +159,48 @@ def api_event_detail(request, event_id):
         status=status.HTTP_200_OK,
     )
 
+
 @api_view(["GET", "POST"])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def api_registrations(request):
+    """
+    GET:
+    Return registrations belonging to the logged-in user.
+
+    POST:
+    Register the logged-in user for an event.
+    """
+
     if request.method == "GET":
-        registrations = Registration.objects.filter(
-            UserID=request.user
-        ).order_by("RegistrationID")
+        registrations = (
+            Registration.objects
+            .filter(UserID=request.user)
+            .order_by("RegistrationID")
+        )
+
         paginator = PageNumberPagination()
         paginator.page_size = 20
-        page = paginator.paginate_queryset(registrations, request)
-        serializer = RegistrationApiSerializer(page, many=True)
-        return paginator.get_paginated_response(serializer.data)
 
-        # return Response(
-        #     RegistrationApiSerializer(
-        #         registrations,
-        #         many=True,
-        #     ).data,
-        #     status=status.HTTP_200_OK,
-        # )
+        page = paginator.paginate_queryset(
+            registrations,
+            request,
+        )
 
-    serializer = RegistrationApiSerializer(data=request.data)
+        serializer = RegistrationApiSerializer(
+            page,
+            many=True,
+        )
+
+        return paginator.get_paginated_response(
+            serializer.data
+        )
+
+    serializer = RegistrationApiSerializer(
+        data=request.data
+    )
     serializer.is_valid(raise_exception=True)
+
     event = serializer.validated_data["EventID"]
 
     if Registration.objects.filter(
@@ -180,7 +216,9 @@ def api_registrations(request):
             status=status.HTTP_409_CONFLICT,
         )
 
-    registration = serializer.save(UserID=request.user)
+    registration = serializer.save(
+        UserID=request.user
+    )
 
     return Response(
         RegistrationApiSerializer(registration).data,
@@ -191,51 +229,72 @@ def api_registrations(request):
 @api_view(["DELETE"])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def api_registration_detail(request, registration_id):
+def api_registration_detail(
+    request,
+    event_id,
+    registration_id,
+):
     registration = get_object_or_404(
-        Registration,
+        Registration.objects.select_related(
+            "UserID",
+            "EventID",
+        ),
         RegistrationID=registration_id,
+        EventID_id=event_id,
+        UserID=request.user,
     )
-
-    if registration.UserID_id != request.user.pk:
-        return Response(
-            {
-                "detail": (
-                    "You can cancel only your own registration."
-                )
-            },
-            status=status.HTTP_403_FORBIDDEN,
-        )
 
     registration.delete()
 
-    return Response(status=status.HTTP_204_NO_CONTENT)
+    return Response(
+        status=status.HTTP_204_NO_CONTENT
+    )
 
 
 @api_view(["GET"])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def api_registrations_with_events(request):
+    """
+    M4 two-table query:
+    Registration -> Event
+    """
 
-    
-    registrations = (Registration.objects.filter(UserID=request.user).select_related("EventID").order_by("RegistrationID"))
+    registrations = (
+        Registration.objects
+        .filter(UserID=request.user)
+        .select_related("EventID")
+        .order_by("RegistrationID")
+    )
 
     print(registrations.query)
+
     paginator = PageNumberPagination()
     paginator.page_size = 20
-    page = paginator.paginate_queryset(registrations, request)
-    serializer = RegistrationWithEventSerializer(page, many=True)
 
-    return paginator.get_paginated_response(serializer.data)
+    page = paginator.paginate_queryset(
+        registrations,
+        request,
+    )
 
-    # serializer = RegistrationWithEventSerializer(registrations, many=True)
+    serializer = RegistrationWithEventSerializer(
+        page,
+        many=True,
+    )
 
-    # return Response(serializer.data, status=status.HTTP_200_OK)
+    return paginator.get_paginated_response(
+        serializer.data
+    )
+
 
 @api_view(["GET"])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def api_registrations_with_event_category(request):
+    """
+    M4 three-table query:
+    Registration -> Event -> Category
+    """
 
     registrations = (
         Registration.objects
@@ -246,25 +305,38 @@ def api_registrations_with_event_category(request):
         )
         .order_by("RegistrationID")
     )
+
     print(registrations.query)
+
     paginator = PageNumberPagination()
     paginator.page_size = 20
-    page = paginator.paginate_queryset(registrations, request)
+
+    page = paginator.paginate_queryset(
+        registrations,
+        request,
+    )
+
     serializer = RegistrationWithEventCategorySerializer(
         page,
         many=True,
     )
-    return paginator.get_paginated_response(serializer.data)
-    # return Response(
-    #     serializer.data,
-    #     status=status.HTTP_200_OK,
-    # )
+
+    return paginator.get_paginated_response(
+        serializer.data
+    )
 
 
 @api_view(["GET"])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def api_event_registrations(request, event_id):
+    """
+    M4 OFFSET/page-number pagination.
+
+    Example:
+    /api/events/2464/registrations?page=251
+    """
+
     registrations = (
         Registration.objects
         .filter(EventID_id=event_id)
@@ -274,17 +346,35 @@ def api_event_registrations(request, event_id):
     paginator = PageNumberPagination()
     paginator.page_size = 20
 
-    page = paginator.paginate_queryset(registrations, request)
+    page = paginator.paginate_queryset(
+        registrations,
+        request,
+    )
 
-    serializer = RegistrationApiSerializer(page, many=True)
+    serializer = RegistrationApiSerializer(
+        page,
+        many=True,
+    )
 
-    return paginator.get_paginated_response(serializer.data)
+    return paginator.get_paginated_response(
+        serializer.data
+    )
 
 
 @api_view(["GET"])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def api_event_registrations_keyset(request, event_id):
+def api_event_registrations_keyset(
+    request,
+    event_id,
+):
+    """
+    M4 keyset/cursor pagination.
+
+    Example:
+    /api/events/2464/registrations-keyset?after=133019
+    """
+
     page_size = 20
 
     registrations = (
@@ -300,21 +390,26 @@ def api_event_registrations_keyset(request, event_id):
             RegistrationID__gt=after
         )
 
-    registrations = registrations[:page_size + 1]
-
-    serializer = RegistrationApiSerializer(
-        registrations[:page_size],
-        many=True
+    registrations = list(
+        registrations[:page_size + 1]
     )
 
     has_more = len(registrations) > page_size
+    page = registrations[:page_size]
+
+    serializer = RegistrationApiSerializer(
+        page,
+        many=True,
+    )
 
     next_cursor = None
 
-    if has_more:
-        next_cursor = registrations[page_size - 1].RegistrationID
+    if has_more and page:
+        next_cursor = page[-1].RegistrationID
 
-    return Response({
-        "next_cursor": next_cursor,
-        "results": serializer.data,
-    })
+    return Response(
+        {
+            "next_cursor": next_cursor,
+            "results": serializer.data,
+        }
+    )

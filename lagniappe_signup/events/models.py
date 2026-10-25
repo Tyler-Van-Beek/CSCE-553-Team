@@ -6,6 +6,14 @@ from django.core.validators import MaxValueValidator
 class Users(AbstractUser): # AbstractUser comes with a whole bunch of attributes
     UserID = models.AutoField(("userID"), primary_key=True) # autofield automatically increments an int as a new row is created
 
+    # email
+
+    # password
+
+    # first_name
+
+    # last_name
+
     # required attributes for AbstractUser. I Set them to blank so they don't get in the way.
     groups = models.ManyToManyField(
         'auth.Group',
@@ -32,13 +40,33 @@ class Event(models.Model):
     DateTime = models.DateTimeField(("datetime"), null=True)
     EventStatus = models.BooleanField(("eventstatus"), default=True)
 
+    Registrations = models.ManyToManyField(
+        Users,
+        through="Registration",
+        related_name="registered_events"
+    )
+
+    Feedback = models.ManyToManyField(
+        Users,
+        through="Feedback",
+        related_name="feedback_events"
+    )
+
 class Feedback(models.Model):
-    EventID = models.AutoField(("feedbackID"), primary_key=True)
+    id = models.AutoField(("feedbackID"), primary_key=True)
     UserID = models.ForeignKey(Users, on_delete=models.CASCADE)
     EventID = models.ForeignKey(Event, on_delete=models.CASCADE)
     Rating = models.IntegerField(("rating"), default=1, validators=[MaxValueValidator(5)])
     Comments = models.CharField(("comments"), max_length=500)
     Date = models.DateTimeField(("date"), auto_now_add=True)
+
+    class Meta:
+            constraints = [
+                models.UniqueConstraint(
+                    fields=["UserID", "EventID"],
+                    name="unique_user_event_feedback"
+                )
+            ]
 
 class Registration(models.Model):
     RegistrationID = models.AutoField(("registrationID"), primary_key=True)
@@ -46,3 +74,12 @@ class Registration(models.Model):
     EventID = models.ForeignKey(Event, on_delete=models.CASCADE)
     RegistrationStatus = models.BooleanField(("registrationstatus"), default=True)
     RegistrationDate = models.DateTimeField(("registrationdate"), auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["UserID", "EventID"],
+                name="unique_user_event_registration"
+            )
+        ]
+    

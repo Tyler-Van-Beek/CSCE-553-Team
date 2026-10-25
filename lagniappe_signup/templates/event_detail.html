@@ -23,12 +23,13 @@
     <p><strong>Description:</strong> {{ event.Description }}</p>
 
     {% if is_registered %}
-    <button onclick="window.location.href='{% url 'registration-delete' reg.RegistrationID %}'" class="btn btn-success">Cancel Registration</button>
+    <!-- Only passing the registrationID because the app wouldn't run if I pass it. Will not be using it in queries -->
+    <button onclick="window.location.href='{% url 'registration-delete'  event.EventID reg.RegistrationID %}'" class="btn btn-success">Cancel Registration</button>
+    <button onclick="window.location.href='{% url 'feedback-create' event.EventID %}'" class="btn btn-info">Give Feedback</button>
+
     {% else %}
         <button onclick="window.location.href='{% url 'registration-create' event.EventID %}'" class="btn btn-success">Register</button>
     {% endif %}
-
-    <button onclick="window.location.href='{% url 'feedback-create' event.EventID %}'" class="btn btn-info">Give Feedback</button>
 
     {% if user  == event.OrganizerID %}
         <button onclick="window.location.href='{% url 'event-registrations' event.EventID%}'" class="btn btn-info">View Registrations</button>
