@@ -10,3 +10,12 @@ env
 # Local Django database
 db.sqlite3
 *.sqlite3-journal
+
+# Python cache
+__pycache__/
+*.pyc
+
+# M4 generated seed output
+m4/seed/loadtest_ids.json
+
+m4/loadtest/loadtest_ids.json

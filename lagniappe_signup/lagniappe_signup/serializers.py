@@ -48,7 +48,67 @@ class RegistrationApiSerializer(serializers.ModelSerializer):
             "RegistrationDate",
         ]
 
+class RegistrationWithEventSerializer(serializers.ModelSerializer):
+    Event = EventApiSerializer(read_only=True, source="EventID")
 
+    class Meta:
+        model = Registration
+        fields = [
+            "RegistrationID",
+            "UserID",
+            "EventID",
+            "Event",
+            "RegistrationStatus",
+            "RegistrationDate",
+        ]
+        read_only_fields = [
+            "RegistrationID",
+            "UserID",
+            "EventID",
+            "Event",
+            "RegistrationStatus",
+            "RegistrationDate",
+        ]
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = [
+            "CategoryID",
+            "Name",
+        ]
+
+class EventWithCategorySerializer(serializers.ModelSerializer):
+    Category = CategorySerializer(source="CategoryID", read_only=True)
+
+    class Meta:
+        model = Event
+        fields = [
+            "EventID",
+            "OrganizerID",
+            "CategoryID",
+            "Category",
+            "Title",
+            "Description",
+            "Location",
+            "DateTime",
+            "EventStatus",
+        ]
+
+
+class RegistrationWithEventCategorySerializer(serializers.ModelSerializer):
+    Event = EventWithCategorySerializer(source="EventID", read_only=True)
+
+    class Meta:
+        model = Registration
+        fields = [
+            "RegistrationID",
+            "UserID",
+            "EventID",
+            "Event",
+            "RegistrationStatus",
+            "RegistrationDate",
+        ]
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True,min_length=8, required=True, style={'input_type': 'password'})
     class Meta:
