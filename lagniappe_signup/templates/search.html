@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+<form method="get">
+  <input name="q" value="{{ q }}">
+  <button>Search</button>
+</form>
+{% for p in page %}
+  <p>{{ p.Title }} 
+     {{ p.Description }} 
+     {{ p.Location }} 
+     {{ p.Category }} </p>
+{% empty %}
+  <p>No matches.</p>
+{% endfor %}
+
+{% endblock %}

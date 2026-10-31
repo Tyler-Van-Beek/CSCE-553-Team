@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator
+from django.contrib.postgres.search import (SearchVectorField)
 
 # Create your models here.
 class Users(AbstractUser): # AbstractUser comes with a whole bunch of attributes
@@ -82,4 +83,18 @@ class Registration(models.Model):
                 name="unique_user_event_registration"
             )
         ]
-    
+
+class EventSearch(models.Model):
+     Id = models.TextField(primary_key=True)
+     Title = models.TextField()
+     Description = models.TextField()
+     Location = models.TextField()
+     Datetime = models.DateTimeField()
+     Category = models.TextField()
+     FirstName = models.TextField()
+     Lastname = models.TextField()
+     fts = SearchVectorField()
+
+     class Meta:
+          managed = False # SQL owns it
+          db_table = 'search"."event_search'

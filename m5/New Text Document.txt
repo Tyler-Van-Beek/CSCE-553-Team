@@ -1,0 +1,27 @@
+Search text:
+
+Title, Description, Organizer, Location
+
+
+Filters:
+
+Date, Category
+
+
+Facets:
+
+
+
+Display: 
+
+Title, Description, Location, Category
+
+
+create schema if not exists search
+
+create materialized view search.product_search as 
+select e.EventID, e.Title, e.Description, e.Location, u.first_name as Organizer First Name, u.last_name = Organizer Last Name, e.DateTime as Date/Time, c.Name as Category
+
+from events_event e
+left join events_users on u.UserID = e.UserID
+left join events_cateogory c on c.CategoryID = e.CategoryID;

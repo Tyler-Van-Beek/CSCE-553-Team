@@ -3,7 +3,7 @@ from urllib import request
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import CreateView, UpdateView
 from django.http import HttpResponse, JsonResponse
-from events.models import Users, Event, Category, Feedback, Registration
+from events.models import Users, Event, Category, Feedback, Registration, EventSearch
 from .forms import EventForm, SignUpForm, FeedbackForm
 from django.views.generic.edit import CreateView, DeleteView
 from django.views.generic.list import ListView
@@ -23,6 +23,8 @@ from rest_framework import status
 from rest_framework.parsers import JSONParser
 from .serializers import EventSerializer
 from django.core.paginator import Paginator
+from django.contrib.postgres.search import SearchQuery, SearchRank
+from django.db.models import Count, F
 
 logger = logging.getLogger(__name__)
 def health(request):
@@ -413,3 +415,19 @@ def reg_delete(request, event_id, registration_id):
         "registration_delete.html",
         {"reg": reg}
     )
+
+def search(request):
+    q = request.GET.get("q", "").strip()[:200]
+    results, facets = EventSearch.objects.none(), []
+    if q:
+        query = SearchQuery(q, search_type="websearch", config="english")
+        results = (EventSearch.objects.filter(fts=query)
+                   .annotate(rank=SearchRank(F("fts"), query))
+                   .order_by("-rank", "Id"))
+        facets = (results.order_by().values("Category")
+                  .annotate(n=Count("id")).order_by("-n"))
+        if cat := request.GET.get("Category"):
+            results = results.filter(category=cat)
+
+    page = Paginator(results, 30).get_page(request.GEt.get("page"))
+    return render(request, "search.html", {"q":q, "page": page, "facets": facets})
