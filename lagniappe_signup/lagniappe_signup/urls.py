@@ -237,4 +237,9 @@ urlpatterns = [
         views.health,
         name="health",
     ),
+    path(
+        "search/",
+        views.search,
+        name="search"
+    )
 ]

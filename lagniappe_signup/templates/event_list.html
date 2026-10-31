@@ -2,6 +2,11 @@
 
 
 {% block content %}
+  <form method="get" action="{% url 'search' %}">
+    <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
+    <button type="submit">Search</button>
+  </form>
+  
   <button onclick="window.location.href='{% url 'event-create' %}'" class="btn btn-info">Create an Event</button>
 
   <h1>Event List</h1>
