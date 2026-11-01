@@ -96,6 +96,11 @@ urlpatterns = [
         api_views.api_event_registrations_keyset,
         name="api-event-registrations-keyset",
     ),
+    path(
+        "api/search/",
+        api_views.search_api,
+        name="api-search",
+    ),
 
     # Web application pages
     path(

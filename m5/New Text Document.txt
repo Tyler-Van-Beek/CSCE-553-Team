@@ -25,3 +25,12 @@ select e.EventID, e.Title, e.Description, e.Location, u.first_name as Organizer 
 from events_event e
 left join events_users on u.UserID = e.UserID
 left join events_cateogory c on c.CategoryID = e.CategoryID;
+
+
+Words to search in load testing: 
+ai(0)
+train(39)
+great (60)
+born (79)
+base (221)
+educ (363)

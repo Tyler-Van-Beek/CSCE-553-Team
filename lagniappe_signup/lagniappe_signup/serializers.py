@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from events.models import Users, Event, Category, Feedback, Registration
+from events.models import Users, Event, Category, Feedback, Registration, EventSearch
 from django.contrib.auth import authenticate
 
 class EventSerializer(serializers.Serializer):
@@ -166,3 +166,8 @@ class UserLoginSerializer(serializers.Serializer):
 
         attributes["user"] = user
         return attributes
+
+class EventSearchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=EventSearch
+        field='___all___'

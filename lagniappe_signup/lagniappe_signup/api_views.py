@@ -13,7 +13,7 @@ from rest_framework.pagination import PageNumberPagination
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 
-from events.models import Event, Registration
+from events.models import Event, Registration, EventSearch
 
 from .serializers import (
     EventApiSerializer,
@@ -22,7 +22,10 @@ from .serializers import (
     RegistrationWithEventCategorySerializer,
     UserRegistrationSerializer,
     UserLoginSerializer,
+    EventSearchSerializer
 )
+from django.db.models import F, Count
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 
 
 @api_view(["POST"])
@@ -413,3 +416,37 @@ def api_event_registrations_keyset(
             "results": serializer.data,
         }
     )
+
+class SearchPagination(PageNumberPagination):
+    page_size=30
+    page_size_query_param = 'page_size'
+
+@api_view(['GET'])
+def search_api(request):
+    q = request.query_params.get("q", "").strip()[:200]
+    vector = SearchVector("Title", "Decription", "Location", "Category", config="english")
+    query = SearchQuery(q, search_type="websearch", config="english")
+        
+    results = (EventSearch.objects.filter(fts=query)
+                   .annotate(rank=SearchRank(F("fts"), query))
+                   .order_by("-rank", "Id"))
+        
+    facets = (results.order_by().values("Category")
+                  .annotate(n=Count("Id")).order_by("-n"))
+        
+    if cat := request.query_params.get("Category"):
+            results = results.filter(Category=cat)
+
+    paginator = SearchPagination()
+    paginated_results = paginator.paginate_queryset(results, request)
+
+    serializer = EventSearchSerializer(paginated_results, many=True)
+
+    return Response({
+        "q": q,
+        "facets": list(facets),
+        "count": paginator.page.paginator.count,
+        "next": paginator.get_next_link(),
+        "previous": paginator.get_previous_link(),
+        "results": serializer.data
+    })
