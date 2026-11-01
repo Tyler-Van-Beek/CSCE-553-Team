@@ -85,16 +85,17 @@ class Registration(models.Model):
         ]
 
 class EventSearch(models.Model):
-     Id = models.TextField(primary_key=True)
-     Title = models.TextField()
-     Description = models.TextField()
-     Location = models.TextField()
-     Datetime = models.DateTimeField()
-     Category = models.TextField()
-     FirstName = models.TextField()
-     Lastname = models.TextField()
-     fts = SearchVectorField()
+    Id = models.TextField(primary_key=True, db_column='id')
+    Title = models.TextField(db_column='title')
+    Description = models.TextField(db_column='description')
+    Location = models.TextField(db_column='location')
+    Datetime = models.DateTimeField(db_column='datetime')
+    Category = models.TextField(db_column='category')
+    FirstName = models.TextField(db_column='orgfirstname')
+    Lastname = models.TextField(db_column='orglastname')
+    fts = SearchVectorField()
 
-     class Meta:
-          managed = False # SQL owns it
-          db_table = 'search"."event_search'
+    class Meta:
+        managed = False  # SQL owns it
+        db_table = 'search"."event_search'
+    

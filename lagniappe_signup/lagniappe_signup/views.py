@@ -23,7 +23,7 @@ from rest_framework import status
 from rest_framework.parsers import JSONParser
 from .serializers import EventSerializer
 from django.core.paginator import Paginator
-from django.contrib.postgres.search import SearchQuery, SearchRank
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.db.models import Count, F
 
 logger = logging.getLogger(__name__)
@@ -420,14 +420,16 @@ def search(request):
     q = request.GET.get("q", "").strip()[:200]
     results, facets = EventSearch.objects.none(), []
     if q:
+        vector = SearchVector("Title", "Decription", "Location", "Category", config="english")
         query = SearchQuery(q, search_type="websearch", config="english")
         results = (EventSearch.objects.filter(fts=query)
                    .annotate(rank=SearchRank(F("fts"), query))
                    .order_by("-rank", "Id"))
         facets = (results.order_by().values("Category")
-                  .annotate(n=Count("id")).order_by("-n"))
+                  .annotate(n=Count("Id")).order_by("-n"))
         if cat := request.GET.get("Category"):
-            results = results.filter(category=cat)
+            results = results.filter(Category=cat)
 
-    page = Paginator(results, 30).get_page(request.GEt.get("page"))
+    print(results.query)
+    page = Paginator(results, 30).get_page(request.GET.get("page"))
     return render(request, "search.html", {"q":q, "page": page, "facets": facets})
