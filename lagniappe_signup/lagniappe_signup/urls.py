@@ -246,5 +246,10 @@ urlpatterns = [
         "search/",
         views.search,
         name="search"
-    )
+    ),
+    path(
+        "search/autocomplete/",
+        views.search_autocomplete,
+        name="search-autocomplete",
+    ),
 ]

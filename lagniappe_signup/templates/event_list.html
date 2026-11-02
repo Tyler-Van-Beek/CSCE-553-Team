@@ -2,10 +2,27 @@
 
 
 {% block content %}
-  <form method="get" action="{% url 'search' %}">
-    <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
-    <button type="submit">Search</button>
-  </form>
+  <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
+    <form method="get" style="display: flex; gap: 8px; align-items: center; margin-bottom: 5px;">
+        <!-- HTMX Autocomplete Input -->
+        <input 
+            type="text" 
+            name="q" 
+            value="{{ q }}" 
+            placeholder="Search events..."
+            autocomplete="off"
+            hx-get="{% url 'search-autocomplete' %}" 
+            hx-trigger="keyup changed delay:300ms" 
+            hx-target="#autocomplete-container" 
+            hx-swap="innerHTML"
+            style="flex: 1; padding: 8px 12px;"
+        >
+        <button type="submit" style="padding: 8px 16px;">Search</button>
+    </form>
+
+    <!-- Normal flow container: appears before debug/facets and pushes them down -->
+    <div id="autocomplete-container" style="margin-bottom: 20px;"></div>
   
   <button onclick="window.location.href='{% url 'event-create' %}'" class="btn btn-info">Create an Event</button>
 

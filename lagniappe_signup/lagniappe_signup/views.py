@@ -437,3 +437,18 @@ def search(request):
 
     page = Paginator(results, 30).get_page(request.GET.get("page"))
     return render(request, "search.html", {"q":q, "page": page, "facets": facets})
+
+def search_autocomplete(request):
+    q = request.GET.get("q", "").strip()[:50]
+    results = []
+    
+    if q:
+        # Build prefix matching query (e.g. "train" -> "train:*")
+        words = [w for w in q.split() if w]
+        raw_query = " & ".join([f"{w}:*" for w in words])
+        query = SearchQuery(raw_query, search_type="raw", config="english")
+        
+        # Fetch top 10 matching suggestions
+        results = EventSearch.objects.filter(fts=query).order_by("Title")[:10]
+        
+    return render(request, "search_autocomplete_results.html", {"results": results})
