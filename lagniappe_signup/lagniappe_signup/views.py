@@ -23,7 +23,7 @@ from rest_framework import status
 from rest_framework.parsers import JSONParser
 from .serializers import EventSerializer
 from django.core.paginator import Paginator
-from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector, TrigramSimilarity
 from django.db.models import Count, F
 
 logger = logging.getLogger(__name__)
@@ -439,16 +439,15 @@ def search(request):
     return render(request, "search.html", {"q":q, "page": page, "facets": facets})
 
 def search_autocomplete(request):
-    q = request.GET.get("q", "").strip()[:50]
-    results = []
+    q = request.GET.get("q", "").strip()[:200]
+    results = EventSearch.objects.none()
     
-    if q:
-        # Build prefix matching query (e.g. "train" -> "train:*")
-        words = [w for w in q.split() if w]
-        raw_query = " & ".join([f"{w}:*" for w in words])
-        query = SearchQuery(raw_query, search_type="raw", config="english")
-        
-        # Fetch top 10 matching suggestions
-        results = EventSearch.objects.filter(fts=query).order_by("Title")[:10]
-        
-    return render(request, "search_autocomplete_results.html", {"results": results})
+    if len(q) >= 2:  # Trigger autocomplete after at least 2 characters
+        results = (
+            EventSearch.objects
+            .annotate(similarity=TrigramSimilarity('Title', q))
+            .filter(similarity__gt=0.0)  # Threshold for minimum similarity (0.0 to 1.0)
+            .order_by('-similarity')[:5]  # Top 5 best fuzzy matches
+        )
+
+    return render(request, "search_autocomplete.html", {"results": results, "q": q})
