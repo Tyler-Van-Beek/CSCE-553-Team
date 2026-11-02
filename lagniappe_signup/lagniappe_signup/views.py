@@ -420,7 +420,9 @@ def search(request):
     q = request.GET.get("q", "").strip()[:200]
     results, facets = EventSearch.objects.none(), []
     if q:
-        vector = SearchVector("Title", "Description", "Location", "Category", config="english")
+        words = [w for w in q.split() if w]
+        raw_query = " & ".join([f"{w}:*" for w in words])
+        
         query = SearchQuery(q, search_type="websearch", config="english")
         results = (EventSearch.objects.filter(fts=query)
                    .annotate(rank=SearchRank(F("fts"), query))

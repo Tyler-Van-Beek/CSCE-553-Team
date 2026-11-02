@@ -169,5 +169,14 @@ class UserLoginSerializer(serializers.Serializer):
 
 class EventSearchSerializer(serializers.ModelSerializer):
     class Meta:
-        model=EventSearch
-        field='___all___'
+        model = EventSearch
+        fields = [
+            'Id', 
+            'Title', 
+            'Description', 
+            'Location', 
+            'Datetime', 
+            'Category', 
+            'FirstName', 
+            'Lastname'
+        ]

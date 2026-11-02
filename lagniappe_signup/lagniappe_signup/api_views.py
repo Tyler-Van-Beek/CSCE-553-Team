@@ -1,4 +1,4 @@
-from rest_framework import status
+from rest_framework import status, serializers
 from rest_framework.decorators import (
     api_view,
     permission_classes,
@@ -26,6 +26,7 @@ from .serializers import (
 )
 from django.db.models import F, Count
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from django.http import JsonResponse
 
 
 @api_view(["POST"])
@@ -424,22 +425,26 @@ class SearchPagination(PageNumberPagination):
 @api_view(['GET'])
 def search_api(request):
     q = request.query_params.get("q", "").strip()[:200]
-    vector = SearchVector("Title", "Decription", "Location", "Category", config="english")
     query = SearchQuery(q, search_type="websearch", config="english")
-        
-    results = (EventSearch.objects.filter(fts=query)
-                   .annotate(rank=SearchRank(F("fts"), query))
-                   .order_by("-rank", "Id"))
-        
-    facets = (results.order_by().values("Category")
-                  .annotate(n=Count("Id")).order_by("-n"))
-        
+    
+    # Query the materialized view using the 'fts' column
+    base_results = (EventSearch.objects.filter(fts=query)
+                                 .annotate(rank=SearchRank(F("fts"), query))
+                                 .order_by("-rank", "Id"))
+    
+    # Compute facets before applying category filter
+    facets = (base_results.order_by().values("Category")
+                      .annotate(n=Count("Id")).order_by("-n"))
+
+    results = base_results.annotate(rank=SearchRank(F("fts"), query)
+                                    ).order_by("-rank", "Id")
+    
+    # Apply category filter if requested
     if cat := request.query_params.get("Category"):
-            results = results.filter(Category=cat)
+        results = results.filter(Category=cat)
 
     paginator = SearchPagination()
     paginated_results = paginator.paginate_queryset(results, request)
-
     serializer = EventSearchSerializer(paginated_results, many=True)
 
     return Response({
