@@ -11,6 +11,23 @@
 
     <hr>
 
+    <div class="facets">
+        {% for f in facets %}
+            {% if f.Category%}
+                <li class="{% if request.GET.Category == f.Category %}active{% endif %}">
+                    <a href="?q={{ q }}&Category={{ f.Category|urlencode }}">
+                        {{ f.Category }} 
+                        <span class="count">({{ f.n }})</span>
+                    </a>
+                </li>
+            {% endif %}
+        {% empty %}
+
+        {% endfor %}
+    </div>
+
+    <hr>
+
     <div class="search-results">
         {% for p in page %}
             <div class="event-item" style="margin-bottom: 20px;">

@@ -420,16 +420,18 @@ def search(request):
     q = request.GET.get("q", "").strip()[:200]
     results, facets = EventSearch.objects.none(), []
     if q:
-        vector = SearchVector("Title", "Decription", "Location", "Category", config="english")
+        vector = SearchVector("Title", "Description", "Location", "Category", config="english")
         query = SearchQuery(q, search_type="websearch", config="english")
         results = (EventSearch.objects.filter(fts=query)
                    .annotate(rank=SearchRank(F("fts"), query))
                    .order_by("-rank", "Id"))
         facets = (results.order_by().values("Category")
-                  .annotate(n=Count("Id")).order_by("-n"))
+          .exclude(Category__isnull=True)
+          .exclude(Category="")
+          .annotate(n=Count("pk"))
+          .order_by("-n"))
         if cat := request.GET.get("Category"):
             results = results.filter(Category=cat)
 
-    print(results.query)
     page = Paginator(results, 30).get_page(request.GET.get("page"))
     return render(request, "search.html", {"q":q, "page": page, "facets": facets})
