@@ -4,7 +4,7 @@
 {% block content %}
   <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 
-    <form method="get" style="display: flex; gap: 8px; align-items: center; margin-bottom: 5px;">
+    <form method="get" action="{% url "search" %}" actstyle="display: flex; gap: 8px; align-items: center; margin-bottom: 5px;">
         <!-- HTMX Autocomplete Input -->
         <input 
             type="text" 

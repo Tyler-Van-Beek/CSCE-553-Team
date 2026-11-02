@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator
 from django.contrib.postgres.search import (SearchVectorField)
+from pgvector.django import VectorField
 
 # Create your models here.
 class Users(AbstractUser): # AbstractUser comes with a whole bunch of attributes
@@ -40,6 +41,7 @@ class Event(models.Model):
     Location = models.CharField(("location"), max_length=100)
     DateTime = models.DateTimeField(("datetime"), null=True)
     EventStatus = models.BooleanField(("eventstatus"), default=True)
+    Embedding = VectorField(dimensions=738, default=[0.0] * 738)
 
     Registrations = models.ManyToManyField(
         Users,

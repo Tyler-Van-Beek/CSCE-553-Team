@@ -31,5 +31,6 @@ Words to search in load testing:
 ai (0)
 train (39)
 based & category=sports (60)
-born (79)
+focused & category=sports (71)
+educ & category=education (315)
 educ (363)
