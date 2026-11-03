@@ -1,0 +1,981 @@
+latency_ms,status,error
+2152.8974000102608,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2160.186799999792,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2157.6944999978878,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2156.0504999943078,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2200.712799996836,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2196.8380000034813,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2212.0642000081716,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2216.713999994681,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2257.84360000398,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2252.6545000000624,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2322.4175999930594,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2321.1466999928234,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2330.8652999985497,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2408.101099994383,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2404.919799999334,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2282.267899994622,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2437.243899999885,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2459.9600000074133,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2458.4267000027467,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2452.4535999953514,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2235.8393000031356,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2322.128799991333,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2426.5818999992916,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2406.9593000021996,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2224.457300006179,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2234.178400001838,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2350.5864000035217,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2448.791600007098,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2386.91810000455,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2325.2555999933975,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+4820.862100008526,200,
+2571.106500006863,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2389.630899997428,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2685.610100001213,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2591.1665000021458,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2107.9754999955185,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2464.2807000054745,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2464.460399991367,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+4940.216899994994,200,
+2406.237699993653,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+5053.870499992627,200,
+5083.728900004644,200,
+5096.869000000879,200,
+5242.426700002397,200,
+5288.3410999929765,200,
+2440.6031999969855,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2179.8408000031486,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2225.1097000116715,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+5392.796200001612,200,
+5395.859399999608,200,
+2509.4134000100894,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2450.3543000028003,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+5579.616300005,200,
+5648.517199995695,200,
+2100.9887999971397,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+5848.328299995046,200,
+2511.6859000117984,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+5977.041999998619,200,
+5986.606100006611,200,
+5981.8537999963155,200,
+2381.8261999986134,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2490.410200000042,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2489.8618000006536,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+6056.671500002267,200,
+6112.896400009049,200,
+6301.370000001043,200,
+2313.9243999903556,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2221.090800012462,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2411.105299994233,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+6480.415200014249,200,
+6490.646800011746,200,
+6503.272200003266,200,
+2305.8287000021664,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2380.326900005457,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+6644.951299997047,200,
+2194.327899997006,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2113.2526000001235,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2537.3400999960722,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2377.25330000103,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+7210.919099990861,200,
+2309.666200002539,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2309.5207000005757,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2418.1901999982074,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+6976.739299992914,200,
+2453.5861000040313,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2246.547599992482,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2485.069000002113,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2565.4343999922276,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2215.7697999937227,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+7161.539200009429,200,
+2275.817600006121,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+7645.7583000010345,200,
+2576.6737000085413,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2480.4634999891277,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2445.55119999859,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2422.857400000794,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2354.748699988704,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+7869.814199992106,200,
+2385.7011000072816,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+8036.916299999575,200,
+7194.131199998083,200,
+8095.553099992685,200,
+2279.426000008243,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2544.0853999898536,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2725.4615999991074,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2495.158200006699,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2462.9836000094656,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2514.3023999989964,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2354.990200008615,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2378.5876000038115,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2298.4820999990916,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+7996.553099990706,200,
+7849.647000010009,200,
+8304.117299994687,200,
+2580.9032000106527,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2176.2127999973018,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2322.1788000082597,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+8613.640000010491,200,
+2306.840300007025,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2657.489000004716,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2253.3923000009963,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+7781.175500000245,200,
+2596.817800003919,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2249.2380000039702,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2454.215600009775,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+8877.870100011933,200,
+8282.673499998054,200,
+2518.485900000087,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2567.7643999952124,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2495.9918999957154,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2426.4842999982648,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2422.6737999997567,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2267.2793000092497,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2173.5768000071403,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+7728.347800002666,200,
+2272.5842999934684,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2023.4373999992386,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+9073.787500004983,200,
+2286.428200008231,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+7926.814999998896,200,
+2394.6383000002243,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+9351.919399996405,200,
+2425.997300000745,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2306.292100009159,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2384.3218999973033,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2317.81389999378,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2404.2229000042425,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2341.1631000053603,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+9384.209399999236,200,
+2155.897400007234,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2460.282600004575,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2150.654699988081,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2186.5553999959957,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2113.7425000051735,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2423.9132000075188,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+9952.556999996887,200,
+8058.137899992289,200,
+2414.419499997166,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2125.823300011689,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2563.0800999933854,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2127.393899994786,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2190.840199997183,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2508.5468999895966,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2164.703999995254,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2558.1423999974504,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2321.2226000032388,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2213.0430999968667,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2337.513000005856,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+9981.447499987553,200,
+2391.5686000109417,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+9168.549200010602,200,
+10553.75880000065,200,
+2210.20079999289,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+8228.41779999726,200,
+2424.9345999996876,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2398.1666000036057,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2144.405299986829,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2197.059400001308,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2377.5380000006407,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+10927.209600005881,200,
+10927.502800012007,200,
+2343.7020999990636,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2254.1013000009116,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2422.0333000121173,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2582.9972000065027,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2623.9886000112165,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+8495.753399998648,200,
+2410.770100002992,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2222.3822999949334,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2216.647599998396,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2208.13790000102,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2427.875399996992,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+9076.021300003049,200,
+11318.910999994841,200,
+2370.6429000012577,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2307.711900008144,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+11431.032200009213,200,
+2386.286100008874,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2324.7999000013806,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+8760.036400009994,200,
+2212.7850000106264,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+8852.951299995766,200,
+2583.949499996379,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2391.4960000111023,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2208.052100002533,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2269.7729999927105,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2463.455699995393,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+9612.649999995483,200,
+2226.990899987868,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+11323.74959999288,200,
+11914.455899997847,200,
+2366.8808999937028,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2387.8177000005962,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2383.6753999930806,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2315.769299995736,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2502.24889999663,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2517.134099995019,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+9873.457699999562,200,
+2485.83009999129,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2339.257899991935,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2501.05559999065,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2392.337800003588,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2407.0941999962088,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2407.382100005634,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2442.070999997668,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2517.9036000045016,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+12756.86599999608,200,
+2331.0977000073763,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2302.0016999944346,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2492.9456999961985,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2492.600700003095,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2476.7404999875,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2310.7013999979245,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2401.278799996362,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2402.0034999994095,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2294.609999997192,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2306.0175999999046,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2307.773000007728,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+10109.70040000393,200,
+2302.634699997725,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2368.017000000691,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2398.834200008423,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2363.681999995606,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2378.9384000119753,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2479.2040000029374,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+13530.05650000705,200,
+2430.3704999911133,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+11774.455400009174,200,
+11406.180499994662,200,
+2230.931700003566,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2323.5329000017373,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2492.8192000079434,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2381.887800002005,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+8798.690399999032,200,
+11772.066100005759,200,
+11837.950400004047,200,
+2371.326599997701,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2463.5825000004843,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2374.2473000020254,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2323.89639999019,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+9820.338999998057,200,
+14384.846300003119,200,
+2332.2406000079354,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2363.184000001638,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2347.2471999994013,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2408.28909999982,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2499.39369999629,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+14761.326800013194,200,
+12513.387400002102,200,
+2384.062700002687,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2347.423700004583,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+10250.39289999404,200,
+2529.040699999314,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+9218.62699999474,200,
+2270.559199998388,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2391.711000003852,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2375.9350000036648,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+7683.639899987611,200,
+15277.85969999968,200,
+13707.373500001268,200,
+2207.8146999992896,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2297.082999997656,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+15520.90830000816,200,
+10472.429000001284,200,
+9650.35200001148,200,
+2250.749700004235,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2329.198899999028,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2346.0772999969777,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+13447.210999991512,200,
+2376.2313000042923,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2408.36849999323,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2408.832599991001,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+13632.727799995337,200,
+2504.7942999954103,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+10307.899599996745,200,
+2403.181100002257,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2479.031399998348,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+15093.182299999171,200,
+2356.0907999926712,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2439.422299998114,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+14367.426700002397,200,
+2185.3785999992397,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+11862.606299997424,200,
+2594.8525999992853,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2596.959299989976,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+14771.783799995319,200,
+15166.857299991534,200,
+13438.49990000308,200,
+11955.142300008447,200,
+15062.727700002142,200,
+2422.1606999926735,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2223.369100000127,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2462.7707000036025,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+11754.517299996223,200,
+2517.0031000016024,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+10365.406900004018,200,
+14878.468499999144,200,
+13099.227899991092,200,
+11244.178799999645,200,
+2326.0516000009375,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+16000.281000000541,200,
+2373.2681999972556,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2431.204600012279,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2371.980399999302,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2403.0099000083283,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2294.7289000003366,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+16250.03629999992,200,
+16364.916799997445,200,
+10536.589900002582,200,
+2366.706000000704,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+12883.920499996748,200,
+14026.903899997706,200,
+11657.994399996824,200,
+2269.7725999896647,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+17535.034500004258,200,
+9699.966000000131,200,
+2398.598799991305,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+14732.470999995712,200,
+2214.1191999980947,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2484.2983999988064,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2439.009800000349,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+12253.100100002484,200,
+15691.714000000502,200,
+16014.559399991413,200,
+13055.867700008093,200,
+2298.6096999957226,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2497.8231999994023,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2118.684899993241,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+13161.279399995692,200,
+12323.980999994092,200,
+16733.814799998072,200,
+15298.460299993167,200,
+15084.314799998538,200,
+12793.833399991854,200,
+2364.4443999946816,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+13237.158700008877,200,
+2216.591000003973,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+14830.538099995465,200,
+14976.274700005888,200,
+2495.6196999992244,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+12539.969300007215,200,
+11424.874299991643,200,
+2247.5574999989476,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+18003.612399988924,200,
+18227.958400006173,200,
+12443.518500003847,200,
+18013.835100005963,200,
+2475.879300007364,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+13453.800799994497,200,
+17957.263199990848,200,
+2340.350500002387,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+17566.664600002696,200,
+2229.4158000004245,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+16078.302299996722,200,
+12504.932200012263,200,
+12703.378199992585,200,
+2337.929000001168,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+12785.134499994456,200,
+2521.3451000017812,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+17192.020500006038,200,
+13981.935600008,200,
+2337.58000000671,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2400.1738999941153,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2367.773900012253,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2215.072200007853,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+11867.659499999718,200,
+18129.59840000258,200,
+14410.676200001035,200,
+17268.79159999953,200,
+15980.637699991348,200,
+16382.494900011807,200,
+12669.889400000102,200,
+13344.198299993877,200,
+13572.264699992957,200,
+2294.8507999972207,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+18748.84159999783,200,
+12319.868099992163,200,
+22180.310299998382,200,
+16317.047800010187,200,
+16962.13089999219,200,
+14815.136899997015,200,
+17577.302499994403,200,
+2421.547499994631,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2309.4446000031894,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+13553.823399997782,200,
+13137.070199998561,200,
+12968.735499991453,200,
+2321.7027000064263,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+19868.34169999929,200,
+17352.848200011067,200,
+18696.42059999751,200,
+15512.548400001833,200,
+12197.143199999118,200,
+21464.929900001152,200,
+17056.14339999738,200,
+12580.847799996263,200,
+12692.30970001081,200,
+14129.600800006301,200,
+16399.642999997013,200,
+13995.137199992314,200,
+17010.147900000447,200,
+12216.178899994702,200,
+2299.4802000030177,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+15180.646199994953,200,
+13594.520200000261,200,
+22303.755900007673,200,
+17380.336900008842,200,
+18166.063599986956,200,
+14157.748400000855,200,
+16142.384999999194,200,
+11058.69539998821,200,
+2399.0527000132715,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+11280.100800009677,200,
+2202.4980999995023,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+18640.9421999997,200,
+2344.2241000011563,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+20203.178700001445,200,
+11825.864899990847,200,
+16940.46349999553,200,
+2224.5456999953603,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+12556.569299995317,200,
+16490.500200001406,200,
+22353.605700001935,200,
+19443.637800010038,200,
+14992.171500009135,200,
+14240.490700001828,200,
+13694.460700004129,200,
+14909.305699999095,200,
+2474.3262999982107,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+23067.31860000582,200,
+18070.884400003706,200,
+17719.48979998706,200,
+2108.9527000003727,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2477.633300004527,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+19460.172999999486,200,
+17093.723699988914,200,
+20850.498400002834,200,
+19595.292300000438,200,
+14871.334800001932,200,
+16622.13580000389,200,
+17035.02650000155,200,
+12677.992600001744,200,
+18252.58230000327,200,
+18617.090500003542,200,
+12256.956800003536,200,
+11705.399500002386,200,
+2309.549400000833,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2453.503999990062,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+24141.032200001064,200,
+11966.477200010559,200,
+15150.24540000013,200,
+18631.99939999322,200,
+16049.391399996239,200,
+2408.726800000295,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2400.612199999159,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+25598.869399997056,200,
+15969.007699997746,200,
+18601.923099995474,200,
+9364.251899998635,200,
+12473.083000004408,200,
+16152.320299996063,200,
+12964.949500004877,200,
+2502.9612999933306,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2492.365600002813,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2292.547899996862,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2348.363800003426,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+9745.871299994178,200,
+2462.6786000007996,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+11814.387200007332,200,
+11390.50930000667,200,
+20538.28129998874,200,
+10939.39909999608,200,
+23277.5158000004,200,
+20207.597299988265,200,
+2275.508100006846,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+11058.718999993289,200,
+19518.507800006773,200,
+17023.79690000089,200,
+16717.805399995996,200,
+25917.193000001134,200,
+24415.872900004615,200,
+25222.194699992542,200,
+20036.939400000847,200,
+2476.1722999974154,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+19141.340099988156,200,
+2400.246999997762,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+19585.90419999382,200,
+25867.464900002233,200,
+24200.497800004086,200,
+10402.111699993839,200,
+23159.47560001223,200,
+16718.79820000322,200,
+2262.5325999979395,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2510.0662000040757,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+10504.120300000068,200,
+2627.5757999974303,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+25139.629199999035,200,
+14405.849399990984,200,
+18760.733800008893,200,
+14639.487799999188,200,
+21971.42220000387,200,
+10327.153899997938,200,
+20664.772900010576,200,
+11278.484300011769,200,
+10577.802400002838,200,
+24980.92089999409,200,
+22727.420499999425,200,
+13591.121099991142,200,
+14086.216800002148,200,
+2486.6994000039995,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2320.3958999947645,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2374.553300003754,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+11217.38310001092,200,
+12678.223999988404,200,
+15589.456399990013,200,
+15608.667599997716,200,
+25881.118499994045,200,
+14891.891100007342,200,
+19037.307000005967,200,
+14546.534399996744,200,
+2434.837199994945,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2379.6990999981062,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2296.9959000038216,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2299.947899999097,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+12624.283400000422,200,
+13119.475700004841,200,
+20238.833099996555,200,
+10898.64139999554,200,
+23296.573500003433,200,
+22238.75869999756,200,
+2256.1199000047054,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2461.478500001249,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+27874.141499996767,200,
+12006.592199992156,200,
+2303.7384999915957,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+15864.484700010507,200,
+2561.571099999128,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+12538.159700008691,200,
+26203.74620000075,200,
+2345.2999000001,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+13150.863299990306,200,
+2529.9002999963704,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+25916.398400004255,200,
+2287.4838999996427,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2209.6477000013692,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+12470.15090000059,200,
+13826.666199995088,200,
+27212.389000007533,200,
+12468.97970000282,200,
+10637.621000001673,200,
+20293.988899997203,200,
+21522.435099992435,200,
+9719.778599988786,200,
+26317.627199998242,200,
+20045.126199998776,200,
+24266.26089999627,200,
+8368.978800004697,200,
+2472.071100011817,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+19520.283100006054,200,
+11651.381399991806,200,
+11381.235400011064,200,
+2455.9896999999182,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+26163.47839999071,200,
+2444.582199997967,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+14270.24359999632,200,
+28583.38709999225,200,
+11287.750299990876,200,
+13796.593899998697,200,
+22806.70420000388,200,
+17566.13859999925,200,
+2272.8017999907024,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+20336.979200001224,200,
+11084.309699988808,200,
+21415.812100007315,200,
+2532.167400000617,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2413.8466000003973,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2452.1461999975145,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+9215.687199990498,200,
+8899.543199993786,200,
+2444.8762999963947,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2429.6098000049824,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+27596.65560000576,200,
+11363.771799995448,200,
+17261.024400009774,200,
+2626.784099993529,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2489.257799999905,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2490.3856000019005,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2509.592200003681,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2436.924199995701,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+26753.09080000443,200,
+2315.020200010622,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+25940.438700010418,200,
+9906.024000010802,200,
+2383.5368000000017,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+13670.62900000019,200,
+2400.2780000009807,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2459.0216999931727,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+13828.59649999591,200,
+7831.200399989029,200,
+2575.470600000699,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2443.628399996669,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2477.567800000543,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2527.2208000096725,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+13742.27330001304,200,
+8876.73299999733,200,
+2594.08059999987,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2380.5690000008326,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+18581.533600008697,200,
+11972.773899993626,200,
+14249.568499988527,200,
+25535.301800002344,200,
+21597.958300000755,200,
+8929.931000006036,200,
+8757.078399998136,200,
+13678.324100008467,200,
+11124.993199991877,200,
+2305.711799999699,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+26380.643500000588,200,
+2370.4579999903217,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+21393.86020001257,200,
+2461.401599997771,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+8052.168900001561,200,
+21665.117500000633,200,
+10705.249799997546,200,
+12854.9803999922,200,
+11563.585600000806,200,
+2339.030200004345,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2416.083999996772,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+10329.585300001781,200,
+2431.8062999955146,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+19339.402500001597,200,
+18895.830800000113,200,
+2201.3966999948025,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+7749.111400000402,200,
+25938.9119999978,200,
+2396.9330999971135,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2446.455600002082,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+25956.88459998928,200,
+2473.689300008118,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2354.7255999874324,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2553.926100008539,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2402.5340999942273,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2407.9540000093402,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+9675.950399992871,200,
+21743.750199995702,200,
+9155.736699991394,200,
+2427.481999999145,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+19540.75610000291,200,
+10990.526599998702,200,
+12122.224999999162,200,
+2311.217599999509,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+19814.79479999689,200,
+2384.0389999968465,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+11837.150799998199,200,
+27834.232299996074,200,
+11134.238400001777,200,
+2427.1728999883635,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+19719.58609999274,200,
+2426.9648999907076,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2396.3950000033947,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2430.667900000117,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+9317.414499993902,200,
+2211.5664000011748,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+8337.03000000969,200,
+2471.3638000102947,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2378.765100002056,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2495.99510000553,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2585.392300010426,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2423.45309999655,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2577.6020000048447,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2390.858800004935,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2361.1278999887872,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+18550.318599998718,200,
+5607.244400001946,200,
+7779.094599987729,200,
+6973.00460000406,200,
+27142.299399987678,200,
+18688.189899999998,200,
+12182.550199999241,200,
+11391.989300012938,200,
+12852.303199993912,200,
+2329.5423000090523,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2458.166700002039,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+24822.927899993374,200,
+2330.0237999937963,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2550.1328999962425,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+26555.35310000414,200,
+8447.350000002189,200,
+2339.396700001089,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2312.0941999950446,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+21002.27699999232,200,
+2420.9267999976873,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2426.1905000021216,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+8966.515099993558,200,
+17815.544699988095,200,
+2258.511299995007,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+7339.775100001134,200,
+20125.81749999663,200,
+2522.3906000028364,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+6201.242000010097,200,
+6210.424100005184,200,
+13030.616100004409,200,
+27525.390900002094,200,
+2398.820100002922,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2398.925799992867,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2383.317600004375,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+12387.938699990627,200,
+9803.427299993928,200,
+18843.457499999204,200,
+2492.349699998158,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2415.7830999902217,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2392.423700002837,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2520.2105000062147,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+8223.064299992984,200,
+6457.048399999621,200,
+2397.3121999879368,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2334.454199997708,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+9810.903799996595,200,
+27343.235799999093,200,
+10198.059700007434,200,
+2333.599300007336,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+6755.313200003002,200,
+7989.248600002611,200,
+28312.674000000698,200,
+21962.761899994803,200,
+2431.75699999847,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2347.043500005384,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+7223.053499998059,200,
+6039.042499993229,200,
+10220.143300000927,200,
+2411.5327999898,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2511.0086999920895,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+14692.271699997946,200,
+10100.355600006878,200,
+2314.606800006004,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2480.966499992064,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2574.4357999938074,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+20201.739099997212,200,
+2567.998799990164,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+18981.531299999915,200,
+17246.39020000177,200,
+2480.3516999963904,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2183.811399998376,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+12802.4274000054,200,
+28534.336899989285,200,
+28179.422300003353,200,
+6905.498099993565,200,
+2551.9619999977294,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+18903.02789999987,200,
+2259.6927999984473,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+20987.11389998789,200,
+21854.891800001496,200,
+8615.928300001542,200,
+9881.982899998548,200,
+27901.27040000516,200,
+10073.651200000313,200,
+2477.7573000028497,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2228.7450000003446,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+12025.766599996132,200,
+7235.694200004218,200,
+30579.581099998904,0,TimeoutError: timed out
+2517.595800003619,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+21125.03270000161,200,
+6853.184699997655,200,
+2468.8517000031425,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2328.2924000086496,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+9994.36450000212,200,
+6689.478500004043,200,
+2468.847600001027,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2152.693800002453,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+12593.241099995794,200,
+8990.072600005078,200,
+21381.16479999735,200,
+28372.89579999924,200,
+9743.626800001948,200,
+7185.893700007,200,
+7551.957799994852,200,
+2576.934099997743,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2488.464100009878,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2595.8911000052467,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+22829.361099997186,200,
+13679.663300004904,200,
+2342.4872000032337,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2297.6311999955215,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2218.9689000078943,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2248.9026000112062,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+11529.332699996303,200,
+7159.511999998358,200,
+2342.1490999899106,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+6551.450400002068,200,
+7755.265500003588,200,
+9875.695700000506,200,
+20195.529900011024,200,
+29856.568900009734,200,
+31716.195999993943,0,TimeoutError: timed out
+2235.241699992912,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+29045.28969999228,200,
+9317.979400002514,200,
+5638.564199995017,200,
+2595.9085000067716,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2452.486599999247,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2287.324799995986,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+5935.925199999474,200,
+25100.56020000775,200,
+10596.65920000407,200,
+2468.8621000095736,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+9592.478599995957,200,
+2350.420999995549,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+4792.851099991822,200,
+5257.586899999296,200,
+2446.9616999995196,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2124.124399997527,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2399.0637000097195,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2441.1499999987427,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2483.6801000055857,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+28311.826599994674,200,
+29235.505099990405,200,
+2403.3425000088755,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2419.726299995091,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2380.4423000110546,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2400.306499999715,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+11518.103299997165,200,
+23271.091300004628,200,
+10428.035700009787,200,
+23182.572100005927,200,
+2358.146200000192,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+8969.376499997452,200,
+32170.887800006312,0,TimeoutError: timed out
+5976.278100002673,200,
+5355.387599993264,200,
+9153.6771000101,200,
+22373.19660000503,200,
+30007.319800002733,0,TimeoutError: timed out
+29520.353700005217,200,
+2494.6803000057116,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+7306.720300010056,200,
+7422.3984999989625,200,
+27658.425999994506,200,
+5607.330400001956,200,
+31250.9807000024,0,TimeoutError: timed out
+11316.98950000282,200,
+8649.545799999032,200,
+10432.367800007341,200,
+5609.692300000461,200,
+5124.169700007769,200,
+22878.18580000021,200,
+28034.100999997463,200,
+22734.906199999386,200,
+28803.37860000145,200,
+20476.179700010107,200,
+8903.900099991006,200,
+5455.328800002462,200,
+27954.51250000042,200,
+3699.4556999998167,200,
+20537.98170000664,200,
+20953.37410000502,200,
+8525.20380000351,200,
+7711.163599989959,200,
+5017.580200001248,200,
+4568.517599996994,200,
+30011.482700007036,0,TimeoutError: timed out
+6698.111499994411,200,
+8674.865499997395,200,
+23550.966900002095,200,
+4997.3134999891045,200,
+21415.041599990218,200,
+5074.523599992972,200,
+22651.438999993843,200,
+21848.3486000041,200,
+6929.279999996652,200,
+21051.839899999322,200,
+6152.357699989807,200,
+7364.47619998944,200,
+7578.185399994254,200,
+5747.089000011329,200,
+20860.61509999854,200,
+29081.77269999578,200,
+7257.834400006686,200,
+5785.446199995931,200,
+5790.1084999903105,200,
+19196.06119999662,200,
+20809.508200007258,200,
+28198.583899997175,200,
+18890.987299993867,200,
+21344.825799998944,200,
+18905.615199997555,200,
+18887.068399999407,200,
+16485.21499999333,200,
+19772.01280000736,200,
+16927.113700003247,200,
+18972.86140000506,200,
+16257.263499996043,200,
+30014.543099998264,0,TimeoutError: timed out
+15055.089899993618,200,
+18365.84899999434,200,
+13469.536699994933,200,
+15558.964299998479,200,
+28011.72709999082,200,
+14595.221199997468,200,
+11771.494800006622,200,
+12702.228599999216,200,
+17399.39000000595,200,
+14109.885800004122,200,
+12871.577800004161,200,
+11385.0747999968,200,
+11163.750299994717,200,
+13692.100999993272,200,
+8282.366999992519,200,
+10118.854600004852,200,
+10697.29979999829,200,
+11216.741199998069,200,
+27112.17600000964,200,
+8312.68080000882,200,
+7920.382700001937,200,
+8163.708000007318,200,
+25925.625700008823,200,
+23463.525500003016,200,
+30508.31800000742,0,TimeoutError: timed out
+29822.461899995687,200,
+27579.351400010637,200,
+23739.12330000894,200,
+23828.027499999735,200,
+26393.430299998727,200,
+29010.52159999381,200,
+24545.559899997897,200,
+23004.450699998415,200,
+28381.705699997838,200,
+26521.979199998896,200,
+24825.761600004626,200,
+23255.916199996136,200,
+19150.24459999404,200,
+23296.827800004394,200,
+21112.965899999836,200,
+21484.54170000332,200,
+21929.48599999363,200,
+19630.311299988534,200,
+24631.74890000664,200,
+20396.199200011324,200,
+23270.52210000693,200,
+14968.83290000551,200,
+17373.217700005625,200,
+17780.44809999119,200,
+19729.779000001145,200,
+21999.080499997945,200,
+13693.078600001172,200,
+16521.24069999263,200,
+18657.6747999934,200,
+16357.084800009034,200,
+14922.404500000994,200,
+15269.188200007193,200,
+10568.133900000248,200,
+10156.693600001745,200,
+11161.616600002162,200,
+15400.964100001147,200,
+13028.941499986104,200,
+12890.20910000545,200,
+11268.335700005991,200,
+14276.461899993592,200,
+11042.87900000054,200,
+10504.910399991786,200,
