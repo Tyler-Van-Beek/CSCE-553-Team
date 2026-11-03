@@ -496,7 +496,10 @@ def search_api(request):
     serializer = EventSearchSerializer(paginated_results, many=True)
 
     # 8. Return data payload along with your faceted sidebar meta metrics
-    return paginator.get_paginated_response({
+    return Response({
+        "count": paginator.page.paginator.count,
+        "next": paginator.get_next_link(),
+        "previous": paginator.get_previous_link(),
         "q": q,
         "facets": facets,
         "results": serializer.data
