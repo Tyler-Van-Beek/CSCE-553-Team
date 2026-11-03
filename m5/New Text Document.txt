@@ -30,6 +30,7 @@ left join events_cateogory c on c.CategoryID = e.CategoryID;
 Words to search in load testing: 
 blank (0)
 based & category=Health (17)
-education & category=Family (61)
-train (952)
-education (2032)
+train (53)
+around (156)
+education & category=Sports (261)
+education (913)
