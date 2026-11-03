@@ -122,7 +122,7 @@ def main() -> int:
             queries = [line.strip() for line in f if line.strip()]
     
     if not queries:
-        queries = ["test", "error", "user", "api", "status", "data", "admin", "search", "config", "metrics"]
+        queries = [" "]
         print(f"No query or file provided. Using {len(queries)} default search terms.", file=sys.stderr)
 
     # Load categories if provided

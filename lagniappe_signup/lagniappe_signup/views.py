@@ -1,5 +1,5 @@
+import os
 from urllib import request
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import CreateView, UpdateView
 from django.http import HttpResponse, JsonResponse
@@ -25,6 +25,8 @@ from .serializers import EventSerializer
 from django.core.paginator import Paginator
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector, TrigramSimilarity
 from django.db.models import Count, F
+from pgvector.django import CosineDistance
+from openai import OpenAI
 
 logger = logging.getLogger(__name__)
 def health(request):
@@ -417,23 +419,55 @@ def reg_delete(request, event_id, registration_id):
     )
 
 def search(request):
+    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+
     q = request.GET.get("q", "").strip()[:200]
-    results, facets = EventSearch.objects.none(), []
+    results, facets = EventSearch.objects.all(), []
     if q:
         words = [w for w in q.split() if w]
         raw_query = " & ".join([f"{w}:*" for w in words])
-        
-        query = SearchQuery(q, search_type="websearch", config="english")
-        results = (EventSearch.objects.filter(fts=query)
-                   .annotate(rank=SearchRank(F("fts"), query))
-                   .order_by("-rank", "Id"))
+
+        results = results.annotate(
+            title_sim=TrigramSimilarity("Title", q),
+            desc_sim=TrigramSimilarity("Description", q),
+            loc_sim=TrigramSimilarity("Location", q),
+        ).annotate(
+            text_sim=F("title_sim") * 2.0 + F("desc_sim") * 0.5 + F("loc_sim") * 0.5
+        )
+
+        try:
+            response = client.embeddings.create(
+                model="text-embedding-3-small",
+                input=q,
+                dimensions=738
+            )
+
+            query_vector = response.data[0].embedding
+                    
+            query = SearchQuery(q, search_type="websearch", config="english")
+            results = results.exclude(Embedding__isnull=True).annotate(
+                cosine_dist=CosineDistance("Embedding", query_vector)
+            )
+            results = results.annotate(
+                hybrid_rank=(F("text_sim") * 1.5) + (1.0 - F("cosine_dist"))
+            )
+
+            results = results.filter(text_sim__gt=0.15) | results.filter(cosine_dist__lt=0.30)
+            results = results.order_by("-hybrid_rank", "Id")
+        except Exception as e:
+            print(f"Embedding or query failed: {e}")
+            results = EventSearch.objects.none()
+
         facets = (results.order_by().values("Category")
-          .exclude(Category__isnull=True)
-          .exclude(Category="")
-          .annotate(n=Count("pk"))
-          .order_by("-n"))
+                              .exclude(Category__isnull=True)
+                              .exclude(Category="")
+                              .annotate(n=Count("Id"))
+                              .order_by("-n"))
         if cat := request.GET.get("Category"):
-            results = results.filter(Category=cat)
+                                results = results.filter(Category=cat)
+    else:
+        results = EventSearch.objects.none()
+        facets=[]
 
     page = Paginator(results, 30).get_page(request.GET.get("page"))
     return render(request, "search.html", {"q":q, "page": page, "facets": facets})

@@ -79,6 +79,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "health_check",
+    "pgvector.django"
 ]
 
 MIDDLEWARE = [

@@ -41,7 +41,7 @@ class Event(models.Model):
     Location = models.CharField(("location"), max_length=100)
     DateTime = models.DateTimeField(("datetime"), null=True)
     EventStatus = models.BooleanField(("eventstatus"), default=True)
-    Embedding = VectorField(dimensions=738, default=[0.0] * 738)
+    Embedding = VectorField(dimensions=738, null=True, blank=True)
 
     Registrations = models.ManyToManyField(
         Users,
@@ -95,6 +95,7 @@ class EventSearch(models.Model):
     Category = models.TextField(db_column='category')
     FirstName = models.TextField(db_column='orgfirstname')
     Lastname = models.TextField(db_column='orglastname')
+    Embedding = VectorField(db_column='embedding')
     fts = SearchVectorField()
 
     class Meta:
