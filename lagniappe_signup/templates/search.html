@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="search-container">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
+    <form method="get" style="display: flex; gap: 8px; align-items: center; margin-bottom: 5px;">
+        <!-- HTMX Autocomplete Input -->
+        <input 
+            type="text" 
+            name="q" 
+            value="{{ q }}" 
+            placeholder="Search events..."
+            autocomplete="off"
+            hx-get="{% url 'search-autocomplete' %}" 
+            hx-trigger="keyup changed delay:300ms" 
+            hx-target="#autocomplete-container" 
+            hx-swap="innerHTML"
+            style="flex: 1; padding: 8px 12px;"
+        >
+        <button type="submit" style="padding: 8px 16px;">Search</button>
+    </form>
+
+    <!-- Normal flow container: appears before debug/facets and pushes them down -->
+    <div id="autocomplete-container" style="margin-bottom: 20px;"></div>
+
+    <p>Debug: Found {{ page.paginator.count }} total results (Showing page {{ page.number }} of {{ page.paginator.num_pages }}).</p>
+
+    <hr>
+
+    <div class="facets">
+        {% for f in facets %}
+            {% if f.Category%}
+                <li class="{% if request.GET.Category == f.Category %}active{% endif %}">
+                    <a href="?q={{ q }}&Category={{ f.Category|urlencode }}">
+                        {{ f.Category }} 
+                        <span class="count">({{ f.n }})</span>
+                    </a>
+                </li>
+            {% endif %}
+        {% empty %}
+
+        {% endfor %}
+    </div>
+
+    <hr>
+
+    <div class="search-results">
+        {% for p in page %}
+            <div class="event-item" style="margin-bottom: 20px;">
+                <h3>{{ p.Title }}</h3>
+                <p>{{ p.Description }}</p>
+                <small><strong>Location:</strong> {{ p.Location }} | <strong>Category:</strong> {{ p.Category }}</small>
+            </div>
+        {% empty %}
+            <p>No matches found.</p>
+        {% endfor %}
+    </div>
+
+    {% if page.has_other_pages %}
+        <div class="pagination" style="margin-top: 20px;">
+            {% if page.has_previous %}
+                <a href="?q={{ q }}&page={{ page.previous_page_number }}{% if request.GET.Category %}&Category={{ request.GET.Category }}{% endif %}">Previous</a>
+            {% endif %}
+
+            <span>Page {{ page.number }} of {{ page.paginator.num_pages }}</span>
+
+            {% if page.has_next %}
+                <a href="?q={{ q }}&page={{ page.next_page_number }}{% if request.GET.Category %}&Category={{ request.GET.Category }}{% endif %}">Next</a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+

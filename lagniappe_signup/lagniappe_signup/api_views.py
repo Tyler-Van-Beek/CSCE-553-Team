@@ -1,4 +1,5 @@
-from rest_framework import status
+import os
+from rest_framework import status, serializers
 from rest_framework.decorators import (
     api_view,
     permission_classes,
@@ -13,7 +14,7 @@ from rest_framework.pagination import PageNumberPagination
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 
-from events.models import Event, Registration
+from events.models import Event, Registration, EventSearch
 
 from .serializers import (
     EventApiSerializer,
@@ -22,7 +23,13 @@ from .serializers import (
     RegistrationWithEventCategorySerializer,
     UserRegistrationSerializer,
     UserLoginSerializer,
+    EventSearchSerializer
 )
+from django.db.models import F, Count
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank, TrigramSimilarity
+from django.http import JsonResponse
+from openai import OpenAI
+from pgvector.django import CosineDistance
 
 
 @api_view(["POST"])
@@ -413,3 +420,84 @@ def api_event_registrations_keyset(
             "results": serializer.data,
         }
     )
+
+class SearchPagination(PageNumberPagination):
+    page_size=30
+    page_size_query_param = 'page_size'
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+def search_api(request):
+    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+
+    q = request.GET.get("q", "").strip()[:200]
+    cat = request.GET.get("Category", "").strip()
+    
+    results = EventSearch.objects.all()
+    facets = []
+
+    if q:
+        # 1. Baseline Typo Tolerance Text Similarity
+        results = results.annotate(
+            title_sim=TrigramSimilarity("Title", q),
+            desc_sim=TrigramSimilarity("Description", q),
+            loc_sim=TrigramSimilarity("Location", q),
+        ).annotate(
+            text_sim=F("title_sim") * 2.0 + F("desc_sim") * 0.5 + F("loc_sim") * 0.5
+        )
+
+        try:
+            # 2. Vector Embedding Generation
+            response = client.embeddings.create(
+                model="text-embedding-3-small",
+                input=q,
+                dimensions=738
+            )
+            query_vector = response.data[0].embedding
+                    
+            # 3. Hybrid Merge (Text Match Score + Semantic Distance)
+            results = results.exclude(Embedding__isnull=True).annotate(
+                cosine_dist=CosineDistance("Embedding", query_vector)
+            ).annotate(
+                hybrid_rank=(F("text_sim") * 1.5) + (1.0 - F("cosine_dist"))
+            )
+
+            # Filter out non-relevance noise
+            results = results.filter(text_sim__gt=0.05) | results.filter(cosine_dist__lt=0.70)
+            results = results.order_by("-hybrid_rank", "Id")
+            
+        except Exception as e:
+            print(f"Embedding or query failed: {e}")
+            # Safe text-only fallback if OpenAI breaks down
+            results = results.filter(text_sim__gt=0.1).order_by("-text_sim", "Id")
+
+        # 4. Generate Category counts BEFORE slicing for pagination
+        facets_queryset = (
+            results.order_by()
+            .values("Category")
+            .exclude(Category__isnull=True)
+            .exclude(Category="")
+            .annotate(n=Count("Id"))
+            .order_by("-n")
+        )
+        facets = list(facets_queryset)
+
+        # 5. Filter items down by category selection
+        if cat:
+            results = results.filter(Category=cat)
+    else:
+        results = EventSearch.objects.none()
+
+    # 6. Apply DRF Pagination
+    paginator = SearchPagination()
+    paginated_results = paginator.paginate_queryset(results, request)
+    
+    # 7. Serialize the records to JSON
+    serializer = EventSearchSerializer(paginated_results, many=True)
+
+    # 8. Return data payload along with your faceted sidebar meta metrics
+    return paginator.get_paginated_response({
+        "q": q,
+        "facets": facets,
+        "results": serializer.data
+    })
