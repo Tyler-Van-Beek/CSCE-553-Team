@@ -53,6 +53,12 @@ urlpatterns = [
         api_views.api_event_detail,
         name="api-event-detail",
     ),
+    # M5 PostgreSQL full-text search
+path(
+    "api/search",
+    api_views.api_search_events,
+    name="api-search-events",
+),
 
     # Registration APIs
     # Current logged-in user's registrations

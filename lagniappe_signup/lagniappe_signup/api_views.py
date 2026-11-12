@@ -1,4 +1,5 @@
 from rest_framework import status
+from django.db import connection
 from rest_framework.decorators import (
     api_view,
     permission_classes,
@@ -413,3 +414,82 @@ def api_event_registrations_keyset(
             "results": serializer.data,
         }
     )
+
+# M5 - PostgreSQL Full-Text Search API
+@api_view(["GET"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def api_search_events(request):
+    search_term = request.query_params.get("q", "").strip()
+    category = request.query_params.get("category") or None
+
+    if not search_term:
+        return Response(
+            {"detail": "Search keyword is required."},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    if len(search_term) > 200:
+        return Response(
+            {"detail": "Search keyword is too long."},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    try:
+        page = int(request.query_params.get("page", 1))
+        if page < 1:
+            raise ValueError
+    except (ValueError, TypeError):
+        return Response(
+            {"detail": "Invalid page number."},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    page_size = 20
+    offset = (page - 1) * page_size
+
+    with connection.cursor() as cursor:
+        cursor.execute(
+            """
+            SELECT *
+            FROM search.search_events(
+                %s, %s, TRUE, %s, %s
+            )
+            """,
+            [search_term, category, page_size, offset]
+        )
+
+        columns = [col[0] for col in cursor.description]
+        results = [
+            dict(zip(columns, row))
+            for row in cursor.fetchall()
+        ]
+
+        # M5 - Category facets for matching active events
+        cursor.execute(
+    """
+    SELECT
+        category,
+        COUNT(*) AS matching_events
+    FROM search.event_search
+    WHERE fts @@ websearch_to_tsquery('english', %s)
+      AND "EventStatus" = TRUE
+    GROUP BY category
+    ORDER BY matching_events DESC, category
+    """,
+    [search_term]
+)
+
+        facets = [
+        {
+            "category": row[0],
+            "count": row[1]
+        }
+        for row in cursor.fetchall()
+        ]
+    return Response({
+        "page": page,
+        "page_size": page_size,
+        "results": results,
+        "facets": facets
+    })
