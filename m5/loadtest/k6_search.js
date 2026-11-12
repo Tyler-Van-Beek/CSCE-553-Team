@@ -29,6 +29,7 @@ const TEST_CASES = {
 
 const CASE_NAME = __ENV.SEARCH_CASE || 'tech';
 const QUICK_TEST = __ENV.QUICK_TEST === 'true';
+const QUICK_RATE = Number(__ENV.QUICK_RATE || 2);
 const testCase = TEST_CASES[CASE_NAME];
 
 if (!testCase) {
@@ -45,7 +46,7 @@ export const options = __ENV.SMOKE_TEST === 'true'
       scenarios: {
         quick_test: {
           executor: 'constant-arrival-rate',
-          rate: 2,
+          rate:QUICK_RATE,
           timeUnit: '1s',
           duration: '30s',
           preAllocatedVUs: 5,
