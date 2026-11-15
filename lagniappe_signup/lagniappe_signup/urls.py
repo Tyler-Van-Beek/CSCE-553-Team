@@ -102,6 +102,11 @@ path(
         api_views.api_event_registrations_keyset,
         name="api-event-registrations-keyset",
     ),
+    path(
+        "api/search/",
+        api_views.search_api,
+        name="api-search",
+    ),
 
     # Web application pages
     path(
@@ -238,4 +243,19 @@ path(
         views.health,
         name="health",
     ),
+    path(
+        "search/",
+        views.search,
+        name="search"
+    ),
+    path(
+        "search/autocomplete/",
+        views.search_autocomplete,
+        name="search-autocomplete",
+    ),
+    path(
+        "search/autocomplete",
+        views.search_autocomplete,
+        name="search-autocomplete"
+    )
 ]

@@ -1,0 +1,380 @@
+latency_ms,status,error
+2048.7817999965046,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2036.3059999945108,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2033.5511000012048,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2041.6486000031,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2039.2764000134775,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2034.0525999927195,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2040.3585000021849,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2033.8942000089446,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2047.0055999903707,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2054.366600001231,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2030.5634999967879,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2036.1967999924673,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2034.9721999955364,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2035.3039000037825,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2042.1880000067176,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2042.9351000057068,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2048.8311999943107,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2040.0288000091678,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2045.5840000067838,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2129.3880000011995,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2097.2617999941576,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2088.76450000389,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2046.2689000123646,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2041.3843999995152,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2037.9952000075718,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2259.432899998501,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2111.7307000095025,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2041.2706000061007,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2213.3544999960577,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2308.871999994153,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2197.524199989857,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2346.9173000048613,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2495.6127000041306,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2116.098200000124,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2132.3401000117883,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2432.9772999917623,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2224.1633999947226,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2248.8711000041803,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2419.6680999884848,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2484.5729999942705,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2526.152999998885,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2281.774899995071,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2317.8094000031706,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2447.6800999982515,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2417.473699999391,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2400.3511000046274,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2389.862500000163,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2441.9744000042556,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2335.838600003626,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2241.4269000000786,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2237.2444000066025,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2202.234199998202,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2162.744000001112,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2208.4125999972457,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2272.167899995111,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2375.2611999952933,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2529.7652000008384,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2208.8264000049094,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2360.242999988259,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2307.6177000039024,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2322.811099991668,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2118.0823000031523,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2398.1359000026714,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2371.522899993579,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2499.979300002451,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2247.3633000045083,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+29729.38590000558,500,http
+30004.711000001407,0,TimeoutError: timed out
+30005.48950000666,0,TimeoutError: timed out
+30005.85279999359,0,TimeoutError: timed out
+30001.745700006722,0,TimeoutError: timed out
+30004.606500006048,0,TimeoutError: timed out
+30006.575599996722,0,TimeoutError: timed out
+30003.84770000528,0,TimeoutError: timed out
+30006.591299999855,0,TimeoutError: timed out
+30005.237200006377,0,TimeoutError: timed out
+30002.569400006905,0,TimeoutError: timed out
+30005.62880000507,0,TimeoutError: timed out
+30006.006299998262,0,TimeoutError: timed out
+30008.007900003577,0,TimeoutError: timed out
+30007.96950000222,0,TimeoutError: timed out
+30007.874399991124,0,TimeoutError: timed out
+30004.815599997528,0,TimeoutError: timed out
+30012.413000004017,0,TimeoutError: timed out
+30015.04969999951,0,TimeoutError: timed out
+30014.93570000457,0,TimeoutError: timed out
+30013.38950000354,0,TimeoutError: timed out
+30013.724199990975,0,TimeoutError: timed out
+30010.62680000905,0,TimeoutError: timed out
+30006.852200007415,0,TimeoutError: timed out
+30011.12190001004,0,TimeoutError: timed out
+30007.65309999406,0,TimeoutError: timed out
+30008.2795000053,0,TimeoutError: timed out
+30010.32750000013,0,TimeoutError: timed out
+30000.70570000389,0,TimeoutError: timed out
+30003.515199990943,0,TimeoutError: timed out
+30004.408599997987,0,TimeoutError: timed out
+30002.215600005,0,TimeoutError: timed out
+30014.25379999273,0,TimeoutError: timed out
+30014.44280000578,0,TimeoutError: timed out
+30012.7719000011,0,TimeoutError: timed out
+30000.269399999524,0,TimeoutError: timed out
+30003.477200007183,0,TimeoutError: timed out
+30011.483499998576,0,TimeoutError: timed out
+30003.313499997603,0,TimeoutError: timed out
+30001.289499996346,0,TimeoutError: timed out
+30004.51329999487,0,TimeoutError: timed out
+30008.23589999345,0,TimeoutError: timed out
+30521.233599996776,0,TimeoutError: timed out
+30522.055299996282,0,TimeoutError: timed out
+30529.130300012184,0,TimeoutError: timed out
+30529.38060001179,0,TimeoutError: timed out
+30529.978500009747,0,TimeoutError: timed out
+30529.92620000441,0,TimeoutError: timed out
+30528.037900003255,0,TimeoutError: timed out
+30528.336600007606,0,TimeoutError: timed out
+30527.637699997285,0,TimeoutError: timed out
+30522.74960000068,0,TimeoutError: timed out
+30527.1747999941,0,TimeoutError: timed out
+30529.36810000392,0,TimeoutError: timed out
+30531.95429999323,0,TimeoutError: timed out
+30522.0352000033,0,TimeoutError: timed out
+30531.409899995197,0,TimeoutError: timed out
+30531.341499998234,0,TimeoutError: timed out
+30532.607599991024,0,TimeoutError: timed out
+30531.03129999363,0,TimeoutError: timed out
+30530.286699999124,0,TimeoutError: timed out
+30529.990800001542,0,TimeoutError: timed out
+30522.460300009698,0,TimeoutError: timed out
+30525.53070000431,0,TimeoutError: timed out
+30528.125400000135,0,TimeoutError: timed out
+30525.443799997447,0,TimeoutError: timed out
+30533.038200010196,0,TimeoutError: timed out
+30533.83820000454,0,TimeoutError: timed out
+30524.109900012263,0,TimeoutError: timed out
+31021.980599995004,0,TimeoutError: timed out
+32055.953800008865,0,TimeoutError: timed out
+31542.46530000819,0,TimeoutError: timed out
+31543.956500012428,0,TimeoutError: timed out
+30000.34030000097,0,TimeoutError: timed out
+31533.85769999295,0,TimeoutError: timed out
+32041.16910000448,0,TimeoutError: timed out
+32050.3364999895,0,TimeoutError: timed out
+31024.406700002146,0,TimeoutError: timed out
+31540.144999991753,0,TimeoutError: timed out
+30000.99339999724,0,TimeoutError: timed out
+32033.253700006753,0,TimeoutError: timed out
+30506.827699995483,0,TimeoutError: timed out
+30014.769300003536,0,TimeoutError: timed out
+31538.342499989085,0,TimeoutError: timed out
+31522.635099987383,0,TimeoutError: timed out
+30001.29050000396,0,TimeoutError: timed out
+32196.815800009063,0,TimeoutError: timed out
+30001.509300011094,0,TimeoutError: timed out
+30014.63839999633,0,TimeoutError: timed out
+30600.852199990186,0,TimeoutError: timed out
+28126.42309999501,200,
+31032.228199997917,0,TimeoutError: timed out
+32222.930300005828,0,TimeoutError: timed out
+26584.293299994897,200,
+31036.2221999967,0,TimeoutError: timed out
+30524.298499993165,0,TimeoutError: timed out
+29395.246000000043,200,
+29167.038100000354,200,
+31374.872200001846,0,TimeoutError: timed out
+30578.803099997458,0,TimeoutError: timed out
+27563.102899992373,200,
+32304.740400009905,0,TimeoutError: timed out
+32116.47519998951,0,TimeoutError: timed out
+31544.367899987265,0,TimeoutError: timed out
+26231.11140000401,200,
+30013.108899991494,0,TimeoutError: timed out
+31959.789999993518,0,TimeoutError: timed out
+26674.645200007944,200,
+28876.75909999234,200,
+30002.902399995946,0,TimeoutError: timed out
+30016.613600004348,0,TimeoutError: timed out
+30001.467199996114,0,TimeoutError: timed out
+30001.94780000311,0,TimeoutError: timed out
+26881.977400000324,200,
+29017.90510000137,200,
+30576.589399992372,0,TimeoutError: timed out
+30577.340599993477,0,TimeoutError: timed out
+27624.980199994752,200,
+31195.577400008915,0,TimeoutError: timed out
+30013.724699994782,0,TimeoutError: timed out
+30588.18720000272,0,TimeoutError: timed out
+26755.21600000502,200,
+27643.894900000305,200,
+30016.245599996182,0,TimeoutError: timed out
+29675.803799997084,200,
+30007.20329998876,0,TimeoutError: timed out
+28375.03489998926,200,
+30015.11490000121,0,TimeoutError: timed out
+26413.233500003116,200,
+27552.285400000983,200,
+31859.345100005157,0,TimeoutError: timed out
+32201.254700004938,0,TimeoutError: timed out
+29236.879199990653,200,
+28499.9250999972,200,
+32479.01810001349,0,TimeoutError: timed out
+30695.09019999532,0,TimeoutError: timed out
+27982.602499992936,200,
+30007.9451000056,0,TimeoutError: timed out
+32445.925099993474,0,TimeoutError: timed out
+28294.89210000611,200,
+30629.87059999432,0,TimeoutError: timed out
+30643.346500000916,0,TimeoutError: timed out
+30704.43090000481,0,TimeoutError: timed out
+2446.168900001794,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2416.9088000053307,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+30560.20520000311,0,TimeoutError: timed out
+2369.43710000196,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2369.5498000015505,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2397.437199993874,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2469.6733000018867,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+30662.126999988686,0,TimeoutError: timed out
+31253.371500002686,0,TimeoutError: timed out
+2318.2547000033082,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2235.535499989055,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2459.8856999946292,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2470.2312000008533,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+2342.470299990964,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+31785.16070000478,0,TimeoutError: timed out
+30529.37259999453,0,TimeoutError: timed out
+2253.106199990725,0,URLError: <urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>
+31113.71109999891,0,TimeoutError: timed out
+31310.706099990057,0,TimeoutError: timed out
+30022.025700003724,0,TimeoutError: timed out
+30008.711000002222,0,TimeoutError: timed out
+30009.33200000145,0,TimeoutError: timed out
+30008.66120000137,0,TimeoutError: timed out
+30009.700900001917,0,TimeoutError: timed out
+30009.192800003802,0,TimeoutError: timed out
+30010.335300001316,0,TimeoutError: timed out
+30009.157399996184,0,TimeoutError: timed out
+30009.544500004267,0,TimeoutError: timed out
+30010.134299998754,0,TimeoutError: timed out
+30009.59289999446,0,TimeoutError: timed out
+30009.933399996953,0,TimeoutError: timed out
+30008.75470000028,0,TimeoutError: timed out
+30008.942799991928,0,TimeoutError: timed out
+30009.28290000593,0,TimeoutError: timed out
+30010.93229999242,0,TimeoutError: timed out
+30010.531599997194,0,TimeoutError: timed out
+30010.477500007255,0,TimeoutError: timed out
+30010.38969999354,0,TimeoutError: timed out
+30010.27269999031,0,TimeoutError: timed out
+30011.06809999328,0,TimeoutError: timed out
+30011.02190000529,0,TimeoutError: timed out
+30011.017299999367,0,TimeoutError: timed out
+30009.926200000336,0,TimeoutError: timed out
+30009.128099991358,0,TimeoutError: timed out
+30006.635199999437,0,TimeoutError: timed out
+29555.684100007056,200,
+30006.238699992537,0,TimeoutError: timed out
+29566.29149999935,200,
+30007.031000001007,0,TimeoutError: timed out
+30006.765599988285,0,TimeoutError: timed out
+25793.708800003515,200,
+30007.486599992262,0,TimeoutError: timed out
+30007.410399994114,0,TimeoutError: timed out
+29660.91539998888,200,
+30008.61309999891,0,TimeoutError: timed out
+30008.38709999516,0,TimeoutError: timed out
+30009.65599999472,0,TimeoutError: timed out
+30009.753300008015,0,TimeoutError: timed out
+30009.47940000333,0,TimeoutError: timed out
+30010.47870000184,0,TimeoutError: timed out
+28305.130299995653,200,
+30009.7056000086,0,TimeoutError: timed out
+30011.36530000076,0,TimeoutError: timed out
+29934.164200007217,200,
+30010.20509999944,0,TimeoutError: timed out
+30488.09290000645,200,
+30008.215599998948,0,TimeoutError: timed out
+30534.543000001577,0,TimeoutError: timed out
+30007.719500004896,0,TimeoutError: timed out
+30008.735899988096,0,TimeoutError: timed out
+30009.174400009215,0,TimeoutError: timed out
+28206.921799996053,200,
+28005.019999996875,200,
+30518.24609999312,0,TimeoutError: timed out
+30517.069299996365,0,TimeoutError: timed out
+30516.38780000212,0,TimeoutError: timed out
+30518.10950000072,0,TimeoutError: timed out
+30516.984999994747,0,TimeoutError: timed out
+30517.305799992755,0,TimeoutError: timed out
+30519.259599997895,0,TimeoutError: timed out
+30516.95090001158,0,TimeoutError: timed out
+30519.242700000177,0,TimeoutError: timed out
+30518.03039999504,0,TimeoutError: timed out
+30516.613999992842,0,TimeoutError: timed out
+30518.05630000308,0,TimeoutError: timed out
+30517.272500001127,0,TimeoutError: timed out
+30517.75169999746,0,TimeoutError: timed out
+30518.62610000535,0,TimeoutError: timed out
+30516.680100001395,0,TimeoutError: timed out
+30519.064099993557,0,TimeoutError: timed out
+30519.4221999991,0,TimeoutError: timed out
+30518.469500006177,0,TimeoutError: timed out
+28106.57020000508,200,
+30242.7708000032,200,
+30003.879999989294,0,TimeoutError: timed out
+29361.54679999163,200,
+30514.967800001614,0,TimeoutError: timed out
+30009.591299996828,0,TimeoutError: timed out
+30009.828399997787,0,TimeoutError: timed out
+30012.121599997045,0,TimeoutError: timed out
+30012.686299989582,0,TimeoutError: timed out
+30002.3829999991,0,TimeoutError: timed out
+30003.223199993954,0,TimeoutError: timed out
+30004.084000000148,0,TimeoutError: timed out
+30003.558800002793,0,TimeoutError: timed out
+30003.776700003073,0,TimeoutError: timed out
+30006.166599996504,0,TimeoutError: timed out
+30006.06320000952,0,TimeoutError: timed out
+30006.09660000191,0,TimeoutError: timed out
+30000.78580000263,0,TimeoutError: timed out
+30004.186299993307,0,TimeoutError: timed out
+30004.102499995497,0,TimeoutError: timed out
+30014.402900007553,0,TimeoutError: timed out
+30004.150299995672,0,TimeoutError: timed out
+30004.36950000585,0,TimeoutError: timed out
+30012.657500003115,0,TimeoutError: timed out
+30013.352699999814,0,TimeoutError: timed out
+30003.845700004604,0,TimeoutError: timed out
+30003.777499994612,0,TimeoutError: timed out
+30015.403700002935,0,TimeoutError: timed out
+30004.038500002935,0,TimeoutError: timed out
+30002.057100005914,0,TimeoutError: timed out
+30004.04549999803,0,TimeoutError: timed out
+30006.68590000714,0,TimeoutError: timed out
+30007.00080000388,0,TimeoutError: timed out
+30011.514400001033,0,TimeoutError: timed out
+30007.870100002037,0,TimeoutError: timed out
+30586.914700004854,0,TimeoutError: timed out
+30702.87009999447,0,TimeoutError: timed out
+30564.834200005862,0,TimeoutError: timed out
+30580.038300002343,0,TimeoutError: timed out
+30010.223399993265,0,TimeoutError: timed out
+30584.547400008887,0,TimeoutError: timed out
+30554.17540000053,0,TimeoutError: timed out
+30580.28940000804,0,TimeoutError: timed out
+31183.741899993038,0,TimeoutError: timed out
+30599.26250000717,0,TimeoutError: timed out
+30014.50049999403,0,TimeoutError: timed out
+30633.592099999078,0,TimeoutError: timed out
+30013.56589999341,0,TimeoutError: timed out
+30013.27460000175,0,TimeoutError: timed out
+30675.11949999607,0,TimeoutError: timed out
+31084.26830000826,0,TimeoutError: timed out
+31846.523499989416,0,TimeoutError: timed out
+31438.498700008495,500,http
+31728.9552000002,0,TimeoutError: timed out
+31213.653200000408,0,TimeoutError: timed out
+30628.60769999679,0,TimeoutError: timed out
+31781.16779999982,0,TimeoutError: timed out
+30695.027299996582,500,http
+30010.87239998742,0,TimeoutError: timed out
+30010.833199994522,0,TimeoutError: timed out
+30646.950299997116,0,TimeoutError: timed out
+29077.61140000366,500,http
+29947.76899999124,500,http
+32434.93230000604,0,TimeoutError: timed out
+30665.16999999294,0,TimeoutError: timed out
+30549.858799990034,0,TimeoutError: timed out
+31727.372800000012,0,TimeoutError: timed out
+31142.766899996786,0,TimeoutError: timed out
+29130.990799996653,500,http
+31389.091899996856,0,TimeoutError: timed out
+30013.850199989974,0,TimeoutError: timed out
+29524.133800005075,500,http
+31021.58070000587,0,TimeoutError: timed out
+31611.298000003444,0,TimeoutError: timed out
+31087.43680000771,0,TimeoutError: timed out
+30581.912499997998,0,TimeoutError: timed out
+30551.260799999,0,TimeoutError: timed out
+21034.779300010996,200,

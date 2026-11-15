@@ -3,9 +3,9 @@
 -- Run against the existing Lagniappe PostgreSQL database.
 -- The materialized view and search function are also used by Django.
 
-CREATE SCHEMA IF NOT EXISTS search;
+CREATE SCHEMA IF NOT EXISTS m5_search;
 
-CREATE MATERIALIZED VIEW IF NOT EXISTS search.event_search AS
+CREATE MATERIALIZED VIEW IF NOT EXISTS m5_search.event_search AS
 SELECT
     e."EventID",
     e."Title",
@@ -32,12 +32,12 @@ LEFT JOIN events_category c
 WITH DATA;
 
 CREATE UNIQUE INDEX IF NOT EXISTS event_search_id_idx
-ON search.event_search ("EventID");
+ON m5_search.event_search ("EventID");
 
 CREATE INDEX IF NOT EXISTS event_search_fts_idx
-ON search.event_search USING GIN (fts);
+ON m5_search.event_search USING GIN (fts);
 
-CREATE OR REPLACE FUNCTION search.search_events(
+CREATE OR REPLACE FUNCTION m5_search.search_events(
     q TEXT,
     cat TEXT DEFAULT NULL,
     active_only BOOLEAN DEFAULT TRUE,
@@ -63,7 +63,7 @@ LANGUAGE SQL STABLE AS $$
             s.fts,
             websearch_to_tsquery('english', q)
         ) AS rank
-    FROM search.event_search s
+    FROM m5_search.event_search s
     WHERE s.fts @@ websearch_to_tsquery('english', q)
       AND (cat IS NULL OR s.category = cat)
       AND (NOT active_only OR s."EventStatus" = TRUE)
@@ -72,11 +72,11 @@ LANGUAGE SQL STABLE AS $$
     OFFSET GREATEST(off, 0);
 $$;
 
--- Existing Supabase pg_cron job:
+-- -- Example schedule for the new m5_search view:.
 -- refresh-event-search
 -- Schedule: */5 * * * *
 -- Command:
--- REFRESH MATERIALIZED VIEW CONCURRENTLY search.event_search;
+-- REFRESH MATERIALIZED VIEW CONCURRENTLY m5_search.event_search;
 --
 -- Cron is documented rather than automatically scheduled here
 -- to avoid creating duplicate jobs in the shared database.

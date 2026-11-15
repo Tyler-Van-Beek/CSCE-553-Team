@@ -18,7 +18,7 @@ class Command(BaseCommand):
 
         with connections["default"].cursor() as cursor:
             cursor.execute(
-                "REFRESH MATERIALIZED VIEW CONCURRENTLY search.event_search"
+                "REFRESH MATERIALIZED VIEW CONCURRENTLY m5_search.event_search"
             )
 
         self.stdout.write(self.style.SUCCESS("Search view refreshed."))

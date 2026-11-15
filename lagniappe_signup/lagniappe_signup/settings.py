@@ -74,10 +74,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.postgres",
     "events",
     "rest_framework",
     "rest_framework.authtoken",
     "health_check",
+    "pgvector.django"
 ]
 
 MIDDLEWARE = [
@@ -144,7 +146,7 @@ else:
         conn_max_age=int(os.environ.get("DB_CONN_MAX_AGE", "0")),
         ssl_require=True
     )
-}   
+}
 
 if "test" not in sys.argv:
     for alias, env_var in (

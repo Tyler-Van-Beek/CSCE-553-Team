@@ -1,7 +1,8 @@
-from asyncio import events
+import os
 
-from rest_framework import status
-from django.db import connection
+from django.db import connection, connections
+from rest_framework import serializers, status
+
 from rest_framework.decorators import (
     api_view,
     permission_classes,
@@ -12,15 +13,13 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.pagination import PageNumberPagination
-from django.db import connections
-from rest_framework import serializers
 from .shard_routing import shard_for_event
 from .registration_service import register_on_event_shard
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from .event_service import create_event_on_shard, update_event_on_shard
 
-from events.models import Event, Registration
+from events.models import Event, Registration, EventSearch
 
 from .serializers import (
     EventApiSerializer,
@@ -29,7 +28,13 @@ from .serializers import (
     RegistrationWithEventCategorySerializer,
     UserRegistrationSerializer,
     UserLoginSerializer,
+    EventSearchSerializer
 )
+from django.db.models import F, Count
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank, TrigramSimilarity
+from django.http import JsonResponse
+from openai import OpenAI
+from pgvector.django import CosineDistance
 
 
 @api_view(["POST"])
@@ -485,6 +490,7 @@ def api_event_registrations_keyset(
         }
     )
 
+
 # M5 - PostgreSQL Full-Text Search API
 @api_view(["GET"])
 @authentication_classes([TokenAuthentication])
@@ -522,7 +528,7 @@ def api_search_events(request):
         cursor.execute(
             """
             SELECT *
-            FROM search.search_events(
+            FROM m5_search.search_events(
                 %s, %s, TRUE, %s, %s
             )
             """,
@@ -541,7 +547,7 @@ def api_search_events(request):
     SELECT
         category,
         COUNT(*) AS matching_events
-    FROM search.event_search
+    FROM m5_search.event_search
     WHERE fts @@ websearch_to_tsquery('english', %s)
       AND "EventStatus" = TRUE
     GROUP BY category
@@ -562,4 +568,89 @@ def api_search_events(request):
         "page_size": page_size,
         "results": results,
         "facets": facets
+    })
+
+
+class SearchPagination(PageNumberPagination):
+    page_size=30
+    page_size_query_param = 'page_size'
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+def search_api(request):
+    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+
+    q = request.GET.get("q", "").strip()[:200]
+    cat = request.GET.get("Category", "").strip()
+    
+    results = EventSearch.objects.all()
+    facets = []
+
+    if q:
+        # 1. Baseline Typo Tolerance Text Similarity
+        results = results.annotate(
+            title_sim=TrigramSimilarity("Title", q),
+            desc_sim=TrigramSimilarity("Description", q),
+            loc_sim=TrigramSimilarity("Location", q),
+        ).annotate(
+            text_sim=F("title_sim") * 2.0 + F("desc_sim") * 0.5 + F("loc_sim") * 0.5
+        )
+
+        try:
+            # 2. Vector Embedding Generation
+            response = client.embeddings.create(
+                model="text-embedding-3-small",
+                input=q,
+                dimensions=738
+            )
+            query_vector = response.data[0].embedding
+                    
+            # 3. Hybrid Merge (Text Match Score + Semantic Distance)
+            results = results.exclude(Embedding__isnull=True).annotate(
+                cosine_dist=CosineDistance("Embedding", query_vector)
+            ).annotate(
+                hybrid_rank=(F("text_sim") * 1.5) + (1.0 - F("cosine_dist"))
+            )
+
+            # Filter out non-relevance noise
+            results = results.filter(text_sim__gt=0.05) | results.filter(cosine_dist__lt=0.70)
+            results = results.order_by("-hybrid_rank", "Id")
+            
+        except Exception as e:
+            print(f"Embedding or query failed: {e}")
+            # Safe text-only fallback if OpenAI breaks down
+            results = results.filter(text_sim__gt=0.1).order_by("-text_sim", "Id")
+
+        # 4. Generate Category counts BEFORE slicing for pagination
+        facets_queryset = (
+            results.order_by()
+            .values("Category")
+            .exclude(Category__isnull=True)
+            .exclude(Category="")
+            .annotate(n=Count("Id"))
+            .order_by("-n")
+        )
+        facets = list(facets_queryset)
+
+        # 5. Filter items down by category selection
+        if cat:
+            results = results.filter(Category=cat)
+    else:
+        results = EventSearch.objects.none()
+
+    # 6. Apply DRF Pagination
+    paginator = SearchPagination()
+    paginated_results = paginator.paginate_queryset(results, request)
+    
+    # 7. Serialize the records to JSON
+    serializer = EventSearchSerializer(paginated_results, many=True)
+
+    # 8. Return data payload along with your faceted sidebar meta metrics
+    return Response({
+        "count": paginator.page.paginator.count,
+        "next": paginator.get_next_link(),
+        "previous": paginator.get_previous_link(),
+        "q": q,
+        "facets": facets,
+        "results": serializer.data
     })

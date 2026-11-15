@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator
+from django.contrib.postgres.search import (SearchVectorField)
+from pgvector.django import VectorField
 
 # Create your models here.
 class Users(AbstractUser): # AbstractUser comes with a whole bunch of attributes
@@ -39,6 +41,7 @@ class Event(models.Model):
     Location = models.CharField(("location"), max_length=100)
     DateTime = models.DateTimeField(("datetime"), null=True)
     EventStatus = models.BooleanField(("eventstatus"), default=True)
+    Embedding = VectorField(dimensions=738, null=True, blank=True)
 
     Registrations = models.ManyToManyField(
         Users,
@@ -82,4 +85,20 @@ class Registration(models.Model):
                 name="unique_user_event_registration"
             )
         ]
+
+class EventSearch(models.Model):
+    Id = models.TextField(primary_key=True, db_column='id')
+    Title = models.TextField(db_column='title')
+    Description = models.TextField(db_column='description')
+    Location = models.TextField(db_column='location')
+    Datetime = models.DateTimeField(db_column='datetime')
+    Category = models.TextField(db_column='category')
+    FirstName = models.TextField(db_column='orgfirstname')
+    Lastname = models.TextField(db_column='orglastname')
+    Embedding = VectorField(db_column='embedding')
+    fts = SearchVectorField()
+
+    class Meta:
+        managed = False  # SQL owns it
+        db_table = 'search"."event_search'
     
