@@ -141,12 +141,24 @@ else:
         )
 
     DATABASES = {
-        "default": dj_database_url.parse(
-            database_url,
-            conn_max_age=600,
-            ssl_require=True,
-        )
-    }
+    "default": dj_database_url.parse(
+        database_url,
+        conn_max_age=int(os.environ.get("DB_CONN_MAX_AGE", "0")),
+        ssl_require=True
+    )
+}
+
+if "test" not in sys.argv:
+    for alias, env_var in (
+        ("shard_0", "SHARD_0_URL"),
+        ("shard_1", "SHARD_1_URL"),
+    ):
+        shard_url = os.environ.get(env_var)
+        if shard_url:
+            DATABASES[alias] = dj_database_url.parse(
+                shard_url,
+                conn_max_age=int(os.environ.get("DB_CONN_MAX_AGE", "0")),
+            )
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

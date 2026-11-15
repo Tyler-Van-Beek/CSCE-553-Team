@@ -23,10 +23,21 @@ from rest_framework import status
 from rest_framework.parsers import JSONParser
 from .serializers import EventSerializer
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector, TrigramSimilarity
+from django.db import connections, transaction
 from django.db.models import Count, F
-from pgvector.django import CosineDistance
+from django.http import Http404
 from openai import OpenAI
+from pgvector.django import CosineDistance
+
+from .event_service import (
+    create_event_on_shard,
+    delete_event_on_shard,
+    update_event_on_shard,
+)
+from .registration_service import register_on_event_shard
+from .shard_routing import shard_for_event
 
 logger = logging.getLogger(__name__)
 def health(request):
@@ -72,12 +83,28 @@ def signout(request):
 def eventMap(request):
     return render(request, "eventMap.html")
 
+def save_browser_event(event, organizer):
+    if {"shard_0", "shard_1"}.issubset(connections.databases):
+        return create_event_on_shard(
+            organizer_id=organizer.pk,
+            category_id=event.CategoryID_id,
+            Title=event.Title,
+            Description=event.Description,
+            Location=event.Location,
+            DateTime=event.DateTime or None,
+            EventStatus=event.EventStatus,
+        )
+
+    event.OrganizerID = organizer
+    event.save()
+    return event
+
 @login_required(login_url="/signin/")
 def create_event(request):
     if request.method == "POST":
         form = EventForm(request.POST)
         if form.is_valid():
-            form.save()
+            save_browser_event(form.save(commit=False), request.user)
             return redirect("event-list")
     else:
         form = EventForm(request)
@@ -117,7 +144,7 @@ def eventForm(request):
             Location=location,
             DateTime=dateTime,
         )
-        event.save()
+        save_browser_event(event, request.user)
         messages.success(request, 'Event created!')
 
         return redirect("event-list")
@@ -153,27 +180,35 @@ def list_event(request):
 
 @login_required(login_url="/signin/")
 def create_reg(request, pk):
-    event_id = pk
+    sharding_enabled = {"shard_0", "shard_1"}.issubset(connections.databases)
+
     if request.method == "POST":
-        form = RegForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("registration-list")
-    else:
-        form = RegForm(request)
+        if sharding_enabled:
+            try:
+                _, created = register_on_event_shard(
+                    event_id=pk, user_id=request.user.pk
+                )
+            except Event.DoesNotExist as exc:
+                raise Http404("Event not found.") from exc
+        else:
+            event = get_object_or_404(Event, pk=pk)
+            _, created = Registration.objects.get_or_create(
+                EventID_id=event.pk, UserID_id=request.user.pk
+            )
 
-    # Fetch Users and Events for the context
-    users = Users.objects.all()
+        if created:
+            messages.success(request, "Registration complete!")
+        else:
+            messages.info(request, "You are already registered for this event.")
+
+        return redirect("event-detail", pk=pk)
+
     events = Event.objects.all()
+    if sharding_enabled:
+        events = events.using(shard_for_event(pk))
 
-    # Pass data to the template
-    context = {
-        "form": form,
-        "Users": users,
-        "event": Event.objects.get(EventID=pk)
-    }
-
-    return render(request, "create_registration.html", context)
+    event = get_object_or_404(events, pk=pk)
+    return render(request, "create_registration.html", {"event": event})
 
 
 class list_reg(ListView):
@@ -181,25 +216,6 @@ class list_reg(ListView):
     template_name = "registration_list.html"
     context_object_name = "registrations"
     paginate = 20
-
-
-@csrf_exempt
-def RegForm(request):
-    if request.method == "POST":
-        userID = request.POST.get("User")
-        event = request.POST.get("Event")
-
-        user = Users.objects.get(UserID=userID)
-        event = Event.objects.get(EventID=event)
-
-        registration = Registration(UserID=user, EventID=event)
-        registration.save()
-        messages.success(request, 'Registration complete!')
-
-
-        return redirect('event-detail', pk = event.EventID)
-    else:
-        return HttpResponse("Only POST requests are allowed.", status=405)
 
 
 def signup(request):
@@ -261,91 +277,162 @@ def create_feedback(request, pk):
     return render(request, "create_feedback.html", context)
 
 
+@login_required(login_url="/signin/")
 def feedback_form(request):
-    if request.method == "POST":
-        user = request.POST.get("User")
-        event = request.POST.get("Event")
-        rating = request.POST.get("rating")
-        comments = request.POST.get("comments")
-
-        event = Event.objects.get(EventID=event)
-        user = Users.objects.get(UserID=user)
-
-        feedback = Feedback(
-            UserID=user, EventID=event, Rating=rating, Comments=comments
-        )
-        feedback.save()
-        messages.success(request, 'Feedback submitted.')
-
-        return redirect("event-detail", pk=event.EventID)
-    else:
+    if request.method != "POST":
         return HttpResponse("Only POST requests are allowed.", status=405)
+
+    try:
+        event_id = int(request.POST.get("Event", ""))
+        rating = int(request.POST.get("rating", ""))
+    except ValueError:
+        return HttpResponse("Enter a valid event and rating.", status=400)
+
+    comments = request.POST.get("comments", "").strip()
+    if not (1 <= event_id <= 2_147_483_647 and 1 <= rating <= 5 and 1 <= len(comments) <= 500):
+        return HttpResponse("Enter a valid event, rating, and comments.", status=400)
+
+    alias = "default"
+    if {"shard_0", "shard_1"}.issubset(connections.databases):
+        alias = shard_for_event(event_id)
+
+    user_id = request.user.pk
+
+    with transaction.atomic(using=alias):
+        event = get_object_or_404(Event.objects.using(alias), pk=event_id)
+
+        if alias != "default":
+            with connections[alias].cursor() as cursor:
+                cursor.execute(
+                    """
+                    INSERT INTO public.m6_user_reference ("UserID")
+                    VALUES (%s)
+                    ON CONFLICT ("UserID") DO NOTHING
+                    """,
+                    [user_id],
+                )
+
+        _, created = Feedback.objects.using(alias).get_or_create(
+            EventID_id=event.pk,
+            UserID_id=user_id,
+            defaults={"Rating": rating, "Comments": comments},
+        )
+
+    if created:
+        messages.success(request, "Feedback submitted.")
+    else:
+        messages.info(request, "You already submitted feedback for this event.")
+
+    return redirect("event-detail", pk=event_id)
 
 
 class list_feedback(ListView):
     model = Feedback
     template_name = "feedback_list.html"
     context_object_name = "feedback"
-    paginate = 20
+    paginate_by = 20
+
+    def get_queryset(self):
+        feedback = Feedback.objects.select_related("EventID").order_by("-Date", "-pk")
+        if {"shard_0", "shard_1"}.issubset(connections.databases):
+            return sorted(
+                (
+                    row
+                    for alias in ("shard_0", "shard_1")
+                    for row in feedback.using(alias)
+                ),
+                key=lambda row: (row.Date, row.pk, row.EventID_id),
+                reverse=True,
+            )
+        return feedback
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        page_rows = list(context["feedback"])
+        users = Users.objects.using("default").in_bulk(
+            {row.UserID_id for row in page_rows}
+        )
+        for row in page_rows:
+            user = users.get(row.UserID_id)
+            row.feedback_username = user.username if user else "Unknown user"
+        context["feedback"] = page_rows
+        return context
 
 
 def detail_event(request, pk):
-    try:
-        event = Event.objects.get(EventID=pk)
-    except Event.DoesNotExist:
-        return HttpResponse("Event Does Not Exist", status=404)
-    
-    reg = None
-    user = None
-    is_registered = False
-    if request.user.is_authenticated: 
-        user = request.user
-        is_registered = Registration.objects.filter(EventID=pk, UserID=user.UserID).exists()
-        
-        if is_registered:
-            reg = Registration.objects.get(EventID=pk, UserID=user.UserID)
+    alias = "default"
+    if {"shard_0", "shard_1"}.issubset(connections.databases):
+        alias = shard_for_event(pk)
 
-    return render(request, "event_detail.html", context={
+    event = get_object_or_404(
+        Event.objects.using(alias).select_related("CategoryID"),
+        pk=pk,
+    )
+    organizer = Users.objects.using("default").filter(
+        pk=event.OrganizerID_id,
+    ).first()
+    organizer_name = (
+        organizer.get_full_name() or organizer.email
+        if organizer else "Unknown organizer"
+    )
+
+    reg = None
+    if request.user.is_authenticated:
+        reg = Registration.objects.using(alias).filter(
+            EventID_id=pk,
+            UserID_id=request.user.pk,
+        ).first()
+
+    return render(request, "event_detail.html", {
         "event": event,
         "reg": reg,
-        "is_registered": is_registered
+        "is_registered": reg is not None,
+        "organizer_name": organizer_name,
+        "is_organizer": (
+            request.user.is_authenticated
+            and request.user.pk == event.OrganizerID_id
+        ),
     })
 
 @login_required(login_url="/signin/")
 def update_event(request, pk):
-    event = Event.objects.get(EventID=pk)
+    sharding_enabled = {"shard_0", "shard_1"}.issubset(connections.databases)
+    events = Event.objects.all()
+    if sharding_enabled:
+        events = events.using(shard_for_event(pk))
+
+    event = get_object_or_404(events, pk=pk)
+    if event.OrganizerID_id != request.user.pk:
+        return HttpResponse("You can update only events you organize.", status=403)
 
     if request.method == "POST":
-        # Create form or handle form submission logic here
-        # If you're using a form, you can validate and save it like this:
-        form = EventForm(request.POST, instance=event)
+        if sharding_enabled:
+            form = EventForm(request.POST)
+        else:
+            form = EventForm(request.POST, instance=event)
+        form.fields.pop("OrganizerID")
 
         if form.is_valid():
-            print("Form is valid")
-            form.save()
-            messages.success(request, 'Event Updated.')
-            return redirect("event-detail", pk=event.EventID)
-        else:
-            print("Form is not valid")
-            print(form.errors)
+            if sharding_enabled:
+                update_event_on_shard(event=event, changes=form.cleaned_data)
+            else:
+                form.save()
 
+            messages.success(request, "Event Updated.")
+            return redirect("event-detail", pk=event.pk)
     else:
-        # If it's a GET request, prepopulate the form with event data
         form = EventForm(instance=event)
+        form.fields.pop("OrganizerID")
 
-    # Fetch users and categories for context
-    users = Users.objects.all()
-    category = Category.objects.all()
-
-    # Add the context for the template
-    context = {
-        "event": event,
-        "form": form,
-        "Users": users,
-        "Category": category,
-    }
-
-    return render(request, "event_update.html", context)
+    return render(
+        request,
+        "event_update.html",
+        {
+            "event": event,
+            "form": form,
+            "Category": Category.objects.all(),
+        },
+    )
 
 @login_required(login_url="/signin/")
 def detail_user(request, pk):
@@ -365,28 +452,50 @@ class list_users(ListView):
 
 @login_required(login_url="/signin/")
 def event_registrations(request, pk):
-    try:
-        event = Event.objects.get(EventID=pk)
-        reg = Registration.objects.filter(EventID=event)
-    except Event.DoesNotExist or Registration.DoesNotExist:
-        raise HttpResponse("Event or Registration Does Not Exist", status=404)
+    alias = "default"
+    if {"shard_0", "shard_1"}.issubset(connections.databases):
+        alias = shard_for_event(pk)
+
+    event = get_object_or_404(Event.objects.using(alias), pk=pk)
+    registrations = list(
+        Registration.objects.using(alias)
+        .filter(EventID_id=pk)
+        .order_by("RegistrationID")
+    )
+
+    user_ids = {registration.UserID_id for registration in registrations}
+    users = Users.objects.using("default").in_bulk(user_ids)
+    for registration in registrations:
+        user = users.get(registration.UserID_id)
+        registration.attendee_username = user.username if user else "Unknown user"
 
     return render(
         request,
         "event_registrations.html",
-        context={"Registrations": reg, "Event": event},
+        {"Registrations": registrations, "Event": event},
     )
 
 @login_required(login_url="/signin/")
 def event_delete(request, pk):
-    eve = get_object_or_404(Event, EventID=pk)
-    if request.method == "POST":
-        eve.delete()
-        messages.error(request, 'Event Deleted.')
-        success_url = reverse_lazy("event-list")
-        return redirect(success_url)
+    sharding_enabled = {"shard_0", "shard_1"}.issubset(connections.databases)
+    events = Event.objects.all()
+    if sharding_enabled:
+        events = events.using(shard_for_event(pk))
 
-    return render(request, "event_delete.html", context={"event": eve})
+    event = get_object_or_404(events, pk=pk)
+    if event.OrganizerID_id != request.user.pk:
+        return HttpResponse("You can delete only events you organize.", status=403)
+
+    if request.method == "POST":
+        if sharding_enabled:
+            delete_event_on_shard(event=event)
+        else:
+            event.delete()
+
+        messages.success(request, "Event deleted.")
+        return redirect("event-list")
+
+    return render(request, "event_delete.html", {"event": event})
 
 @csrf_exempt
 def chat_response(request):
@@ -398,16 +507,21 @@ def chat_response(request):
 
 @login_required(login_url="/signin/")
 def reg_delete(request, event_id, registration_id):
-    user = request.user
+    #user = request.user
+
+    registrations = Registration.objects.all()
+    if {"shard_0", "shard_1"}.issubset(connections.databases):
+        registrations = registrations.using(shard_for_event(event_id))
 
     reg = get_object_or_404(
-        Registration,
-        EventID=event_id,
-        UserID=user
+        registrations,
+        RegistrationID=registration_id,
+        EventID_id=event_id,
+        UserID_id=request.user.pk,
     )
 
     if request.method == "POST":
-        reg.delete()
+        reg.delete(using=registrations.db)
 
         messages.error(request, "Registration Cancelled.")
         return redirect("event-detail", pk=event_id)

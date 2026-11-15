@@ -14,12 +14,8 @@
     <div class="container">
         <h1>Register for {{event.Title}}?</h1>
 
-        <form action="RegistrationForm/" method="POST">
-            {% csrf_token %}
-
-            {% if user.is_authenticated%}
-                <input type="hidden" name="User" value="{{ user.UserID }}">
-            {% endif %}
+    <form action="{% url 'registration-create' event.EventID %}" method="POST">
+        {% csrf_token %}
 
             <input type="hidden" name="Event" value="{{ event.EventID }}">
 
