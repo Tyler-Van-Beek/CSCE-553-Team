@@ -1,3 +1,5 @@
+from asyncio import events
+
 from rest_framework import status
 from django.db import connection
 from rest_framework.decorators import (
@@ -10,9 +12,13 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.pagination import PageNumberPagination
-
+from django.db import connections
+from rest_framework import serializers
+from .shard_routing import shard_for_event
+from .registration_service import register_on_event_shard
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
+from .event_service import create_event_on_shard, update_event_on_shard
 
 from events.models import Event, Registration
 
@@ -117,7 +123,16 @@ def api_events(request):
 
     serializer = EventApiSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
-    event = serializer.save(OrganizerID=request.user)
+    if {"shard_0", "shard_1"}.issubset(connections.databases):
+        event_fields = dict(serializer.validated_data)
+        category = event_fields.pop("CategoryID")
+        event = create_event_on_shard(
+            organizer_id=request.user.pk,
+            category_id=category.pk,
+            **event_fields,
+        )
+    else:
+        event = serializer.save(OrganizerID=request.user)
 
     return Response(
         EventApiSerializer(event).data,
@@ -129,7 +144,12 @@ def api_events(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def api_event_detail(request, event_id):
-    event = get_object_or_404(Event, EventID=event_id)
+    sharding_enabled = {"shard_0", "shard_1"}.issubset(connections.databases)
+    events = Event.objects.all()
+    if sharding_enabled:
+        events = events.using(shard_for_event(event_id))
+
+    event = get_object_or_404(events, pk=event_id)
 
     if request.method == "GET":
         return Response(
@@ -153,13 +173,32 @@ def api_event_detail(request, event_id):
         partial=True,
     )
     serializer.is_valid(raise_exception=True)
-    serializer.save()
+    if sharding_enabled:
+     event = update_event_on_shard(
+         event=event,
+         changes=serializer.validated_data,
+     )
+     serializer = EventApiSerializer(event)
+    else:
+     serializer.save()
 
     return Response(
         serializer.data,
         status=status.HTTP_200_OK,
     )
 
+def registration_history(registrations):
+    if not {"shard_0", "shard_1"}.issubset(connections.databases):
+        return registrations
+
+    return sorted(
+        (
+            registration
+            for alias in ("shard_0", "shard_1")
+            for registration in registrations.using(alias)
+        ),
+        key=lambda registration: (registration.pk, registration.EventID_id),
+    )
 
 @api_view(["GET", "POST"])
 @authentication_classes([TokenAuthentication])
@@ -179,6 +218,8 @@ def api_registrations(request):
             .filter(UserID=request.user)
             .order_by("RegistrationID")
         )
+        if {"shard_0", "shard_1"}.issubset(connections.databases):
+            registrations = registration_history(registrations)
 
         paginator = PageNumberPagination()
         paginator.page_size = 20
@@ -195,6 +236,33 @@ def api_registrations(request):
 
         return paginator.get_paginated_response(
             serializer.data
+        )
+
+    if {"shard_0", "shard_1"}.issubset(connections.databases):
+        event_id = serializers.IntegerField(
+            min_value=1, max_value=2_147_483_647
+        ).run_validation(request.data.get("EventID"))
+
+        try:
+            registration, created = register_on_event_shard(
+                event_id=event_id,
+                user_id=request.user.pk,
+            )
+        except Event.DoesNotExist:
+            return Response(
+                {"detail": "Event not found."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if not created:
+            return Response(
+                {"detail": "You are already registered for this event."},
+                status=status.HTTP_409_CONFLICT,
+            )
+
+        return Response(
+            RegistrationApiSerializer(registration).data,
+            status=status.HTTP_201_CREATED,
         )
 
     serializer = RegistrationApiSerializer(
@@ -235,17 +303,17 @@ def api_registration_detail(
     event_id,
     registration_id,
 ):
+    registrations = Registration.objects.all()
+    if {"shard_0", "shard_1"}.issubset(connections.databases):
+        registrations = registrations.using(shard_for_event(event_id))
+
     registration = get_object_or_404(
-        Registration.objects.select_related(
-            "UserID",
-            "EventID",
-        ),
+        registrations,
         RegistrationID=registration_id,
         EventID_id=event_id,
-        UserID=request.user,
+        UserID_id=request.user.pk,
     )
-
-    registration.delete()
+    registration.delete(using=registrations.db)
 
     return Response(
         status=status.HTTP_204_NO_CONTENT
@@ -269,7 +337,7 @@ def api_registrations_with_events(request):
     )
 
     print(registrations.query)
-
+    registrations = registration_history(registrations)
     paginator = PageNumberPagination()
     paginator.page_size = 20
 
@@ -308,7 +376,7 @@ def api_registrations_with_event_category(request):
     )
 
     print(registrations.query)
-
+    registrations = registration_history(registrations)
     paginator = PageNumberPagination()
     paginator.page_size = 20
 
@@ -343,7 +411,8 @@ def api_event_registrations(request, event_id):
         .filter(EventID_id=event_id)
         .order_by("RegistrationID")
     )
-
+    if {"shard_0", "shard_1"}.issubset(connections.databases):
+        registrations = registrations.using(shard_for_event(event_id))
     paginator = PageNumberPagination()
     paginator.page_size = 20
 
@@ -383,7 +452,8 @@ def api_event_registrations_keyset(
         .filter(EventID_id=event_id)
         .order_by("RegistrationID")
     )
-
+    if {"shard_0", "shard_1"}.issubset(connections.databases):
+       registrations = registrations.using(shard_for_event(event_id))
     after = request.query_params.get("after")
 
     if after:

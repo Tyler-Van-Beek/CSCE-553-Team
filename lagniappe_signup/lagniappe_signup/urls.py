@@ -169,11 +169,6 @@ path(
         name="registration-list",
     ),
     path(
-        "registration/create/RegistrationForm/",
-        views.RegForm,
-        name="registration-form",
-    ),
-    path(
         "registration/delete/<int:event_id>/<int:registration_id>",
         views.reg_delete,
         name="registration-delete",

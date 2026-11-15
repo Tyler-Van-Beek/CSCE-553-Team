@@ -19,7 +19,7 @@
     <p><strong>Date & Time:</strong> {{ event.DateTime }}</p>
     
     <p><strong>Category:</strong> {{ event.CategoryID.Name }}</p>
-    <p><strong>Organizer:</strong> {{ event.OrganizerID.get_full_name|default:event.OrganizerID.email }}</p>
+    <p><strong>Organizer:</strong> {{ organizer_name }}</p>
     <p><strong>Description:</strong> {{ event.Description }}</p>
 
     {% if is_registered %}
@@ -31,7 +31,7 @@
         <button onclick="window.location.href='{% url 'registration-create' event.EventID %}'" class="btn btn-success">Register</button>
     {% endif %}
 
-    {% if user  == event.OrganizerID %}
+    {% if is_organizer %}
         <button onclick="window.location.href='{% url 'event-registrations' event.EventID%}'" class="btn btn-info">View Registrations</button>
         <button onclick="window.location.href='{% url 'event-update' event.EventID %}'" class="btn btn-primary" style="background-color: purple; color: white;">Edit Event</button>
         <button onclick="window.location.href='{% url 'event-delete' event.EventID%}'" class="btn btn-danger" style="background-color: red">Delete</button>

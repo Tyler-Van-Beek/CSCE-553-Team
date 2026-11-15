@@ -8,9 +8,9 @@
     <ul style="list-style-type: none; padding-left: 0;">
       {% for f in feedback %}
         <li>
-          <h1>{{ f.FeedbackID }}</h1>
-          <p><strong>Event:</strong> {{ f.EventID }}</p>
-          <p><strong>User:</strong> {{ f.UserID }}</p>
+          <h1>{{ f.pk }}</h1>
+          <p><strong>Event:</strong> {{ f.EventID.Title }}</p>
+          <p><strong>User:</strong> {{ f.feedback_username }}</p>
           <p><strong>Rating:</strong> {{ f.Rating }}</p>
           <p>{{ f.Comments }}</p>
         </li>
