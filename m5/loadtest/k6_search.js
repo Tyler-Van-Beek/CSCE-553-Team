@@ -46,7 +46,7 @@ export const options = __ENV.SMOKE_TEST === 'true'
       scenarios: {
         quick_test: {
           executor: 'constant-arrival-rate',
-          rate:QUICK_RATE,
+          rate: QUICK_RATE,
           timeUnit: '1s',
           duration: '30s',
           preAllocatedVUs: 5,
