@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.db import connections
 
@@ -18,7 +19,7 @@ class Command(BaseCommand):
 
         with connections["default"].cursor() as cursor:
             cursor.execute(
-                "REFRESH MATERIALIZED VIEW CONCURRENTLY search.event_search"
+                f"REFRESH MATERIALIZED VIEW CONCURRENTLY {settings.M6_SEARCH_SCHEMA}.event_search"
             )
 
         self.stdout.write(self.style.SUCCESS("Search view refreshed."))

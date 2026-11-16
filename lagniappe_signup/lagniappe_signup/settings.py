@@ -1,3 +1,4 @@
+import re
 """
 Django settings for lagniappe_signup project.
 
@@ -157,6 +158,27 @@ if "test" not in sys.argv:
                 shard_url,
                 conn_max_age=int(os.environ.get("DB_CONN_MAX_AGE", "0")),
             )
+
+    for alias, env_var in (
+        ("default", "M6_CATALOG_SCHEMA"),
+        ("shard_0", "M6_SHARD_0_SCHEMA"),
+        ("shard_1", "M6_SHARD_1_SCHEMA"),
+    ):
+        schema = os.getenv(env_var)
+        if not schema:
+            continue
+
+        if alias not in DATABASES:
+            raise ImproperlyConfigured(
+                f"{env_var} requires the {alias} database to be configured."
+            )
+
+        if not re.fullmatch(r"[a-z_][a-z0-9_]{0,62}", schema):
+            raise ImproperlyConfigured(f"{env_var} must be a lowercase SQL identifier.")
+
+        options = DATABASES[alias].setdefault("OPTIONS", {})
+        options["options"] = f"-c search_path={schema}"
+M6_SEARCH_SCHEMA = "m6_search" if os.getenv("M6_CATALOG_SCHEMA") else "search"
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

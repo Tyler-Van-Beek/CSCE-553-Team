@@ -1,3 +1,4 @@
+from django.conf import settings
 from asyncio import events
 
 from rest_framework import status
@@ -520,9 +521,9 @@ def api_search_events(request):
 
     with connection.cursor() as cursor:
         cursor.execute(
-            """
+            f"""
             SELECT *
-            FROM search.search_events(
+            FROM {settings.M6_SEARCH_SCHEMA}.search_events(
                 %s, %s, TRUE, %s, %s
             )
             """,
@@ -537,11 +538,11 @@ def api_search_events(request):
 
         # M5 - Category facets for matching active events
         cursor.execute(
-    """
+    f"""
     SELECT
         category,
         COUNT(*) AS matching_events
-    FROM search.event_search
+    FROM {settings.M6_SEARCH_SCHEMA}.event_search
     WHERE fts @@ websearch_to_tsquery('english', %s)
       AND "EventStatus" = TRUE
     GROUP BY category

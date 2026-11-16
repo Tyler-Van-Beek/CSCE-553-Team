@@ -297,7 +297,7 @@ def feedback_form(request):
             with connections[alias].cursor() as cursor:
                 cursor.execute(
                     """
-                    INSERT INTO public.m6_user_reference ("UserID")
+                    INSERT INTO m6_user_reference ("UserID")
                     VALUES (%s)
                     ON CONFLICT ("UserID") DO NOTHING
                     """,
