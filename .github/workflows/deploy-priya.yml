@@ -2,41 +2,59 @@ name: Deploy Priya Azure VM
 
 on:
   push:
-    branches:
-      #- main
-      - priya/m4-database-scaling
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: priya-azure-m6-deploy
+  cancel-in-progress: false
 
 jobs:
   deploy-priya:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    env:
+      AZURE_HOST: ${{ secrets.PRIYA_AZURE_VM_IP }}
 
     steps:
       - name: Configure SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.PRIYA_SSH_PRIVATE_KEY }}
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.PRIYA_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H "${{ secrets.PRIYA_AZURE_VM_IP }}" >> ~/.ssh/known_hosts
+          install -d -m 700 ~/.ssh
+          umask 077
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/azure_key
+          ssh-keyscan -H -t ed25519 "$AZURE_HOST" > ~/.ssh/known_hosts
 
-      - name: Deploy to Priya Azure VM
+      - name: Deploy and verify M6
         run: |
-          ssh ubuntu@${{ secrets.PRIYA_AZURE_VM_IP }} << 'EOF'
-            set -e
+          ssh -o BatchMode=yes -o IdentitiesOnly=yes \
+            -i ~/.ssh/azure_key "ubuntu@$AZURE_HOST" \
+            bash -s -- "$GITHUB_SHA" <<'REMOTE'
+          set -euo pipefail
+          expected_commit="$1"
+          cd "$HOME/lagniappe-m6"
 
-            cd /var/www/myapp
+          if [[ -n "$(git status --porcelain --untracked-files=no)" ]]; then
+            echo "The M6 checkout has local edits. Save them before deploying."
+            exit 1
+          fi
 
-            git fetch origin priya/m4-database-scaling
-            git reset --hard origin/priya/m4-database-scaling
+          git fetch origin refs/heads/main
+          if [[ "$(git rev-parse FETCH_HEAD)" != "$expected_commit" ]]; then
+            echo "main has moved. Deploy from the latest main workflow run."
+            exit 1
+          fi
 
-            source /var/www/myapp/.venv/bin/activate
+          git switch --detach "$expected_commit"
+          .venv/bin/python -m pip install -r lagniappe_signup/requirements.txt
+          .venv/bin/python -m pip check
 
-            pip install -r /var/www/myapp/lagniappe_signup/requirements.txt
-
-            cd /var/www/myapp/lagniappe_signup
-
-            python manage.py migrate --noinput
-            python manage.py collectstatic --noinput
-
-            sudo systemctl restart gunicorn
-            sudo systemctl reload nginx
-          EOF
+          sudo -n /usr/bin/systemctl restart lagniappe-m6.service
+          curl --fail --silent --show-error --retry 10 --retry-connrefused \
+            --retry-delay 2 --max-time 5 http://127.0.0.1:8006/health/
+          printf '\nDeployed commit %s\n' "$(git rev-parse HEAD)"
+          REMOTE

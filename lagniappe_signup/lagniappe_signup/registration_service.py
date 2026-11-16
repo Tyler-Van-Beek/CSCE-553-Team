@@ -15,7 +15,7 @@ def register_on_event_shard(*, event_id: int, user_id: int) -> tuple[Registratio
         with connections[alias].cursor() as cursor:
             cursor.execute(
                 """
-                INSERT INTO public.m6_user_reference ("UserID")
+                INSERT INTO m6_user_reference ("UserID")
                 VALUES (%s)
                 ON CONFLICT ("UserID") DO NOTHING
                 """,
