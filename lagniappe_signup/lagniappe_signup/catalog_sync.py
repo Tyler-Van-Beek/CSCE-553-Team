@@ -10,7 +10,7 @@ def sync_event_catalog(alias):
             source.execute(
                 """
                 SELECT change_id, event_id,event_data::text
-                FROM public.m6_event_catalog_outbox
+                FROM m6_event_catalog_outbox
                 ORDER BY change_id
                 LIMIT 100
                 """
@@ -27,13 +27,13 @@ def sync_event_catalog(alias):
 
                         catalog.execute(
                             """
-                            INSERT INTO public.events_event (
+                            INSERT INTO events_event (
                                 "EventID", "Title", "Description", "Location",
                                 "DateTime", "EventStatus", "CategoryID_id", "OrganizerID_id"
                             )
                             SELECT "EventID", "Title", "Description", "Location",
                                    "DateTime", "EventStatus", "CategoryID_id", "OrganizerID_id"
-                            FROM json_populate_record(NULL::public.events_event, %s::json)
+                            FROM json_populate_record(NULL::events_event, %s::json)
                             ON CONFLICT ("EventID") DO UPDATE SET
                                 "Title" = EXCLUDED."Title",
                                 "Description" = EXCLUDED."Description",
@@ -50,7 +50,7 @@ def sync_event_catalog(alias):
             if changes:
                 source.execute(
                     """
-                    DELETE FROM public.m6_event_catalog_outbox
+                    DELETE FROM m6_event_catalog_outbox
                     WHERE change_id = ANY(%s)
                     """,
                     [[change_id for change_id, _, _ in changes]],

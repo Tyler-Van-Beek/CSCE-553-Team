@@ -14,9 +14,7 @@ import logging
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,logout,authenticate
-from AI_Chatbot.recommend_bot import get_recommendation
 from django.contrib import messages
-from AI_Chatbot.embed_current_events import populate_index
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -305,7 +303,7 @@ def feedback_form(request):
             with connections[alias].cursor() as cursor:
                 cursor.execute(
                     """
-                    INSERT INTO public.m6_user_reference ("UserID")
+                    INSERT INTO m6_user_reference ("UserID")
                     VALUES (%s)
                     ON CONFLICT ("UserID") DO NOTHING
                     """,
@@ -501,6 +499,8 @@ def event_delete(request, pk):
 def chat_response(request):
     if request.method == 'POST':
         msg = request.POST.get('message', '')
+        from AI_Chatbot.recommend_bot import get_recommendation
+
         reply = get_recommendation(msg)
         return JsonResponse({'reply': reply})
     return JsonResponse({'error': 'Invalid request'}, status=400)

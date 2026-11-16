@@ -8,8 +8,8 @@ def shard_for_event(event_id: int) -> str:
         cursor.execute(
             """
             SELECT shard
-            FROM public.m6_bucket_map
-            WHERE bucket = public.shard_bucket(%s)
+            FROM m6_bucket_map
+            WHERE bucket = shard_bucket(%s)
             """,
             [event_id],
         )
